@@ -19,14 +19,33 @@
 		    "type": "string"
 		}
 	    },
-	    "if": {
-		"properties": { "@type": { "const": "type1" } }
-	    },
-	    "then": {
-		"additionalProperties": {
-		    "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json"
-		}
-	    }
+	    "oneOf": [
+		{
+		    "if": {
+			"properties": {
+			    "@type": { "const": "type1"}
+			}
+		    }
+		    "then": {
+			"additionalProperties": {
+			    "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json"
+			}
+		    }
+		},
+		{
+		    "if": {
+			"properties": {
+			    "@type": { "const": "type2"}
+			}
+		    }
+		    "then": {
+			"additionalProperties": {
+			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json"
+			}
+		    }
+		},
+		"additionalProperties": {}
+	    ]
 	}
     }
 }
