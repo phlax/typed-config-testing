@@ -25,7 +25,7 @@
 			"properties": {
 			    "@type": { "const": "type1"}
 			}
-		    }
+		    },
 		    "then": {
 			"additionalProperties": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json"
@@ -37,7 +37,7 @@
 			"properties": {
 			    "@type": { "const": "type2"}
 			}
-		    }
+		    },
 		    "then": {
 			"additionalProperties": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json"
