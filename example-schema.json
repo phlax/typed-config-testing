@@ -1,1 +1,24 @@
-{}
+{
+    "$id": "https://phlax.github.io/typed-config-testing/example-schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "example",
+    "type": "object",
+    "properties": {
+	"name": {
+	    "type": "string",
+	    "description": "A common property."
+	},
+	"typed_config": {
+	    "type": "object",
+	    "description": "Extensible typed config."
+	    "properties": {
+		"@type": {
+		    "type": "string"
+		}
+		"common_property": {
+		    "type": "string"
+		}
+	    }
+	}
+    }
+}
