@@ -10,7 +10,7 @@
 	},
 	"typed_config": {
 	    "type": "object",
-	    "description": "Extensible typed config."
+	    "description": "Extensible typed config.",
 	    "properties": {
 		"@type": {
 		    "type": "string"
