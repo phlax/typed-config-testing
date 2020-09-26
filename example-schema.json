@@ -25,7 +25,18 @@
 			"type": "string"
 		    }
 		}},
-		{"$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"}
+		{"oneOf": [
+		    {"if": {
+			"properties": {
+			    "@type": { "const": "type1"}
+			}
+		    },
+		     "then": {
+			 "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"
+		     }
+		    }
+		    {"$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json#/definitions/type2Properties"}
+		]}
 	    ]
 	}
     }
