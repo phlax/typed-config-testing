@@ -13,7 +13,6 @@
 	    "type": "object",
 	    "description": "Extensible typed config.",
 	    "allOf": [
-		{"$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"},
 		{"properties": {
 		    "@type": {
 			"type": "string",
@@ -25,7 +24,8 @@
 		    "common_propertyB": {
 			"type": "string"
 		    }
-		}}
+		}},
+		{"$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"}
 	    ]
 	}
     }

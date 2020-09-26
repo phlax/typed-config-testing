@@ -5,11 +5,11 @@
     "definitions": {
 	"type1Properties": {
 	    "properties": {
-		"type1_propertyA": {
+		"type1_propertyAXX": {
 		    "type": "string",
 		    "description": "type1 property A."
 		},
-		"type1_propertyB": {
+		"type1_propertyBXX": {
 		    "type": "string",
 		    "description": "type1 property B."
 		}
