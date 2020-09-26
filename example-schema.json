@@ -34,7 +34,10 @@
 			"type": "string",
 			"enum": ["type1", "type2"]
 		    },
-		    "common_property": {
+		    "common_propertyA": {
+			"type": "string"
+		    },
+		    "common_propertyB": {
 			"type": "string"
 		    }
 		}}
