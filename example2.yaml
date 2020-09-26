@@ -1,0 +1,5 @@
+name: example2
+typed_config:
+  "@type": type2
+  common_property: FOO
+  type2_property: 23
