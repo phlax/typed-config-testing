@@ -1,12 +1,19 @@
 {
-  "$id": "https://phlax.github.io/typed-config-testing/type1-schema.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "type1",
-  "type": "object",
-  "properties": {
-    "type1_property": {
-      "type": "string",
-      "description": "A type1 property."
-    }
-  }
+    "$id": "https://phlax.github.io/typed-config-testing/type1-schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "type1",
+    "definitions": {
+	"type1Properties": {
+	    "properties": {
+		"type1_propertyA": {
+		    "type": "string",
+		    "description": "type1 property A."
+		},
+		"type1_propertyB": {
+		    "type": "string",
+		    "description": "type1 property B."
+		}
+	    }
+	}
+    },
 }

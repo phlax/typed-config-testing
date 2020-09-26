@@ -4,21 +4,6 @@
     "title": "example",
     "type": "object",
 
-    "definitions": {
-	"type1Properties": {
-	    "properties": {
-		"type1_propertyA": {
-		    "type": "string",
-		    "description": "type1 property A."
-		},
-		"type1_propertyB": {
-		    "type": "string",
-		    "description": "type1 property B."
-		}
-	    }
-	}
-    },
-
     "properties": {
 	"name": {
 	    "type": "string",
@@ -28,7 +13,7 @@
 	    "type": "object",
 	    "description": "Extensible typed config.",
 	    "allOf": [
-		{"$ref": "#/definitions/type1Properties"},
+		{"$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"},
 		{"properties": {
 		    "@type": {
 			"type": "string",
