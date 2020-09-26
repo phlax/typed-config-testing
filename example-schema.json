@@ -13,39 +13,16 @@
 	    "description": "Extensible typed config.",
 	    "properties": {
 		"@type": {
+		    "type": "string",
 		    "enum": ["type1", "type2"]
 		},
 		"common_property": {
 		    "type": "string"
 		}
 	    },
-	    "oneOf": [
-		{
-		    "if": {
-			"properties": {
-			    "@type": { "const": "type1"}
-			}
-		    },
-		    "then": {
-			"additionalProperties": {
-			    "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json"
-			}
-		    }
-		},
-		{
-		    "if": {
-			"properties": {
-			    "@type": { "const": "type2"}
-			}
-		    },
-		    "then": {
-			"additionalProperties": {
-			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json"
-			}
-		    }
-		},
-		{"additionalProperties": {}}
-	    ]
+	    "additionalProperties": {
+		"$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json"
+	    }
 	}
     }
 }
