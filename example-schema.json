@@ -3,6 +3,22 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "example",
     "type": "object",
+
+    "definitions": {
+	"type1Properties": {
+	    "properties": {
+		"type1_propertyA": {
+		    "type": "string",
+		    "description": "type1 property A."
+		},
+		"type1_propertyB": {
+		    "type": "string",
+		    "description": "type1 property B."
+		}
+	    }
+	}
+    },
+
     "properties": {
 	"name": {
 	    "type": "string",
@@ -11,18 +27,18 @@
 	"typed_config": {
 	    "type": "object",
 	    "description": "Extensible typed config.",
-	    "properties": {
-		"@type": {
-		    "type": "string",
-		    "enum": ["type1", "type2"]
-		},
-		"common_property": {
-		    "type": "string"
-		}
-	    },
-	    "additionalProperties": {
-		"$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json"
-	    }
+	    "allOf": [
+		{"$ref": "#/definitions/type1Properties"},
+		{"properties": {
+		    "@type": {
+			"type": "string",
+			"enum": ["type1", "type2"]
+		    },
+		    "common_property": {
+			"type": "string"
+		    }
+		}}
+	    ]
 	}
     }
 }
