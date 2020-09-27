@@ -46,7 +46,7 @@
 			"then": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json#/definitions/type2Properties"
 			}
-		    }
+		    },
 		    {"$ref": "https://phlax.github.io/typed-config-testing/default-schema.json#/definitions/defaultProperties"}
 		]}
 	    ]
