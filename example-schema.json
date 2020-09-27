@@ -7,7 +7,7 @@
     "properties": {
 	"name": {
 	    "type": "string",
-	    "description": "A common property."
+	    "description": "The name of this config."
 	},
 	"typed_config": {
 	    "type": "object",
@@ -16,26 +16,38 @@
 		{"properties": {
 		    "@type": {
 			"type": "string",
-			"enum": ["type1", "type2"]
+			"enum": [
+			    "some.typed_config.type1",
+			    "some.typed_config.type2"
+			]
 		    },
-		    "common_propertyA": {
-			"type": "string"
+		    "common_property": {
+			"type": "string",
+			"description": "A property common to all types of config."
 		    },
-		    "common_propertyB": {
-			"type": "string"
-		    }
 		}},
 		{"oneOf": [
-		    {"if": {
-			"properties": {
-			    "@type": { "const": "type1"}
+		    {
+			"if": {
+			    "properties": {
+				"@type": { "const": "some.typed_config.type1"}
+			    }
+			},
+			"then": {
+			    "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"
 			}
 		    },
-		     "then": {
-			 "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"
-		     }
+		    {
+			"if": {
+			    "properties": {
+				"@type": { "const": "some.typed_config.type2"}
+			    }
+			},
+			"then": {
+			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json#/definitions/type2Properties"
+			}
 		    }
-		    {"$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json#/definitions/type2Properties"}
+		    {"$ref": "https://phlax.github.io/typed-config-testing/default-schema.json#/definitions/defaultProperties"}
 		]}
 	    ]
 	}
