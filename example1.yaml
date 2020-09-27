@@ -1,5 +1,6 @@
 name: example1
 typed_config:
-  "@type": phlax.github.io/typed-config-testing/type1-schema.json
+  "@type": some.typed_config.type1
   common_property: FOO
-  type1_property: 23
+  type1_propertyA: BAR
+  type1_propertyB: BAZ

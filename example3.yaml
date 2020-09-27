@@ -1,0 +1,6 @@
+name: example3
+typed_config:
+  "@type": some.other.typed_config
+  common_property: FOO
+  default_propertyA: BAR
+  default_propertyB: BAZ
