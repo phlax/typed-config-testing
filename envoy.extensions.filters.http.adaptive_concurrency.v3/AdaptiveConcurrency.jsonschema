@@ -1,1 +1,116 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"gradient_controller_config": {"properties": {"sample_aggregate_percentile": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type.v3/Percent.jsonschema", "additionalProperties": true, "description": "The percentile to use when summarizing aggregated samples. Defaults to p50."}, "concurrency_limit_params": {"properties": {"max_concurrency_limit": {"additionalProperties": true, "type": "integer", "description": "The allowed upper-bound on the calculated concurrency limit. Defaults to 1000."}, "concurrency_update_interval": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The period of time samples are taken to recalculate the concurrency limit."}}, "additionalProperties": true, "type": "object"}, "min_rtt_calc_params": {"properties": {"interval": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The time interval between recalculating the minimum request round-trip time. Has to be\n positive."}, "request_count": {"additionalProperties": true, "type": "integer", "description": "The number of requests to aggregate/sample during the minRTT recalculation window before\n updating. Defaults to 50."}, "jitter": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type.v3/Percent.jsonschema", "additionalProperties": true, "description": "Randomized time delta that will be introduced to the start of the minRTT calculation window.\n This is represented as a percentage of the interval duration. Defaults to 15%.\n\n Example: If the interval is 10s and the jitter is 15%, the next window will begin\n somewhere in the range (10s - 11.5s)."}, "min_concurrency": {"additionalProperties": true, "type": "integer", "description": "The concurrency limit set while measuring the minRTT. Defaults to 3."}, "buffer": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type.v3/Percent.jsonschema", "additionalProperties": true, "description": "Amount added to the measured minRTT to add stability to the concurrency limit during natural\n variability in latency. This is expressed as a percentage of the measured value and can be\n adjusted to allow more or less tolerance to the sampled latency values.\n\n Defaults to 25%."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "Gradient concurrency control will be used."}, "enabled": {"properties": {"default_value": {"additionalProperties": true, "type": "boolean", "description": "Default value if runtime value is not available."}, "runtime_key": {"type": "string", "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding <https://developers.google.com/protocol-buffers/docs/proto3#json>`_."}}, "additionalProperties": true, "type": "object", "description": "If set to false, the adaptive concurrency filter will operate as a pass-through filter. If the\n message is unspecified, the filter will be enabled."}}, "additionalProperties": true, "type": "object", "definitions": {"envoy.type.v3.Percent": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"value": {"type": "number"}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Percent]\n\nIdentifies a percentage, in the range [0.0, 100.0].", "id": "envoy.type.v3.Percent"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "gradient_controller_config": {
+            "properties": {
+                "sample_aggregate_percentile": {
+                    "$ref": "envoy.type.v3.Percent",
+                    "additionalProperties": true,
+                    "description": "The percentile to use when summarizing aggregated samples. Defaults to p50."
+                },
+                "concurrency_limit_params": {
+                    "properties": {
+                        "max_concurrency_limit": {
+                            "additionalProperties": true,
+                            "type": "integer",
+                            "description": "The allowed upper-bound on the calculated concurrency limit. Defaults to 1000."
+                        },
+                        "concurrency_update_interval": {
+                            "properties": {
+                                "seconds": {
+                                    "type": "string",
+                                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                },
+                                "nanos": {
+                                    "type": "integer",
+                                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "The period of time samples are taken to recalculate the concurrency limit."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                },
+                "min_rtt_calc_params": {
+                    "properties": {
+                        "interval": {
+                            "properties": {
+                                "seconds": {
+                                    "type": "string",
+                                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                },
+                                "nanos": {
+                                    "type": "integer",
+                                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "The time interval between recalculating the minimum request round-trip time. Has to be\n positive."
+                        },
+                        "request_count": {
+                            "additionalProperties": true,
+                            "type": "integer",
+                            "description": "The number of requests to aggregate/sample during the minRTT recalculation window before\n updating. Defaults to 50."
+                        },
+                        "jitter": {
+                            "$ref": "envoy.type.v3.Percent",
+                            "additionalProperties": true,
+                            "description": "Randomized time delta that will be introduced to the start of the minRTT calculation window.\n This is represented as a percentage of the interval duration. Defaults to 15%.\n\n Example: If the interval is 10s and the jitter is 15%, the next window will begin\n somewhere in the range (10s - 11.5s)."
+                        },
+                        "min_concurrency": {
+                            "additionalProperties": true,
+                            "type": "integer",
+                            "description": "The concurrency limit set while measuring the minRTT. Defaults to 3."
+                        },
+                        "buffer": {
+                            "$ref": "envoy.type.v3.Percent",
+                            "additionalProperties": true,
+                            "description": "Amount added to the measured minRTT to add stability to the concurrency limit during natural\n variability in latency. This is expressed as a percentage of the measured value and can be\n adjusted to allow more or less tolerance to the sampled latency values.\n\n Defaults to 25%."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Gradient concurrency control will be used."
+        },
+        "enabled": {
+            "properties": {
+                "default_value": {
+                    "additionalProperties": true,
+                    "type": "boolean",
+                    "description": "Default value if runtime value is not available."
+                },
+                "runtime_key": {
+                    "type": "string",
+                    "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding \u003chttps://developers.google.com/protocol-buffers/docs/proto3#json\u003e`_."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "If set to false, the adaptive concurrency filter will operate as a pass-through filter. If the\n message is unspecified, the filter will be enabled."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "definitions": {
+        "envoy.type.v3.Percent": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "value": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "[#protodoc-title: Percent]\n\nIdentifies a percentage, in the range [0.0, 100.0].",
+            "id": "envoy.type.v3.Percent"
+        }
+    }
+}

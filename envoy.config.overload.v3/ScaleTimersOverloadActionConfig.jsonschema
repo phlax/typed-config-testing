@@ -1,1 +1,63 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"timer_scale_factors": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"timer": {"enum": ["UNSPECIFIED", 0, "HTTP_DOWNSTREAM_CONNECTION_IDLE", 1, "HTTP_DOWNSTREAM_STREAM_IDLE", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "The type of timer this minimum applies to."}, "min_timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Sets the minimum duration as an absolute value."}, "min_scale": {"properties": {"value": {"type": "number"}}, "additionalProperties": true, "type": "object", "description": "Sets the minimum duration as a percentage of the maximum value."}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "A set of timer scaling rules to be applied."}}, "additionalProperties": true, "type": "object", "description": "Typed configuration for the \"envoy.overload_actions.reduce_timeouts\" action. See\n :ref:`the docs <config_overload_manager_reducing_timeouts>` for an example of how to configure\n the action with different timeouts and minimum values."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "timer_scale_factors": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "timer": {
+                        "enum": [
+                            "UNSPECIFIED",
+                            0,
+                            "HTTP_DOWNSTREAM_CONNECTION_IDLE",
+                            1,
+                            "HTTP_DOWNSTREAM_STREAM_IDLE",
+                            2
+                        ],
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "description": "The type of timer this minimum applies to."
+                    },
+                    "min_timeout": {
+                        "properties": {
+                            "seconds": {
+                                "type": "string",
+                                "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                            },
+                            "nanos": {
+                                "type": "integer",
+                                "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Sets the minimum duration as an absolute value."
+                    },
+                    "min_scale": {
+                        "properties": {
+                            "value": {
+                                "type": "number"
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Sets the minimum duration as a percentage of the maximum value."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object"
+            },
+            "type": "array",
+            "description": "A set of timer scaling rules to be applied."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Typed configuration for the \"envoy.overload_actions.reduce_timeouts\" action. See\n :ref:`the docs \u003cconfig_overload_manager_reducing_timeouts\u003e` for an example of how to configure\n the action with different timeouts and minimum values."
+}

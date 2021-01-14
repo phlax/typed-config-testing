@@ -1,1 +1,40 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header": {"properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair that this option applies to."}, "append": {"additionalProperties": true, "type": "boolean", "description": "Should the value be appended? If true (default), the value is appended to\n existing values."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair plus option to control append behavior."}, "type": "array", "description": "HTTP entity headers in addition to the original request headers. This allows the authorization\n service to append, to add or to override headers from the original request before\n dispatching it to the upstream. Note that the `append` field in `HeaderValueOption` defaults to\n false when used in this message. By setting the `append` field to `true`,\n the filter will append the correspondent header value to the matched request header.\n By leaving `append` as false, the filter will either add a new header, or override an existing\n one if there is a match."}}, "additionalProperties": true, "type": "object", "description": "HTTP attributes for an ok response."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "headers": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "header": {
+                        "properties": {
+                            "key": {
+                                "type": "string",
+                                "description": "Header name."
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Header name/value pair that this option applies to."
+                    },
+                    "append": {
+                        "additionalProperties": true,
+                        "type": "boolean",
+                        "description": "Should the value be appended? If true (default), the value is appended to\n existing values."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "Header name/value pair plus option to control append behavior."
+            },
+            "type": "array",
+            "description": "HTTP entity headers in addition to the original request headers. This allows the authorization\n service to append, to add or to override headers from the original request before\n dispatching it to the upstream. Note that the `append` field in `HeaderValueOption` defaults to\n false when used in this message. By setting the `append` field to `true`,\n the filter will append the correspondent header value to the matched request header.\n By leaving `append` as false, the filter will either add a new header, or override an existing\n one if there is a match."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "HTTP attributes for an ok response."
+}

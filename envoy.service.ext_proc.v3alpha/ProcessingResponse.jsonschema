@@ -1,1 +1,504 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"request_headers": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/HeadersResponse.jsonschema", "additionalProperties": true, "description": "The server must send back this message in response to a message with the\n \"request_headers\" field set."}, "response_headers": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/HeadersResponse.jsonschema", "additionalProperties": true, "description": "The server must send back this message in response to a message with the\n \"response_headers\" field set."}, "request_body": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/BodyResponse.jsonschema", "additionalProperties": true, "description": "The server must send back this message in response to a message with\n the \"request_body\" field set."}, "response_body": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/BodyResponse.jsonschema", "additionalProperties": true, "description": "The server must send back this message in response to a message with\n the \"response_body\" field set."}, "request_trailers": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/TrailersResponse.jsonschema", "additionalProperties": true, "description": "The server must send back this message in response to a message with\n the \"request_trailers\" field set."}, "response_trailers": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/TrailersResponse.jsonschema", "additionalProperties": true, "description": "The server must send back this message in response to a message with\n the \"response_trailers\" field set."}, "immediate_response": {"properties": {"status": {"properties": {"code": {"enum": ["Empty", 0, "Continue", 100, "OK", 200, "Created", 201, "Accepted", 202, "NonAuthoritativeInformation", 203, "NoContent", 204, "ResetContent", 205, "PartialContent", 206, "MultiStatus", 207, "AlreadyReported", 208, "IMUsed", 226, "MultipleChoices", 300, "MovedPermanently", 301, "Found", 302, "SeeOther", 303, "NotModified", 304, "UseProxy", 305, "TemporaryRedirect", 307, "PermanentRedirect", 308, "BadRequest", 400, "Unauthorized", 401, "PaymentRequired", 402, "Forbidden", 403, "NotFound", 404, "MethodNotAllowed", 405, "NotAcceptable", 406, "ProxyAuthenticationRequired", 407, "RequestTimeout", 408, "Conflict", 409, "Gone", 410, "LengthRequired", 411, "PreconditionFailed", 412, "PayloadTooLarge", 413, "URITooLong", 414, "UnsupportedMediaType", 415, "RangeNotSatisfiable", 416, "ExpectationFailed", 417, "MisdirectedRequest", 421, "UnprocessableEntity", 422, "Locked", 423, "FailedDependency", 424, "UpgradeRequired", 426, "PreconditionRequired", 428, "TooManyRequests", 429, "RequestHeaderFieldsTooLarge", 431, "InternalServerError", 500, "NotImplemented", 501, "BadGateway", 502, "ServiceUnavailable", 503, "GatewayTimeout", 504, "HTTPVersionNotSupported", 505, "VariantAlsoNegotiates", 506, "InsufficientStorage", 507, "LoopDetected", 508, "NotExtended", 510, "NetworkAuthenticationRequired", 511], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Supplies HTTP response code."}}, "additionalProperties": true, "type": "object", "description": "The response code to return"}, "headers": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/HeaderMutation.jsonschema", "additionalProperties": true, "description": "Apply changes to the default headers, which will include content-type."}, "body": {"type": "string", "description": "The message body to return with the response which is sent using the\n text/plain content type, or encoded in the grpc-message header."}, "grpc_status": {"properties": {"status": {"type": "integer", "description": "The actual gRPC status"}}, "additionalProperties": true, "type": "object", "description": "If set, then include a gRPC status trailer."}, "details": {"type": "string", "description": "A string detailing why this local reply was sent, which may be included\n in log and debug output."}}, "additionalProperties": true, "type": "object", "description": "If specified, attempt to create a locally generated response, send it\n downstream, and stop processing additional filters and ignore any\n additional messages received from the remote server for this request or\n response. If a response has already started -- for example, if this\n message is sent response to a \"response_body\" message -- then\n this will either ship the reply directly to the downstream codec,\n or reset the stream."}, "dynamic_metadata": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object", "description": "Optional metadata that will be emitted as dynamic metadata to be consumed by the next\n filter. This metadata will be placed in the namespace \"envoy.filters.http.ext_proc\"."}, "mode_override": {"properties": {"request_header_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request header. Default is \"SEND\"."}, "response_header_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the response header. Default is \"SEND\"."}, "request_body_mode": {"enum": ["NONE", 0, "STREAMED", 1, "BUFFERED", 2, "BUFFERED_PARTIAL", 3], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request body. Default is \"NONE\"."}, "response_body_mode": {"enum": ["NONE", 0, "STREAMED", 1, "BUFFERED", 2, "BUFFERED_PARTIAL", 3], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How do handle the response body. Default is \"NONE\"."}, "request_trailer_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request trailers. Default is \"SKIP\"."}, "response_trailer_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the response trailers. Default is \"SKIP\"."}}, "additionalProperties": true, "type": "object", "description": "Override how parts of the HTTP request and response are processed\n for the duration of this particular request/response only. Servers\n may use this to intelligently control how requests are processed\n based on the headers and other metadata that they see."}}, "additionalProperties": true, "type": "object", "description": "For every ProcessingRequest received by the server with the \"async_mode\" field\n set to false, the server must send back exactly one ProcessingResponse message.\n [#next-free-field: 10]", "definitions": {"envoy.config.core.v3.HeaderValue": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair.", "id": "envoy.config.core.v3.HeaderValue"}, "envoy.service.ext_proc.v3alpha.BodyResponse": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"response": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/CommonResponse.jsonschema", "additionalProperties": true}}, "additionalProperties": true, "type": "object", "description": "This message must be sent in response to an HttpBody message.", "id": "envoy.service.ext_proc.v3alpha.BodyResponse"}, "envoy.service.ext_proc.v3alpha.CommonResponse": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"status": {"enum": ["CONTINUE", 0, "CONTINUE_AND_REPLACE", 1], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "If set, provide additional direction on how the Envoy proxy should\n handle the rest of the HTTP filter chain."}, "header_mutation": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/HeaderMutation.jsonschema", "additionalProperties": true, "description": "Instructions on how to manipulate the headers. When responding to an\n HttpBody request, header mutations will only take effect if the\n headers were not already sent further on the filter chain, which\n happens only if the current processing mode for the body is BUFFERED\n or BUFFERED_PARTIAL."}, "body_mutation": {"properties": {"body": {"type": "string", "description": "The entire body to replace"}, "clear_body": {"type": "boolean", "description": "Clear the corresponding body chunk"}}, "additionalProperties": true, "type": "object", "description": "Replace the body of the last message sent to the remote server on this\n stream. If responding to an HttpBody request, simply replace or clear\n the body chunk that was sent with that request. If responding to an\n HttpHeaders request, then a new body may be added to the request if this\n message is returned along with the CONTINUE_AND_REPLACE status."}, "trailers": {"properties": {"headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/HeaderValue.jsonschema"}, "type": "array"}}, "additionalProperties": true, "type": "object", "description": "Add new trailers to the message. This may be used when responding to either a\n HttpHeaders or HttpBody message, but only if this message is returned\n along with the CONTINUE_AND_REPLACE status."}, "clear_route_cache": {"type": "boolean", "description": "Clear the route cache for the current request.\n This is necessary if the remote server\n modified headers that are used to calculate the route."}}, "additionalProperties": true, "type": "object", "description": "This message contains common fields between header and body responses.\n [#next-free-field: 6]", "id": "envoy.service.ext_proc.v3alpha.CommonResponse"}, "envoy.service.ext_proc.v3alpha.HeaderMutation": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"set_headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/HeaderValue.jsonschema", "additionalProperties": true, "description": "Header name/value pair that this option applies to."}, "append": {"additionalProperties": true, "type": "boolean", "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair plus option to control append behavior."}, "type": "array", "description": "Add or replace HTTP headers. Attempts to set the value of\n any \"x-envoy\" header, and attempts to set the \":method\",\n \":authority\", \":scheme\", or \"host\" headers will be ignored."}, "remove_headers": {"items": {"type": "string"}, "type": "array", "description": "Remove these HTTP headers. Attempts to remove system headers --\n any header starting with \":\", plus \"host\" -- will be ignored."}}, "additionalProperties": true, "type": "object", "description": "Change HTTP headers or trailers by appending, replacing, or removing\n headers.", "id": "envoy.service.ext_proc.v3alpha.HeaderMutation"}, "envoy.service.ext_proc.v3alpha.HeadersResponse": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"response": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/CommonResponse.jsonschema", "additionalProperties": true}}, "additionalProperties": true, "type": "object", "description": "The following are messages that may be sent back by the server.\n\nThis message must be sent in response to an HttpHeaders message.", "id": "envoy.service.ext_proc.v3alpha.HeadersResponse"}, "envoy.service.ext_proc.v3alpha.TrailersResponse": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header_mutation": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.ext_proc.v3alpha/HeaderMutation.jsonschema", "additionalProperties": true, "description": "Instructions on how to manipulate the trailers"}}, "additionalProperties": true, "type": "object", "description": "This message must be sent in response to an HttpTrailers message.", "id": "envoy.service.ext_proc.v3alpha.TrailersResponse"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "request_headers": {
+            "$ref": "envoy.service.ext_proc.v3alpha.HeadersResponse",
+            "additionalProperties": true,
+            "description": "The server must send back this message in response to a message with the\n \"request_headers\" field set."
+        },
+        "response_headers": {
+            "$ref": "envoy.service.ext_proc.v3alpha.HeadersResponse",
+            "additionalProperties": true,
+            "description": "The server must send back this message in response to a message with the\n \"response_headers\" field set."
+        },
+        "request_body": {
+            "$ref": "envoy.service.ext_proc.v3alpha.BodyResponse",
+            "additionalProperties": true,
+            "description": "The server must send back this message in response to a message with\n the \"request_body\" field set."
+        },
+        "response_body": {
+            "$ref": "envoy.service.ext_proc.v3alpha.BodyResponse",
+            "additionalProperties": true,
+            "description": "The server must send back this message in response to a message with\n the \"response_body\" field set."
+        },
+        "request_trailers": {
+            "$ref": "envoy.service.ext_proc.v3alpha.TrailersResponse",
+            "additionalProperties": true,
+            "description": "The server must send back this message in response to a message with\n the \"request_trailers\" field set."
+        },
+        "response_trailers": {
+            "$ref": "envoy.service.ext_proc.v3alpha.TrailersResponse",
+            "additionalProperties": true,
+            "description": "The server must send back this message in response to a message with\n the \"response_trailers\" field set."
+        },
+        "immediate_response": {
+            "properties": {
+                "status": {
+                    "properties": {
+                        "code": {
+                            "enum": [
+                                "Empty",
+                                0,
+                                "Continue",
+                                100,
+                                "OK",
+                                200,
+                                "Created",
+                                201,
+                                "Accepted",
+                                202,
+                                "NonAuthoritativeInformation",
+                                203,
+                                "NoContent",
+                                204,
+                                "ResetContent",
+                                205,
+                                "PartialContent",
+                                206,
+                                "MultiStatus",
+                                207,
+                                "AlreadyReported",
+                                208,
+                                "IMUsed",
+                                226,
+                                "MultipleChoices",
+                                300,
+                                "MovedPermanently",
+                                301,
+                                "Found",
+                                302,
+                                "SeeOther",
+                                303,
+                                "NotModified",
+                                304,
+                                "UseProxy",
+                                305,
+                                "TemporaryRedirect",
+                                307,
+                                "PermanentRedirect",
+                                308,
+                                "BadRequest",
+                                400,
+                                "Unauthorized",
+                                401,
+                                "PaymentRequired",
+                                402,
+                                "Forbidden",
+                                403,
+                                "NotFound",
+                                404,
+                                "MethodNotAllowed",
+                                405,
+                                "NotAcceptable",
+                                406,
+                                "ProxyAuthenticationRequired",
+                                407,
+                                "RequestTimeout",
+                                408,
+                                "Conflict",
+                                409,
+                                "Gone",
+                                410,
+                                "LengthRequired",
+                                411,
+                                "PreconditionFailed",
+                                412,
+                                "PayloadTooLarge",
+                                413,
+                                "URITooLong",
+                                414,
+                                "UnsupportedMediaType",
+                                415,
+                                "RangeNotSatisfiable",
+                                416,
+                                "ExpectationFailed",
+                                417,
+                                "MisdirectedRequest",
+                                421,
+                                "UnprocessableEntity",
+                                422,
+                                "Locked",
+                                423,
+                                "FailedDependency",
+                                424,
+                                "UpgradeRequired",
+                                426,
+                                "PreconditionRequired",
+                                428,
+                                "TooManyRequests",
+                                429,
+                                "RequestHeaderFieldsTooLarge",
+                                431,
+                                "InternalServerError",
+                                500,
+                                "NotImplemented",
+                                501,
+                                "BadGateway",
+                                502,
+                                "ServiceUnavailable",
+                                503,
+                                "GatewayTimeout",
+                                504,
+                                "HTTPVersionNotSupported",
+                                505,
+                                "VariantAlsoNegotiates",
+                                506,
+                                "InsufficientStorage",
+                                507,
+                                "LoopDetected",
+                                508,
+                                "NotExtended",
+                                510,
+                                "NetworkAuthenticationRequired",
+                                511
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "Supplies HTTP response code."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "The response code to return"
+                },
+                "headers": {
+                    "$ref": "envoy.service.ext_proc.v3alpha.HeaderMutation",
+                    "additionalProperties": true,
+                    "description": "Apply changes to the default headers, which will include content-type."
+                },
+                "body": {
+                    "type": "string",
+                    "description": "The message body to return with the response which is sent using the\n text/plain content type, or encoded in the grpc-message header."
+                },
+                "grpc_status": {
+                    "properties": {
+                        "status": {
+                            "type": "integer",
+                            "description": "The actual gRPC status"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "If set, then include a gRPC status trailer."
+                },
+                "details": {
+                    "type": "string",
+                    "description": "A string detailing why this local reply was sent, which may be included\n in log and debug output."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "If specified, attempt to create a locally generated response, send it\n downstream, and stop processing additional filters and ignore any\n additional messages received from the remote server for this request or\n response. If a response has already started -- for example, if this\n message is sent response to a \"response_body\" message -- then\n this will either ship the reply directly to the downstream codec,\n or reset the stream."
+        },
+        "dynamic_metadata": {
+            "properties": {
+                "fields": {
+                    "additionalProperties": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Unordered map of dynamically typed values."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Optional metadata that will be emitted as dynamic metadata to be consumed by the next\n filter. This metadata will be placed in the namespace \"envoy.filters.http.ext_proc\"."
+        },
+        "mode_override": {
+            "properties": {
+                "request_header_mode": {
+                    "enum": [
+                        "DEFAULT",
+                        0,
+                        "SEND",
+                        1,
+                        "SKIP",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "How to handle the request header. Default is \"SEND\"."
+                },
+                "response_header_mode": {
+                    "enum": [
+                        "DEFAULT",
+                        0,
+                        "SEND",
+                        1,
+                        "SKIP",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "How to handle the response header. Default is \"SEND\"."
+                },
+                "request_body_mode": {
+                    "enum": [
+                        "NONE",
+                        0,
+                        "STREAMED",
+                        1,
+                        "BUFFERED",
+                        2,
+                        "BUFFERED_PARTIAL",
+                        3
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "How to handle the request body. Default is \"NONE\"."
+                },
+                "response_body_mode": {
+                    "enum": [
+                        "NONE",
+                        0,
+                        "STREAMED",
+                        1,
+                        "BUFFERED",
+                        2,
+                        "BUFFERED_PARTIAL",
+                        3
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "How do handle the response body. Default is \"NONE\"."
+                },
+                "request_trailer_mode": {
+                    "enum": [
+                        "DEFAULT",
+                        0,
+                        "SEND",
+                        1,
+                        "SKIP",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "How to handle the request trailers. Default is \"SKIP\"."
+                },
+                "response_trailer_mode": {
+                    "enum": [
+                        "DEFAULT",
+                        0,
+                        "SEND",
+                        1,
+                        "SKIP",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "How to handle the response trailers. Default is \"SKIP\"."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Override how parts of the HTTP request and response are processed\n for the duration of this particular request/response only. Servers\n may use this to intelligently control how requests are processed\n based on the headers and other metadata that they see."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "For every ProcessingRequest received by the server with the \"async_mode\" field\n set to false, the server must send back exactly one ProcessingResponse message.\n [#next-free-field: 10]",
+    "definitions": {
+        "envoy.config.core.v3.HeaderValue": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Header name."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Header name/value pair.",
+            "id": "envoy.config.core.v3.HeaderValue"
+        },
+        "envoy.service.ext_proc.v3alpha.BodyResponse": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "response": {
+                    "$ref": "envoy.service.ext_proc.v3alpha.CommonResponse",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "This message must be sent in response to an HttpBody message.",
+            "id": "envoy.service.ext_proc.v3alpha.BodyResponse"
+        },
+        "envoy.service.ext_proc.v3alpha.CommonResponse": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "status": {
+                    "enum": [
+                        "CONTINUE",
+                        0,
+                        "CONTINUE_AND_REPLACE",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "If set, provide additional direction on how the Envoy proxy should\n handle the rest of the HTTP filter chain."
+                },
+                "header_mutation": {
+                    "$ref": "envoy.service.ext_proc.v3alpha.HeaderMutation",
+                    "additionalProperties": true,
+                    "description": "Instructions on how to manipulate the headers. When responding to an\n HttpBody request, header mutations will only take effect if the\n headers were not already sent further on the filter chain, which\n happens only if the current processing mode for the body is BUFFERED\n or BUFFERED_PARTIAL."
+                },
+                "body_mutation": {
+                    "properties": {
+                        "body": {
+                            "type": "string",
+                            "description": "The entire body to replace"
+                        },
+                        "clear_body": {
+                            "type": "boolean",
+                            "description": "Clear the corresponding body chunk"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Replace the body of the last message sent to the remote server on this\n stream. If responding to an HttpBody request, simply replace or clear\n the body chunk that was sent with that request. If responding to an\n HttpHeaders request, then a new body may be added to the request if this\n message is returned along with the CONTINUE_AND_REPLACE status."
+                },
+                "trailers": {
+                    "properties": {
+                        "headers": {
+                            "items": {
+                                "$schema": "http://json-schema.org/draft-04/schema#",
+                                "$ref": "envoy.config.core.v3.HeaderValue"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Add new trailers to the message. This may be used when responding to either a\n HttpHeaders or HttpBody message, but only if this message is returned\n along with the CONTINUE_AND_REPLACE status."
+                },
+                "clear_route_cache": {
+                    "type": "boolean",
+                    "description": "Clear the route cache for the current request.\n This is necessary if the remote server\n modified headers that are used to calculate the route."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "This message contains common fields between header and body responses.\n [#next-free-field: 6]",
+            "id": "envoy.service.ext_proc.v3alpha.CommonResponse"
+        },
+        "envoy.service.ext_proc.v3alpha.HeaderMutation": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "set_headers": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "header": {
+                                "$ref": "envoy.config.core.v3.HeaderValue",
+                                "additionalProperties": true,
+                                "description": "Header name/value pair that this option applies to."
+                            },
+                            "append": {
+                                "additionalProperties": true,
+                                "type": "boolean",
+                                "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Header name/value pair plus option to control append behavior."
+                    },
+                    "type": "array",
+                    "description": "Add or replace HTTP headers. Attempts to set the value of\n any \"x-envoy\" header, and attempts to set the \":method\",\n \":authority\", \":scheme\", or \"host\" headers will be ignored."
+                },
+                "remove_headers": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "Remove these HTTP headers. Attempts to remove system headers --\n any header starting with \":\", plus \"host\" -- will be ignored."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Change HTTP headers or trailers by appending, replacing, or removing\n headers.",
+            "id": "envoy.service.ext_proc.v3alpha.HeaderMutation"
+        },
+        "envoy.service.ext_proc.v3alpha.HeadersResponse": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "response": {
+                    "$ref": "envoy.service.ext_proc.v3alpha.CommonResponse",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The following are messages that may be sent back by the server.\n\nThis message must be sent in response to an HttpHeaders message.",
+            "id": "envoy.service.ext_proc.v3alpha.HeadersResponse"
+        },
+        "envoy.service.ext_proc.v3alpha.TrailersResponse": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "header_mutation": {
+                    "$ref": "envoy.service.ext_proc.v3alpha.HeaderMutation",
+                    "additionalProperties": true,
+                    "description": "Instructions on how to manipulate the trailers"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "This message must be sent in response to an HttpTrailers message.",
+            "id": "envoy.service.ext_proc.v3alpha.TrailersResponse"
+        }
+    }
+}

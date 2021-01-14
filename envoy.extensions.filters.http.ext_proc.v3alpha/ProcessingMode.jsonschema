@@ -1,1 +1,126 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"request_header_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request header. Default is \"SEND\"."}, "response_header_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the response header. Default is \"SEND\"."}, "request_body_mode": {"enum": ["NONE", 0, "STREAMED", 1, "BUFFERED", 2, "BUFFERED_PARTIAL", 3], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request body. Default is \"NONE\"."}, "response_body_mode": {"enum": ["NONE", 0, "STREAMED", 1, "BUFFERED", 2, "BUFFERED_PARTIAL", 3], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How do handle the response body. Default is \"NONE\"."}, "request_trailer_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request trailers. Default is \"SKIP\"."}, "response_trailer_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the response trailers. Default is \"SKIP\"."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: External Processing Filter]\n External Processing Filter Processing Mode\n [#extension: envoy.filters.http.ext_proc]\n\nThis configuration describes which parts of an HTTP request and\n response are sent to a remote server and how they are delivered.\n\n[#next-free-field: 7]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "request_header_mode": {
+            "enum": [
+                "DEFAULT",
+                0,
+                "SEND",
+                1,
+                "SKIP",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "How to handle the request header. Default is \"SEND\"."
+        },
+        "response_header_mode": {
+            "enum": [
+                "DEFAULT",
+                0,
+                "SEND",
+                1,
+                "SKIP",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "How to handle the response header. Default is \"SEND\"."
+        },
+        "request_body_mode": {
+            "enum": [
+                "NONE",
+                0,
+                "STREAMED",
+                1,
+                "BUFFERED",
+                2,
+                "BUFFERED_PARTIAL",
+                3
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "How to handle the request body. Default is \"NONE\"."
+        },
+        "response_body_mode": {
+            "enum": [
+                "NONE",
+                0,
+                "STREAMED",
+                1,
+                "BUFFERED",
+                2,
+                "BUFFERED_PARTIAL",
+                3
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "How do handle the response body. Default is \"NONE\"."
+        },
+        "request_trailer_mode": {
+            "enum": [
+                "DEFAULT",
+                0,
+                "SEND",
+                1,
+                "SKIP",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "How to handle the request trailers. Default is \"SKIP\"."
+        },
+        "response_trailer_mode": {
+            "enum": [
+                "DEFAULT",
+                0,
+                "SEND",
+                1,
+                "SKIP",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "How to handle the response trailers. Default is \"SKIP\"."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: External Processing Filter]\n External Processing Filter Processing Mode\n [#extension: envoy.filters.http.ext_proc]\n\nThis configuration describes which parts of an HTTP request and\n response are sent to a remote server and how they are delivered.\n\n[#next-free-field: 7]"
+}

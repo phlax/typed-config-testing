@@ -1,1 +1,6 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "[#protodoc-title: SNI Cluster Filter]\n Set the upstream cluster name from the SNI field in the TLS connection.\n [#extension: envoy.filters.network.sni_cluster]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: SNI Cluster Filter]\n Set the upstream cluster name from the SNI field in the TLS connection.\n [#extension: envoy.filters.network.sni_cluster]"
+}

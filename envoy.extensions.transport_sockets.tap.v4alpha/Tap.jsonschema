@@ -1,1 +1,670 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"common_config": {"properties": {"admin_config": {"properties": {"config_id": {"type": "string", "description": "Opaque configuration ID. When requests are made to the admin handler, the passed opaque ID is\n matched to the configured filter opaque ID to determine which filter to configure."}}, "additionalProperties": true, "type": "object", "description": "If specified, the tap filter will be configured via an admin handler."}, "static_config": {"properties": {"match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/MatchPredicate.jsonschema", "additionalProperties": true, "description": "The match configuration. If the configuration matches the data source being tapped, a tap will\n occur, with the result written to the configured output.\n Exactly one of :ref:`match <envoy_api_field_config.tap.v4alpha.TapConfig.match>` and\n :ref:`match_config <envoy_api_field_config.tap.v4alpha.TapConfig.match_config>` must be set. If both\n are set, the :ref:`match <envoy_api_field_config.tap.v4alpha.TapConfig.match>` will be used."}, "output_config": {"properties": {"sinks": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"format": {"enum": ["JSON_BODY_AS_BYTES", 0, "JSON_BODY_AS_STRING", 1, "PROTO_BINARY", 2, "PROTO_BINARY_LENGTH_DELIMITED", 3, "PROTO_TEXT", 4], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Sink output format."}, "streaming_admin": {"additionalProperties": true, "type": "object", "description": "Tap output will be streamed out the :http:post:`/tap` admin endpoint.\n\n .. attention::\n\n   It is only allowed to specify the streaming admin output sink if the tap is being\n   configured from the :http:post:`/tap` admin endpoint. Thus, if an extension has\n   been configured to receive tap configuration from some other source (e.g., static\n   file, XDS, etc.) configuring the streaming admin output type will fail."}, "file_per_tap": {"properties": {"path_prefix": {"type": "string", "description": "Path prefix. The output file will be of the form <path_prefix>_<id>.pb, where <id> is an\n identifier distinguishing the recorded trace for stream instances (the Envoy\n connection ID, HTTP stream ID, etc.)."}}, "additionalProperties": true, "type": "object", "description": "Tap output will be written to a file per tap sink."}, "streaming_grpc": {"properties": {"tap_id": {"type": "string", "description": "Opaque identifier, that will be sent back to the streaming grpc server."}, "grpc_service": {"properties": {"envoy_grpc": {"properties": {"cluster_name": {"type": "string", "description": "The name of the upstream gRPC cluster. SSL credentials will be supplied\n in the :ref:`Cluster <envoy_api_msg_config.cluster.v4alpha.Cluster>` :ref:`transport_socket\n <envoy_api_field_config.cluster.v4alpha.Cluster.transport_socket>`."}, "authority": {"type": "string", "description": "The `:authority` header in the grpc request. If this field is not set, the authority header value will be `cluster_name`.\n Note that this authority does not override the SNI. The SNI is provided by the transport socket of the cluster."}}, "additionalProperties": true, "type": "object", "description": "Envoy's in-built gRPC client.\n See the :ref:`gRPC services overview <arch_overview_grpc_services>`\n documentation for discussion on gRPC client selection."}, "google_grpc": {"properties": {"target_uri": {"type": "string", "description": "The target URI when using the `Google C++ gRPC client\n <https://github.com/grpc/grpc>`_. SSL credentials will be supplied in\n :ref:`channel_credentials <envoy_api_field_config.core.v4alpha.GrpcService.GoogleGrpc.channel_credentials>`."}, "channel_credentials": {"properties": {"ssl_credentials": {"properties": {"root_certs": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema", "additionalProperties": true, "description": "PEM encoded server root certificates."}, "private_key": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema", "additionalProperties": true, "description": "PEM encoded client private key."}, "cert_chain": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema", "additionalProperties": true, "description": "PEM encoded client certificate chain."}}, "additionalProperties": true, "type": "object"}, "google_default": {"additionalProperties": true, "type": "object", "description": "https://grpc.io/grpc/cpp/namespacegrpc.html#a6beb3ac70ff94bd2ebbd89b8f21d1f61"}, "local_credentials": {"additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object"}, "call_credentials": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"access_token": {"type": "string", "description": "Access token credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#ad3a80da696ffdaea943f0f858d7a360d."}, "google_compute_engine": {"additionalProperties": true, "type": "object", "description": "Google Compute Engine credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a6beb3ac70ff94bd2ebbd89b8f21d1f61"}, "google_refresh_token": {"type": "string", "description": "Google refresh token credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a96901c997b91bc6513b08491e0dca37c."}, "service_account_jwt_access": {"properties": {"json_key": {"type": "string"}, "token_lifetime_seconds": {"type": "string"}}, "additionalProperties": true, "type": "object", "description": "Service Account JWT Access credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a92a9f959d6102461f66ee973d8e9d3aa."}, "google_iam": {"properties": {"authorization_token": {"type": "string"}, "authority_selector": {"type": "string"}}, "additionalProperties": true, "type": "object", "description": "Google IAM credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a9fc1fc101b41e680d47028166e76f9d0."}, "from_plugin": {"properties": {"name": {"type": "string"}, "typed_config": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "Custom authenticator credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a823c6a4b19ffc71fb33e90154ee2ad07.\n https://grpc.io/docs/guides/auth.html#extending-grpc-to-support-other-authentication-mechanisms."}, "sts_service": {"properties": {"token_exchange_service_uri": {"type": "string", "description": "URI of the token exchange service that handles token exchange requests.\n [#comment:TODO(asraa): Add URI validation when implemented. Tracked by\n https://github.com/envoyproxy/protoc-gen-validate/issues/303]"}, "resource": {"type": "string", "description": "Location of the target service or resource where the client\n intends to use the requested security token."}, "audience": {"type": "string", "description": "Logical name of the target service where the client intends to\n use the requested security token."}, "scope": {"type": "string", "description": "The desired scope of the requested security token in the\n context of the service or resource where the token will be used."}, "requested_token_type": {"type": "string", "description": "Type of the requested security token."}, "subject_token_path": {"type": "string", "description": "The path of subject token, a security token that represents the\n identity of the party on behalf of whom the request is being made."}, "subject_token_type": {"type": "string", "description": "Type of the subject token."}, "actor_token_path": {"type": "string", "description": "The path of actor token, a security token that represents the identity\n of the acting party. The acting party is authorized to use the\n requested security token and act on behalf of the subject."}, "actor_token_type": {"type": "string", "description": "Type of the actor token."}}, "additionalProperties": true, "type": "object", "description": "Custom security token service which implements OAuth 2.0 token exchange.\n https://tools.ietf.org/html/draft-ietf-oauth-token-exchange-16\n See https://github.com/grpc/grpc/pull/19587."}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 8]"}, "type": "array", "description": "A set of call credentials that can be composed with `channel credentials\n <https://grpc.io/docs/guides/auth.html#credential-types>`_."}, "stat_prefix": {"type": "string", "description": "The human readable prefix to use when emitting statistics for the gRPC\n service.\n\n .. csv-table::\n    :header: Name, Type, Description\n    :widths: 1, 1, 2\n\n    streams_total, Counter, Total number of streams opened\n    streams_closed_<gRPC status code>, Counter, Total streams closed with <gRPC status code>"}, "credentials_factory_name": {"type": "string", "description": "The name of the Google gRPC credentials factory to use. This must have been registered with\n Envoy. If this is empty, a default credentials factory will be used that sets up channel\n credentials based on other configuration parameters."}, "config": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object", "description": "Additional configuration for site-specific customizations of the Google\n gRPC library."}, "per_stream_buffer_limit_bytes": {"additionalProperties": true, "type": "integer", "description": "How many bytes each stream can buffer internally.\n If not set an implementation defined default is applied (1MiB)."}, "channel_args": {"properties": {"args": {"additionalProperties": {"properties": {"string_value": {"type": "string"}, "int_value": {"type": "string"}}, "additionalProperties": true, "type": "object"}, "type": "object", "description": "See grpc_types.h GRPC_ARG #defines for keys that work here."}}, "additionalProperties": true, "type": "object", "description": "Custom channels args."}}, "additionalProperties": true, "type": "object", "description": "`Google C++ gRPC client <https://github.com/grpc/grpc>`_\n See the :ref:`gRPC services overview <arch_overview_grpc_services>`\n documentation for discussion on gRPC client selection."}, "timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The timeout for the gRPC request. This is the timeout for a specific\n request."}, "initial_metadata": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair."}, "type": "array", "description": "Additional metadata to include in streams initiated to the GrpcService. This can be used for\n scenarios in which additional ad hoc authorization headers (e.g. ``x-foo-bar: baz-key``) are to\n be injected. For more information, including details on header value syntax, see the\n documentation on :ref:`custom request headers\n <config_http_conn_man_headers_custom_request_headers>`."}}, "additionalProperties": true, "type": "object", "description": "The gRPC server that hosts the Tap Sink Service."}}, "additionalProperties": true, "type": "object", "description": "[#not-implemented-hide:]\n GrpcService to stream data to. The format argument must be PROTO_BINARY.\n [#comment: TODO(samflattery): remove cleanup in uber_per_filter.cc once implemented]"}}, "additionalProperties": true, "type": "object", "description": "Tap output sink configuration."}, "type": "array", "description": "Output sinks for tap data. Currently a single sink is allowed in the list. Once multiple\n sink types are supported this constraint will be relaxed."}, "max_buffered_rx_bytes": {"additionalProperties": true, "type": "integer", "description": "For buffered tapping, the maximum amount of received body that will be buffered prior to\n truncation. If truncation occurs, the :ref:`truncated\n <envoy_api_field_data.tap.v3.Body.truncated>` field will be set. If not specified, the\n default is 1KiB."}, "max_buffered_tx_bytes": {"additionalProperties": true, "type": "integer", "description": "For buffered tapping, the maximum amount of transmitted body that will be buffered prior to\n truncation. If truncation occurs, the :ref:`truncated\n <envoy_api_field_data.tap.v3.Body.truncated>` field will be set. If not specified, the\n default is 1KiB."}, "streaming": {"type": "boolean", "description": "Indicates whether taps produce a single buffered message per tap, or multiple streamed\n messages per tap in the emitted :ref:`TraceWrapper\n <envoy_api_msg_data.tap.v3.TraceWrapper>` messages. Note that streamed tapping does not\n mean that no buffering takes place. Buffering may be required if data is processed before a\n match can be determined. See the HTTP tap filter :ref:`streaming\n <config_http_filters_tap_streaming>` documentation for more information."}}, "additionalProperties": true, "type": "object", "description": "The tap output configuration. If a match configuration matches a data source being tapped,\n a tap will occur and the data will be written to the configured output."}, "tap_enabled": {"properties": {"default_value": {"properties": {"numerator": {"type": "integer", "description": "Specifies the numerator. Defaults to 0."}, "denominator": {"enum": ["HUNDRED", 0, "TEN_THOUSAND", 1, "MILLION", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."}}, "additionalProperties": true, "type": "object", "description": "Default value if the runtime value's for the numerator/denominator keys are not available."}, "runtime_key": {"type": "string", "description": "Runtime key for a YAML representation of a FractionalPercent."}}, "additionalProperties": true, "type": "object", "description": "[#not-implemented-hide:] Specify if Tap matching is enabled. The % of requests\\connections for\n which the tap matching is enabled. When not enabled, the request\\connection will not be\n recorded.\n\n .. note::\n\n   This field defaults to 100/:ref:`HUNDRED\n   <envoy_api_enum_type.v3.FractionalPercent.DenominatorType>`."}}, "additionalProperties": true, "type": "object", "description": "If specified, the tap filter will be configured via a static configuration that cannot be\n changed."}}, "additionalProperties": true, "type": "object", "description": "Common configuration for the tap transport socket."}, "transport_socket": {"properties": {"name": {"type": "string", "description": "The name of the transport socket to instantiate. The name must match a supported transport\n socket implementation."}, "typed_config": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "The underlying transport socket being wrapped."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Tap]\n [#extension: envoy.transport_sockets.tap]\n\nConfiguration for tap transport socket. This wraps another transport socket, providing the\n ability to interpose and record in plain text any traffic that is surfaced to Envoy.", "definitions": {"envoy.config.common.matcher.v4alpha.HttpGenericBodyMatch": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"bytes_limit": {"type": "integer", "description": "Limits search to specified number of bytes - default zero (no limit - match entire captured buffer)."}, "patterns": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"string_match": {"type": "string", "description": "Text string to be located in HTTP body."}, "binary_match": {"type": "string", "description": "Sequence of bytes to be located in HTTP body."}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "List of patterns to match."}}, "additionalProperties": true, "type": "object", "description": "HTTP generic body match configuration.\n List of text strings and hex strings to be located in HTTP body.\n All specified strings must be found in the HTTP body for positive match.\n The search may be limited to specified number of bytes from the body start.\n\n .. attention::\n\n   Searching for patterns in HTTP body is potentially cpu intensive. For each specified pattern, http body is scanned byte by byte to find a match.\n   If multiple patterns are specified, the process is repeated for each pattern. If location of a pattern is known, ``bytes_limit`` should be specified\n   to scan only part of the http body.", "id": "envoy.config.common.matcher.v4alpha.HttpGenericBodyMatch"}, "envoy.config.common.matcher.v4alpha.HttpHeadersMatch": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "Specifies the name of the header in the request."}, "exact_match": {"type": "string", "description": "If specified, header match will be performed based on the value of the header."}, "safe_regex_match": {"properties": {"google_re2": {"additionalProperties": true, "type": "object", "description": "Google's RE2 regex engine."}, "regex": {"type": "string", "description": "The regex match string. The string must be supported by the configured engine."}}, "additionalProperties": true, "type": "object", "description": "If specified, this regex string is a regular expression rule which implies the entire request\n header value must match the regex. The rule will not match if only a subsequence of the\n request header value matches the regex."}, "range_match": {"properties": {"start": {"type": "string", "description": "start of the range (inclusive)"}, "end": {"type": "string", "description": "end of the range (exclusive)"}}, "additionalProperties": true, "type": "object", "description": "If specified, header match will be performed based on range.\n The rule will match if the request header value is within this range.\n The entire request header value must represent an integer in base 10 notation: consisting of\n an optional plus or minus sign followed by a sequence of digits. The rule will not match if\n the header value does not represent an integer. Match will fail for empty values, floating\n point numbers or if only a subsequence of the header value is an integer.\n\n Examples:\n\n * For range [-10,0), route will match for header value -1, but not for 0, \"somestring\", 10.9,\n   \"-1somestring\""}, "present_match": {"type": "boolean", "description": "If specified, header match will be performed based on whether the header is in the\n request."}, "prefix_match": {"type": "string", "description": "If specified, header match will be performed based on the prefix of the header value.\n Note: empty prefix is not allowed, please use present_match instead.\n\n Examples:\n\n * The prefix *abcd* matches the value *abcdxyz*, but not for *abcxyz*."}, "suffix_match": {"type": "string", "description": "If specified, header match will be performed based on the suffix of the header value.\n Note: empty suffix is not allowed, please use present_match instead.\n\n Examples:\n\n * The suffix *abcd* matches the value *xyzabcd*, but not for *xyzbcd*."}, "contains_match": {"type": "string", "description": "If specified, header match will be performed based on whether the header value contains\n the given value or not.\n Note: empty contains match is not allowed, please use present_match instead.\n\n Examples:\n\n * The value *abcd* matches the value *xyzabcdpqr*, but not for *xyzbcdpqr*."}, "invert_match": {"type": "boolean", "description": "If specified, the match result will be inverted before checking. Defaults to false.\n\n Examples:\n\n * The regex ``\\d{3}`` does not match the value *1234*, so it will match when inverted.\n * The range [-10,0) will match the value -1, so it will not match when inverted."}}, "additionalProperties": true, "type": "object", "description": ".. attention::\n\n   Internally, Envoy always uses the HTTP/2 *:authority* header to represent the HTTP/1 *Host*\n   header. Thus, if attempting to match on *Host*, match on *:authority* instead.\n\n .. attention::\n\n   To route on HTTP method, use the special HTTP/2 *:method* header. This works for both\n   HTTP/1 and HTTP/2 as Envoy normalizes headers. E.g.,\n\n   .. code-block:: json\n\n     {\n       \"name\": \":method\",\n       \"exact_match\": \"POST\"\n     }\n\n .. attention::\n   In the absence of any header match specifier, match will default to :ref:`present_match\n   <envoy_api_field_config.route.v4alpha.HeaderMatcher.present_match>`. i.e, a request that has the :ref:`name\n   <envoy_api_field_config.route.v4alpha.HeaderMatcher.name>` header will match, regardless of the header's\n   value.\n\n  [#next-major-version: HeaderMatcher should be refactored to use StringMatcher.]\n [#next-free-field: 13]"}, "type": "array", "description": "HTTP headers to match."}}, "additionalProperties": true, "type": "object", "description": "HTTP headers match configuration.", "id": "envoy.config.common.matcher.v4alpha.HttpHeadersMatch"}, "envoy.config.common.matcher.v4alpha.MatchPredicate": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"or_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha.MatchPredicate/MatchSet.jsonschema", "additionalProperties": true, "description": "A set that describes a logical OR. If any member of the set matches, the match configuration\n matches."}, "and_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha.MatchPredicate/MatchSet.jsonschema", "additionalProperties": true, "description": "A set that describes a logical AND. If all members of the set match, the match configuration\n matches."}, "not_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/MatchPredicate.jsonschema", "additionalProperties": true, "description": "A negation match. The match configuration will match if the negated match condition matches."}, "any_match": {"type": "boolean", "description": "The match configuration will always match."}, "http_request_headers_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/HttpHeadersMatch.jsonschema", "additionalProperties": true, "description": "HTTP request headers match configuration."}, "http_request_trailers_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/HttpHeadersMatch.jsonschema", "additionalProperties": true, "description": "HTTP request trailers match configuration."}, "http_response_headers_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/HttpHeadersMatch.jsonschema", "additionalProperties": true, "description": "HTTP response headers match configuration."}, "http_response_trailers_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/HttpHeadersMatch.jsonschema", "additionalProperties": true, "description": "HTTP response trailers match configuration."}, "http_request_generic_body_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/HttpGenericBodyMatch.jsonschema", "additionalProperties": true, "description": "HTTP request generic body match configuration."}, "http_response_generic_body_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/HttpGenericBodyMatch.jsonschema", "additionalProperties": true, "description": "HTTP response generic body match configuration."}}, "additionalProperties": true, "type": "object", "description": "Match configuration. This is a recursive structure which allows complex nested match\n configurations to be built using various logical operators.\n [#next-free-field: 11]", "id": "envoy.config.common.matcher.v4alpha.MatchPredicate"}, "envoy.config.common.matcher.v4alpha.MatchPredicate.MatchSet": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"rules": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.common.matcher.v4alpha/MatchPredicate.jsonschema"}, "type": "array", "description": "The list of rules that make up the set."}}, "additionalProperties": true, "type": "object", "description": "A set of match configurations used for logical operations.", "id": "envoy.config.common.matcher.v4alpha.MatchPredicate.MatchSet"}, "envoy.config.core.v4alpha.DataSource": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"filename": {"type": "string", "description": "Local filesystem data source."}, "inline_bytes": {"type": "string", "description": "Bytes inlined in the configuration."}, "inline_string": {"type": "string", "description": "String inlined in the configuration."}}, "additionalProperties": true, "type": "object", "description": "Data source consisting of either a file or an inline value.", "id": "envoy.config.core.v4alpha.DataSource"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "common_config": {
+            "properties": {
+                "admin_config": {
+                    "properties": {
+                        "config_id": {
+                            "type": "string",
+                            "description": "Opaque configuration ID. When requests are made to the admin handler, the passed opaque ID is\n matched to the configured filter opaque ID to determine which filter to configure."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "If specified, the tap filter will be configured via an admin handler."
+                },
+                "static_config": {
+                    "properties": {
+                        "match": {
+                            "$ref": "envoy.config.common.matcher.v4alpha.MatchPredicate",
+                            "additionalProperties": true,
+                            "description": "The match configuration. If the configuration matches the data source being tapped, a tap will\n occur, with the result written to the configured output.\n Exactly one of :ref:`match \u003cenvoy_api_field_config.tap.v4alpha.TapConfig.match\u003e` and\n :ref:`match_config \u003cenvoy_api_field_config.tap.v4alpha.TapConfig.match_config\u003e` must be set. If both\n are set, the :ref:`match \u003cenvoy_api_field_config.tap.v4alpha.TapConfig.match\u003e` will be used."
+                        },
+                        "output_config": {
+                            "properties": {
+                                "sinks": {
+                                    "items": {
+                                        "$schema": "http://json-schema.org/draft-04/schema#",
+                                        "properties": {
+                                            "format": {
+                                                "enum": [
+                                                    "JSON_BODY_AS_BYTES",
+                                                    0,
+                                                    "JSON_BODY_AS_STRING",
+                                                    1,
+                                                    "PROTO_BINARY",
+                                                    2,
+                                                    "PROTO_BINARY_LENGTH_DELIMITED",
+                                                    3,
+                                                    "PROTO_TEXT",
+                                                    4
+                                                ],
+                                                "oneOf": [
+                                                    {
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "integer"
+                                                    }
+                                                ],
+                                                "description": "Sink output format."
+                                            },
+                                            "streaming_admin": {
+                                                "additionalProperties": true,
+                                                "type": "object",
+                                                "description": "Tap output will be streamed out the :http:post:`/tap` admin endpoint.\n\n .. attention::\n\n   It is only allowed to specify the streaming admin output sink if the tap is being\n   configured from the :http:post:`/tap` admin endpoint. Thus, if an extension has\n   been configured to receive tap configuration from some other source (e.g., static\n   file, XDS, etc.) configuring the streaming admin output type will fail."
+                                            },
+                                            "file_per_tap": {
+                                                "properties": {
+                                                    "path_prefix": {
+                                                        "type": "string",
+                                                        "description": "Path prefix. The output file will be of the form \u003cpath_prefix\u003e_\u003cid\u003e.pb, where \u003cid\u003e is an\n identifier distinguishing the recorded trace for stream instances (the Envoy\n connection ID, HTTP stream ID, etc.)."
+                                                    }
+                                                },
+                                                "additionalProperties": true,
+                                                "type": "object",
+                                                "description": "Tap output will be written to a file per tap sink."
+                                            },
+                                            "streaming_grpc": {
+                                                "properties": {
+                                                    "tap_id": {
+                                                        "type": "string",
+                                                        "description": "Opaque identifier, that will be sent back to the streaming grpc server."
+                                                    },
+                                                    "grpc_service": {
+                                                        "properties": {
+                                                            "envoy_grpc": {
+                                                                "properties": {
+                                                                    "cluster_name": {
+                                                                        "type": "string",
+                                                                        "description": "The name of the upstream gRPC cluster. SSL credentials will be supplied\n in the :ref:`Cluster \u003cenvoy_api_msg_config.cluster.v4alpha.Cluster\u003e` :ref:`transport_socket\n \u003cenvoy_api_field_config.cluster.v4alpha.Cluster.transport_socket\u003e`."
+                                                                    },
+                                                                    "authority": {
+                                                                        "type": "string",
+                                                                        "description": "The `:authority` header in the grpc request. If this field is not set, the authority header value will be `cluster_name`.\n Note that this authority does not override the SNI. The SNI is provided by the transport socket of the cluster."
+                                                                    }
+                                                                },
+                                                                "additionalProperties": true,
+                                                                "type": "object",
+                                                                "description": "Envoy's in-built gRPC client.\n See the :ref:`gRPC services overview \u003carch_overview_grpc_services\u003e`\n documentation for discussion on gRPC client selection."
+                                                            },
+                                                            "google_grpc": {
+                                                                "properties": {
+                                                                    "target_uri": {
+                                                                        "type": "string",
+                                                                        "description": "The target URI when using the `Google C++ gRPC client\n \u003chttps://github.com/grpc/grpc\u003e`_. SSL credentials will be supplied in\n :ref:`channel_credentials \u003cenvoy_api_field_config.core.v4alpha.GrpcService.GoogleGrpc.channel_credentials\u003e`."
+                                                                    },
+                                                                    "channel_credentials": {
+                                                                        "properties": {
+                                                                            "ssl_credentials": {
+                                                                                "properties": {
+                                                                                    "root_certs": {
+                                                                                        "$ref": "envoy.config.core.v4alpha.DataSource",
+                                                                                        "additionalProperties": true,
+                                                                                        "description": "PEM encoded server root certificates."
+                                                                                    },
+                                                                                    "private_key": {
+                                                                                        "$ref": "envoy.config.core.v4alpha.DataSource",
+                                                                                        "additionalProperties": true,
+                                                                                        "description": "PEM encoded client private key."
+                                                                                    },
+                                                                                    "cert_chain": {
+                                                                                        "$ref": "envoy.config.core.v4alpha.DataSource",
+                                                                                        "additionalProperties": true,
+                                                                                        "description": "PEM encoded client certificate chain."
+                                                                                    }
+                                                                                },
+                                                                                "additionalProperties": true,
+                                                                                "type": "object"
+                                                                            },
+                                                                            "google_default": {
+                                                                                "additionalProperties": true,
+                                                                                "type": "object",
+                                                                                "description": "https://grpc.io/grpc/cpp/namespacegrpc.html#a6beb3ac70ff94bd2ebbd89b8f21d1f61"
+                                                                            },
+                                                                            "local_credentials": {
+                                                                                "additionalProperties": true,
+                                                                                "type": "object"
+                                                                            }
+                                                                        },
+                                                                        "additionalProperties": true,
+                                                                        "type": "object"
+                                                                    },
+                                                                    "call_credentials": {
+                                                                        "items": {
+                                                                            "$schema": "http://json-schema.org/draft-04/schema#",
+                                                                            "properties": {
+                                                                                "access_token": {
+                                                                                    "type": "string",
+                                                                                    "description": "Access token credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#ad3a80da696ffdaea943f0f858d7a360d."
+                                                                                },
+                                                                                "google_compute_engine": {
+                                                                                    "additionalProperties": true,
+                                                                                    "type": "object",
+                                                                                    "description": "Google Compute Engine credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a6beb3ac70ff94bd2ebbd89b8f21d1f61"
+                                                                                },
+                                                                                "google_refresh_token": {
+                                                                                    "type": "string",
+                                                                                    "description": "Google refresh token credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a96901c997b91bc6513b08491e0dca37c."
+                                                                                },
+                                                                                "service_account_jwt_access": {
+                                                                                    "properties": {
+                                                                                        "json_key": {
+                                                                                            "type": "string"
+                                                                                        },
+                                                                                        "token_lifetime_seconds": {
+                                                                                            "type": "string"
+                                                                                        }
+                                                                                    },
+                                                                                    "additionalProperties": true,
+                                                                                    "type": "object",
+                                                                                    "description": "Service Account JWT Access credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a92a9f959d6102461f66ee973d8e9d3aa."
+                                                                                },
+                                                                                "google_iam": {
+                                                                                    "properties": {
+                                                                                        "authorization_token": {
+                                                                                            "type": "string"
+                                                                                        },
+                                                                                        "authority_selector": {
+                                                                                            "type": "string"
+                                                                                        }
+                                                                                    },
+                                                                                    "additionalProperties": true,
+                                                                                    "type": "object",
+                                                                                    "description": "Google IAM credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a9fc1fc101b41e680d47028166e76f9d0."
+                                                                                },
+                                                                                "from_plugin": {
+                                                                                    "properties": {
+                                                                                        "name": {
+                                                                                            "type": "string"
+                                                                                        },
+                                                                                        "typed_config": {
+                                                                                            "properties": {
+                                                                                                "type_url": {
+                                                                                                    "type": "string",
+                                                                                                    "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                                                                                                },
+                                                                                                "value": {
+                                                                                                    "type": "string",
+                                                                                                    "description": "Must be a valid serialized protocol buffer of the above specified type."
+                                                                                                }
+                                                                                            },
+                                                                                            "additionalProperties": true,
+                                                                                            "type": "object"
+                                                                                        }
+                                                                                    },
+                                                                                    "additionalProperties": true,
+                                                                                    "type": "object",
+                                                                                    "description": "Custom authenticator credentials.\n https://grpc.io/grpc/cpp/namespacegrpc.html#a823c6a4b19ffc71fb33e90154ee2ad07.\n https://grpc.io/docs/guides/auth.html#extending-grpc-to-support-other-authentication-mechanisms."
+                                                                                },
+                                                                                "sts_service": {
+                                                                                    "properties": {
+                                                                                        "token_exchange_service_uri": {
+                                                                                            "type": "string",
+                                                                                            "description": "URI of the token exchange service that handles token exchange requests.\n [#comment:TODO(asraa): Add URI validation when implemented. Tracked by\n https://github.com/envoyproxy/protoc-gen-validate/issues/303]"
+                                                                                        },
+                                                                                        "resource": {
+                                                                                            "type": "string",
+                                                                                            "description": "Location of the target service or resource where the client\n intends to use the requested security token."
+                                                                                        },
+                                                                                        "audience": {
+                                                                                            "type": "string",
+                                                                                            "description": "Logical name of the target service where the client intends to\n use the requested security token."
+                                                                                        },
+                                                                                        "scope": {
+                                                                                            "type": "string",
+                                                                                            "description": "The desired scope of the requested security token in the\n context of the service or resource where the token will be used."
+                                                                                        },
+                                                                                        "requested_token_type": {
+                                                                                            "type": "string",
+                                                                                            "description": "Type of the requested security token."
+                                                                                        },
+                                                                                        "subject_token_path": {
+                                                                                            "type": "string",
+                                                                                            "description": "The path of subject token, a security token that represents the\n identity of the party on behalf of whom the request is being made."
+                                                                                        },
+                                                                                        "subject_token_type": {
+                                                                                            "type": "string",
+                                                                                            "description": "Type of the subject token."
+                                                                                        },
+                                                                                        "actor_token_path": {
+                                                                                            "type": "string",
+                                                                                            "description": "The path of actor token, a security token that represents the identity\n of the acting party. The acting party is authorized to use the\n requested security token and act on behalf of the subject."
+                                                                                        },
+                                                                                        "actor_token_type": {
+                                                                                            "type": "string",
+                                                                                            "description": "Type of the actor token."
+                                                                                        }
+                                                                                    },
+                                                                                    "additionalProperties": true,
+                                                                                    "type": "object",
+                                                                                    "description": "Custom security token service which implements OAuth 2.0 token exchange.\n https://tools.ietf.org/html/draft-ietf-oauth-token-exchange-16\n See https://github.com/grpc/grpc/pull/19587."
+                                                                                }
+                                                                            },
+                                                                            "additionalProperties": true,
+                                                                            "type": "object",
+                                                                            "description": "[#next-free-field: 8]"
+                                                                        },
+                                                                        "type": "array",
+                                                                        "description": "A set of call credentials that can be composed with `channel credentials\n \u003chttps://grpc.io/docs/guides/auth.html#credential-types\u003e`_."
+                                                                    },
+                                                                    "stat_prefix": {
+                                                                        "type": "string",
+                                                                        "description": "The human readable prefix to use when emitting statistics for the gRPC\n service.\n\n .. csv-table::\n    :header: Name, Type, Description\n    :widths: 1, 1, 2\n\n    streams_total, Counter, Total number of streams opened\n    streams_closed_\u003cgRPC status code\u003e, Counter, Total streams closed with \u003cgRPC status code\u003e"
+                                                                    },
+                                                                    "credentials_factory_name": {
+                                                                        "type": "string",
+                                                                        "description": "The name of the Google gRPC credentials factory to use. This must have been registered with\n Envoy. If this is empty, a default credentials factory will be used that sets up channel\n credentials based on other configuration parameters."
+                                                                    },
+                                                                    "config": {
+                                                                        "properties": {
+                                                                            "fields": {
+                                                                                "additionalProperties": {
+                                                                                    "additionalProperties": true,
+                                                                                    "type": "object"
+                                                                                },
+                                                                                "type": "object",
+                                                                                "description": "Unordered map of dynamically typed values."
+                                                                            }
+                                                                        },
+                                                                        "additionalProperties": true,
+                                                                        "type": "object",
+                                                                        "description": "Additional configuration for site-specific customizations of the Google\n gRPC library."
+                                                                    },
+                                                                    "per_stream_buffer_limit_bytes": {
+                                                                        "additionalProperties": true,
+                                                                        "type": "integer",
+                                                                        "description": "How many bytes each stream can buffer internally.\n If not set an implementation defined default is applied (1MiB)."
+                                                                    },
+                                                                    "channel_args": {
+                                                                        "properties": {
+                                                                            "args": {
+                                                                                "additionalProperties": {
+                                                                                    "properties": {
+                                                                                        "string_value": {
+                                                                                            "type": "string"
+                                                                                        },
+                                                                                        "int_value": {
+                                                                                            "type": "string"
+                                                                                        }
+                                                                                    },
+                                                                                    "additionalProperties": true,
+                                                                                    "type": "object"
+                                                                                },
+                                                                                "type": "object",
+                                                                                "description": "See grpc_types.h GRPC_ARG #defines for keys that work here."
+                                                                            }
+                                                                        },
+                                                                        "additionalProperties": true,
+                                                                        "type": "object",
+                                                                        "description": "Custom channels args."
+                                                                    }
+                                                                },
+                                                                "additionalProperties": true,
+                                                                "type": "object",
+                                                                "description": "`Google C++ gRPC client \u003chttps://github.com/grpc/grpc\u003e`_\n See the :ref:`gRPC services overview \u003carch_overview_grpc_services\u003e`\n documentation for discussion on gRPC client selection."
+                                                            },
+                                                            "timeout": {
+                                                                "properties": {
+                                                                    "seconds": {
+                                                                        "type": "string",
+                                                                        "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                                                    },
+                                                                    "nanos": {
+                                                                        "type": "integer",
+                                                                        "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                                                    }
+                                                                },
+                                                                "additionalProperties": true,
+                                                                "type": "object",
+                                                                "description": "The timeout for the gRPC request. This is the timeout for a specific\n request."
+                                                            },
+                                                            "initial_metadata": {
+                                                                "items": {
+                                                                    "$schema": "http://json-schema.org/draft-04/schema#",
+                                                                    "properties": {
+                                                                        "key": {
+                                                                            "type": "string",
+                                                                            "description": "Header name."
+                                                                        },
+                                                                        "value": {
+                                                                            "type": "string",
+                                                                            "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                                                                        }
+                                                                    },
+                                                                    "additionalProperties": true,
+                                                                    "type": "object",
+                                                                    "description": "Header name/value pair."
+                                                                },
+                                                                "type": "array",
+                                                                "description": "Additional metadata to include in streams initiated to the GrpcService. This can be used for\n scenarios in which additional ad hoc authorization headers (e.g. ``x-foo-bar: baz-key``) are to\n be injected. For more information, including details on header value syntax, see the\n documentation on :ref:`custom request headers\n \u003cconfig_http_conn_man_headers_custom_request_headers\u003e`."
+                                                            }
+                                                        },
+                                                        "additionalProperties": true,
+                                                        "type": "object",
+                                                        "description": "The gRPC server that hosts the Tap Sink Service."
+                                                    }
+                                                },
+                                                "additionalProperties": true,
+                                                "type": "object",
+                                                "description": "[#not-implemented-hide:]\n GrpcService to stream data to. The format argument must be PROTO_BINARY.\n [#comment: TODO(samflattery): remove cleanup in uber_per_filter.cc once implemented]"
+                                            }
+                                        },
+                                        "additionalProperties": true,
+                                        "type": "object",
+                                        "description": "Tap output sink configuration."
+                                    },
+                                    "type": "array",
+                                    "description": "Output sinks for tap data. Currently a single sink is allowed in the list. Once multiple\n sink types are supported this constraint will be relaxed."
+                                },
+                                "max_buffered_rx_bytes": {
+                                    "additionalProperties": true,
+                                    "type": "integer",
+                                    "description": "For buffered tapping, the maximum amount of received body that will be buffered prior to\n truncation. If truncation occurs, the :ref:`truncated\n \u003cenvoy_api_field_data.tap.v3.Body.truncated\u003e` field will be set. If not specified, the\n default is 1KiB."
+                                },
+                                "max_buffered_tx_bytes": {
+                                    "additionalProperties": true,
+                                    "type": "integer",
+                                    "description": "For buffered tapping, the maximum amount of transmitted body that will be buffered prior to\n truncation. If truncation occurs, the :ref:`truncated\n \u003cenvoy_api_field_data.tap.v3.Body.truncated\u003e` field will be set. If not specified, the\n default is 1KiB."
+                                },
+                                "streaming": {
+                                    "type": "boolean",
+                                    "description": "Indicates whether taps produce a single buffered message per tap, or multiple streamed\n messages per tap in the emitted :ref:`TraceWrapper\n \u003cenvoy_api_msg_data.tap.v3.TraceWrapper\u003e` messages. Note that streamed tapping does not\n mean that no buffering takes place. Buffering may be required if data is processed before a\n match can be determined. See the HTTP tap filter :ref:`streaming\n \u003cconfig_http_filters_tap_streaming\u003e` documentation for more information."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "The tap output configuration. If a match configuration matches a data source being tapped,\n a tap will occur and the data will be written to the configured output."
+                        },
+                        "tap_enabled": {
+                            "properties": {
+                                "default_value": {
+                                    "properties": {
+                                        "numerator": {
+                                            "type": "integer",
+                                            "description": "Specifies the numerator. Defaults to 0."
+                                        },
+                                        "denominator": {
+                                            "enum": [
+                                                "HUNDRED",
+                                                0,
+                                                "TEN_THOUSAND",
+                                                1,
+                                                "MILLION",
+                                                2
+                                            ],
+                                            "oneOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "integer"
+                                                }
+                                            ],
+                                            "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Default value if the runtime value's for the numerator/denominator keys are not available."
+                                },
+                                "runtime_key": {
+                                    "type": "string",
+                                    "description": "Runtime key for a YAML representation of a FractionalPercent."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "[#not-implemented-hide:] Specify if Tap matching is enabled. The % of requests\\connections for\n which the tap matching is enabled. When not enabled, the request\\connection will not be\n recorded.\n\n .. note::\n\n   This field defaults to 100/:ref:`HUNDRED\n   \u003cenvoy_api_enum_type.v3.FractionalPercent.DenominatorType\u003e`."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "If specified, the tap filter will be configured via a static configuration that cannot be\n changed."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Common configuration for the tap transport socket."
+        },
+        "transport_socket": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the transport socket to instantiate. The name must match a supported transport\n socket implementation."
+                },
+                "typed_config": {
+                    "properties": {
+                        "type_url": {
+                            "type": "string",
+                            "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Must be a valid serialized protocol buffer of the above specified type."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The underlying transport socket being wrapped."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Tap]\n [#extension: envoy.transport_sockets.tap]\n\nConfiguration for tap transport socket. This wraps another transport socket, providing the\n ability to interpose and record in plain text any traffic that is surfaced to Envoy.",
+    "definitions": {
+        "envoy.config.common.matcher.v4alpha.HttpGenericBodyMatch": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "bytes_limit": {
+                    "type": "integer",
+                    "description": "Limits search to specified number of bytes - default zero (no limit - match entire captured buffer)."
+                },
+                "patterns": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "string_match": {
+                                "type": "string",
+                                "description": "Text string to be located in HTTP body."
+                            },
+                            "binary_match": {
+                                "type": "string",
+                                "description": "Sequence of bytes to be located in HTTP body."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "List of patterns to match."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "HTTP generic body match configuration.\n List of text strings and hex strings to be located in HTTP body.\n All specified strings must be found in the HTTP body for positive match.\n The search may be limited to specified number of bytes from the body start.\n\n .. attention::\n\n   Searching for patterns in HTTP body is potentially cpu intensive. For each specified pattern, http body is scanned byte by byte to find a match.\n   If multiple patterns are specified, the process is repeated for each pattern. If location of a pattern is known, ``bytes_limit`` should be specified\n   to scan only part of the http body.",
+            "id": "envoy.config.common.matcher.v4alpha.HttpGenericBodyMatch"
+        },
+        "envoy.config.common.matcher.v4alpha.HttpHeadersMatch": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "headers": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Specifies the name of the header in the request."
+                            },
+                            "exact_match": {
+                                "type": "string",
+                                "description": "If specified, header match will be performed based on the value of the header."
+                            },
+                            "safe_regex_match": {
+                                "properties": {
+                                    "google_re2": {
+                                        "additionalProperties": true,
+                                        "type": "object",
+                                        "description": "Google's RE2 regex engine."
+                                    },
+                                    "regex": {
+                                        "type": "string",
+                                        "description": "The regex match string. The string must be supported by the configured engine."
+                                    }
+                                },
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "If specified, this regex string is a regular expression rule which implies the entire request\n header value must match the regex. The rule will not match if only a subsequence of the\n request header value matches the regex."
+                            },
+                            "range_match": {
+                                "properties": {
+                                    "start": {
+                                        "type": "string",
+                                        "description": "start of the range (inclusive)"
+                                    },
+                                    "end": {
+                                        "type": "string",
+                                        "description": "end of the range (exclusive)"
+                                    }
+                                },
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "If specified, header match will be performed based on range.\n The rule will match if the request header value is within this range.\n The entire request header value must represent an integer in base 10 notation: consisting of\n an optional plus or minus sign followed by a sequence of digits. The rule will not match if\n the header value does not represent an integer. Match will fail for empty values, floating\n point numbers or if only a subsequence of the header value is an integer.\n\n Examples:\n\n * For range [-10,0), route will match for header value -1, but not for 0, \"somestring\", 10.9,\n   \"-1somestring\""
+                            },
+                            "present_match": {
+                                "type": "boolean",
+                                "description": "If specified, header match will be performed based on whether the header is in the\n request."
+                            },
+                            "prefix_match": {
+                                "type": "string",
+                                "description": "If specified, header match will be performed based on the prefix of the header value.\n Note: empty prefix is not allowed, please use present_match instead.\n\n Examples:\n\n * The prefix *abcd* matches the value *abcdxyz*, but not for *abcxyz*."
+                            },
+                            "suffix_match": {
+                                "type": "string",
+                                "description": "If specified, header match will be performed based on the suffix of the header value.\n Note: empty suffix is not allowed, please use present_match instead.\n\n Examples:\n\n * The suffix *abcd* matches the value *xyzabcd*, but not for *xyzbcd*."
+                            },
+                            "contains_match": {
+                                "type": "string",
+                                "description": "If specified, header match will be performed based on whether the header value contains\n the given value or not.\n Note: empty contains match is not allowed, please use present_match instead.\n\n Examples:\n\n * The value *abcd* matches the value *xyzabcdpqr*, but not for *xyzbcdpqr*."
+                            },
+                            "invert_match": {
+                                "type": "boolean",
+                                "description": "If specified, the match result will be inverted before checking. Defaults to false.\n\n Examples:\n\n * The regex ``\\d{3}`` does not match the value *1234*, so it will match when inverted.\n * The range [-10,0) will match the value -1, so it will not match when inverted."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": ".. attention::\n\n   Internally, Envoy always uses the HTTP/2 *:authority* header to represent the HTTP/1 *Host*\n   header. Thus, if attempting to match on *Host*, match on *:authority* instead.\n\n .. attention::\n\n   To route on HTTP method, use the special HTTP/2 *:method* header. This works for both\n   HTTP/1 and HTTP/2 as Envoy normalizes headers. E.g.,\n\n   .. code-block:: json\n\n     {\n       \"name\": \":method\",\n       \"exact_match\": \"POST\"\n     }\n\n .. attention::\n   In the absence of any header match specifier, match will default to :ref:`present_match\n   \u003cenvoy_api_field_config.route.v4alpha.HeaderMatcher.present_match\u003e`. i.e, a request that has the :ref:`name\n   \u003cenvoy_api_field_config.route.v4alpha.HeaderMatcher.name\u003e` header will match, regardless of the header's\n   value.\n\n  [#next-major-version: HeaderMatcher should be refactored to use StringMatcher.]\n [#next-free-field: 13]"
+                    },
+                    "type": "array",
+                    "description": "HTTP headers to match."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "HTTP headers match configuration.",
+            "id": "envoy.config.common.matcher.v4alpha.HttpHeadersMatch"
+        },
+        "envoy.config.common.matcher.v4alpha.MatchPredicate": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "or_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.MatchPredicate.MatchSet",
+                    "additionalProperties": true,
+                    "description": "A set that describes a logical OR. If any member of the set matches, the match configuration\n matches."
+                },
+                "and_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.MatchPredicate.MatchSet",
+                    "additionalProperties": true,
+                    "description": "A set that describes a logical AND. If all members of the set match, the match configuration\n matches."
+                },
+                "not_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.MatchPredicate",
+                    "additionalProperties": true,
+                    "description": "A negation match. The match configuration will match if the negated match condition matches."
+                },
+                "any_match": {
+                    "type": "boolean",
+                    "description": "The match configuration will always match."
+                },
+                "http_request_headers_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.HttpHeadersMatch",
+                    "additionalProperties": true,
+                    "description": "HTTP request headers match configuration."
+                },
+                "http_request_trailers_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.HttpHeadersMatch",
+                    "additionalProperties": true,
+                    "description": "HTTP request trailers match configuration."
+                },
+                "http_response_headers_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.HttpHeadersMatch",
+                    "additionalProperties": true,
+                    "description": "HTTP response headers match configuration."
+                },
+                "http_response_trailers_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.HttpHeadersMatch",
+                    "additionalProperties": true,
+                    "description": "HTTP response trailers match configuration."
+                },
+                "http_request_generic_body_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.HttpGenericBodyMatch",
+                    "additionalProperties": true,
+                    "description": "HTTP request generic body match configuration."
+                },
+                "http_response_generic_body_match": {
+                    "$ref": "envoy.config.common.matcher.v4alpha.HttpGenericBodyMatch",
+                    "additionalProperties": true,
+                    "description": "HTTP response generic body match configuration."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Match configuration. This is a recursive structure which allows complex nested match\n configurations to be built using various logical operators.\n [#next-free-field: 11]",
+            "id": "envoy.config.common.matcher.v4alpha.MatchPredicate"
+        },
+        "envoy.config.common.matcher.v4alpha.MatchPredicate.MatchSet": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "rules": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "envoy.config.common.matcher.v4alpha.MatchPredicate"
+                    },
+                    "type": "array",
+                    "description": "The list of rules that make up the set."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A set of match configurations used for logical operations.",
+            "id": "envoy.config.common.matcher.v4alpha.MatchPredicate.MatchSet"
+        },
+        "envoy.config.core.v4alpha.DataSource": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Local filesystem data source."
+                },
+                "inline_bytes": {
+                    "type": "string",
+                    "description": "Bytes inlined in the configuration."
+                },
+                "inline_string": {
+                    "type": "string",
+                    "description": "String inlined in the configuration."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Data source consisting of either a file or an inline value.",
+            "id": "envoy.config.core.v4alpha.DataSource"
+        }
+    }
+}

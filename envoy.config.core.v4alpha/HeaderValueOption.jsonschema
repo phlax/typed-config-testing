@@ -1,1 +1,28 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header": {"properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair that this option applies to."}, "append": {"additionalProperties": true, "type": "boolean", "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair plus option to control append behavior."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "header": {
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Header name."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Header name/value pair that this option applies to."
+        },
+        "append": {
+            "additionalProperties": true,
+            "type": "boolean",
+            "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Header name/value pair plus option to control append behavior."
+}

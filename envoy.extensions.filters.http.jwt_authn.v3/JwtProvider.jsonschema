@@ -1,1 +1,133 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"issuer": {"type": "string", "description": "Specify the `principal <https://tools.ietf.org/html/rfc7519#section-4.1.1>`_ that issued\n the JWT, usually a URL or an email address.\n\n It is optional. If specified, it has to match the *iss* field in JWT.\n\n If a JWT has *iss* field and this field is specified, they have to match, otherwise the\n JWT *iss* field is not checked.\n\n Note: *JwtRequirement* :ref:`allow_missing <envoy_v3_api_field_extensions.filters.http.jwt_authn.v3.JwtRequirement.allow_missing>`\n and :ref:`allow_missing_or_failed <envoy_v3_api_field_extensions.filters.http.jwt_authn.v3.JwtRequirement.allow_missing_or_failed>`\n are implemented differently than other *JwtRequirements*. Hence the usage of this field\n is different as follows if *allow_missing* or *allow_missing_or_failed* is used:\n\n * If a JWT has *iss* field, it needs to be specified by this field in one of *JwtProviders*.\n * If a JWT doesn't have *iss* field, one of *JwtProviders* should fill this field empty.\n * Multiple *JwtProviders* should not have same value in this field.\n\n Example: https://securetoken.google.com\n Example: 1234567-compute@developer.gserviceaccount.com"}, "audiences": {"items": {"type": "string"}, "type": "array", "description": "The list of JWT `audiences <https://tools.ietf.org/html/rfc7519#section-4.1.3>`_ are\n allowed to access. A JWT containing any of these audiences will be accepted. If not specified,\n will not check audiences in the token.\n\n Example:\n\n .. code-block:: yaml\n\n     audiences:\n     - bookstore_android.apps.googleusercontent.com\n     - bookstore_web.apps.googleusercontent.com"}, "remote_jwks": {"properties": {"http_uri": {"properties": {"uri": {"type": "string", "description": "The HTTP server URI. It should be a full FQDN with protocol, host and path.\n\n Example:\n\n .. code-block:: yaml\n\n    uri: https://www.googleapis.com/oauth2/v1/certs"}, "cluster": {"type": "string", "description": "A cluster is created in the Envoy \"cluster_manager\" config\n section. This field specifies the cluster name.\n\n Example:\n\n .. code-block:: yaml\n\n    cluster: jwks_cluster"}, "timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Sets the maximum duration in milliseconds that a response can take to arrive upon request."}}, "additionalProperties": true, "type": "object", "description": "The HTTP URI to fetch the JWKS. For example:\n\n .. code-block:: yaml\n\n    http_uri:\n      uri: https://www.googleapis.com/oauth2/v1/certs\n      cluster: jwt.www.googleapis.com|443\n      timeout: 1s"}, "cache_duration": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Duration after which the cached JWKS should be expired. If not specified, default cache\n duration is 5 minutes."}}, "additionalProperties": true, "type": "object", "description": "JWKS can be fetched from remote server via HTTP/HTTPS. This field specifies the remote HTTP\n URI and how the fetched JWKS should be cached.\n\n Example:\n\n .. code-block:: yaml\n\n    remote_jwks:\n      http_uri:\n        uri: https://www.googleapis.com/oauth2/v1/certs\n        cluster: jwt.www.googleapis.com|443\n        timeout: 1s\n      cache_duration:\n        seconds: 300"}, "local_jwks": {"properties": {"filename": {"type": "string", "description": "Local filesystem data source."}, "inline_bytes": {"type": "string", "description": "Bytes inlined in the configuration."}, "inline_string": {"type": "string", "description": "String inlined in the configuration."}}, "additionalProperties": true, "type": "object", "description": "JWKS is in local data source. It could be either in a local file or embedded in the\n inline_string.\n\n Example: local file\n\n .. code-block:: yaml\n\n    local_jwks:\n      filename: /etc/envoy/jwks/jwks1.txt\n\n Example: inline_string\n\n .. code-block:: yaml\n\n    local_jwks:\n      inline_string: ACADADADADA"}, "forward": {"type": "boolean", "description": "If false, the JWT is removed in the request after a success verification. If true, the JWT is\n not removed in the request. Default value is false."}, "from_headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The HTTP header name."}, "value_prefix": {"type": "string", "description": "The value prefix. The value format is \"value_prefix<token>\"\n For example, for \"Authorization: Bearer <token>\", value_prefix=\"Bearer \" with a space at the\n end."}}, "additionalProperties": true, "type": "object", "description": "This message specifies a header location to extract JWT token."}, "type": "array", "description": "Two fields below define where to extract the JWT from an HTTP request.\n\n If no explicit location is specified, the following default locations are tried in order:\n\n 1. The Authorization header using the `Bearer schema\n <https://tools.ietf.org/html/rfc6750#section-2.1>`_. Example::\n\n    Authorization: Bearer <token>.\n\n 2. `access_token <https://tools.ietf.org/html/rfc6750#section-2.3>`_ query parameter.\n\n Multiple JWTs can be verified for a request. Each JWT has to be extracted from the locations\n its provider specified or from the default locations.\n\n Specify the HTTP headers to extract JWT token. For examples, following config:\n\n .. code-block:: yaml\n\n   from_headers:\n   - name: x-goog-iap-jwt-assertion\n\n can be used to extract token from header::\n\n   ``x-goog-iap-jwt-assertion: <JWT>``."}, "from_params": {"items": {"type": "string"}, "type": "array", "description": "JWT is sent in a query parameter. `jwt_params` represents the query parameter names.\n\n For example, if config is:\n\n .. code-block:: yaml\n\n   from_params:\n   - jwt_token\n\n The JWT format in query parameter is::\n\n    /path?jwt_token=<JWT>"}, "forward_payload_header": {"type": "string", "description": "This field specifies the header name to forward a successfully verified JWT payload to the\n backend. The forwarded data is::\n\n    base64url_encoded(jwt_payload_in_JSON)\n\n If it is not specified, the payload will not be forwarded."}, "payload_in_metadata": {"type": "string", "description": "If non empty, successfully verified JWT payloads will be written to StreamInfo DynamicMetadata\n in the format as: *namespace* is the jwt_authn filter name as **envoy.filters.http.jwt_authn**\n The value is the *protobuf::Struct*. The value of this field will be the key for its *fields*\n and the value is the *protobuf::Struct* converted from JWT JSON payload.\n\n For example, if payload_in_metadata is *my_payload*:\n\n .. code-block:: yaml\n\n   envoy.filters.http.jwt_authn:\n     my_payload:\n       iss: https://example.com\n       sub: test@example.com\n       aud: https://example.com\n       exp: 1501281058"}, "clock_skew_seconds": {"type": "integer", "description": "Specify the clock skew in seconds when verifying JWT time constraint,\n such as `exp`, and `nbf`. If not specified, default is 60 seconds."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: JWT Authentication]\n JWT Authentication :ref:`configuration overview <config_http_filters_jwt_authn>`.\n [#extension: envoy.filters.http.jwt_authn]\n\nPlease see following for JWT authentication flow:\n\n * `JSON Web Token (JWT) <https://tools.ietf.org/html/rfc7519>`_\n * `The OAuth 2.0 Authorization Framework <https://tools.ietf.org/html/rfc6749>`_\n * `OpenID Connect <http://openid.net/connect>`_\n\n A JwtProvider message specifies how a JSON Web Token (JWT) can be verified. It specifies:\n\n * issuer: the principal that issues the JWT. If specified, it has to match the *iss* field in JWT.\n * allowed audiences: the ones in the token have to be listed here.\n * how to fetch public key JWKS to verify the token signature.\n * how to extract JWT token in the request.\n * how to pass successfully verified token payload.\n\n Example:\n\n .. code-block:: yaml\n\n     issuer: https://example.com\n     audiences:\n     - bookstore_android.apps.googleusercontent.com\n     - bookstore_web.apps.googleusercontent.com\n     remote_jwks:\n       http_uri:\n         uri: https://example.com/.well-known/jwks.json\n         cluster: example_jwks_cluster\n         timeout: 1s\n       cache_duration:\n         seconds: 300\n\n [#next-free-field: 11]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "issuer": {
+            "type": "string",
+            "description": "Specify the `principal \u003chttps://tools.ietf.org/html/rfc7519#section-4.1.1\u003e`_ that issued\n the JWT, usually a URL or an email address.\n\n It is optional. If specified, it has to match the *iss* field in JWT.\n\n If a JWT has *iss* field and this field is specified, they have to match, otherwise the\n JWT *iss* field is not checked.\n\n Note: *JwtRequirement* :ref:`allow_missing \u003cenvoy_v3_api_field_extensions.filters.http.jwt_authn.v3.JwtRequirement.allow_missing\u003e`\n and :ref:`allow_missing_or_failed \u003cenvoy_v3_api_field_extensions.filters.http.jwt_authn.v3.JwtRequirement.allow_missing_or_failed\u003e`\n are implemented differently than other *JwtRequirements*. Hence the usage of this field\n is different as follows if *allow_missing* or *allow_missing_or_failed* is used:\n\n * If a JWT has *iss* field, it needs to be specified by this field in one of *JwtProviders*.\n * If a JWT doesn't have *iss* field, one of *JwtProviders* should fill this field empty.\n * Multiple *JwtProviders* should not have same value in this field.\n\n Example: https://securetoken.google.com\n Example: 1234567-compute@developer.gserviceaccount.com"
+        },
+        "audiences": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "The list of JWT `audiences \u003chttps://tools.ietf.org/html/rfc7519#section-4.1.3\u003e`_ are\n allowed to access. A JWT containing any of these audiences will be accepted. If not specified,\n will not check audiences in the token.\n\n Example:\n\n .. code-block:: yaml\n\n     audiences:\n     - bookstore_android.apps.googleusercontent.com\n     - bookstore_web.apps.googleusercontent.com"
+        },
+        "remote_jwks": {
+            "properties": {
+                "http_uri": {
+                    "properties": {
+                        "uri": {
+                            "type": "string",
+                            "description": "The HTTP server URI. It should be a full FQDN with protocol, host and path.\n\n Example:\n\n .. code-block:: yaml\n\n    uri: https://www.googleapis.com/oauth2/v1/certs"
+                        },
+                        "cluster": {
+                            "type": "string",
+                            "description": "A cluster is created in the Envoy \"cluster_manager\" config\n section. This field specifies the cluster name.\n\n Example:\n\n .. code-block:: yaml\n\n    cluster: jwks_cluster"
+                        },
+                        "timeout": {
+                            "properties": {
+                                "seconds": {
+                                    "type": "string",
+                                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                },
+                                "nanos": {
+                                    "type": "integer",
+                                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "Sets the maximum duration in milliseconds that a response can take to arrive upon request."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "The HTTP URI to fetch the JWKS. For example:\n\n .. code-block:: yaml\n\n    http_uri:\n      uri: https://www.googleapis.com/oauth2/v1/certs\n      cluster: jwt.www.googleapis.com|443\n      timeout: 1s"
+                },
+                "cache_duration": {
+                    "properties": {
+                        "seconds": {
+                            "type": "string",
+                            "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                        },
+                        "nanos": {
+                            "type": "integer",
+                            "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Duration after which the cached JWKS should be expired. If not specified, default cache\n duration is 5 minutes."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "JWKS can be fetched from remote server via HTTP/HTTPS. This field specifies the remote HTTP\n URI and how the fetched JWKS should be cached.\n\n Example:\n\n .. code-block:: yaml\n\n    remote_jwks:\n      http_uri:\n        uri: https://www.googleapis.com/oauth2/v1/certs\n        cluster: jwt.www.googleapis.com|443\n        timeout: 1s\n      cache_duration:\n        seconds: 300"
+        },
+        "local_jwks": {
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Local filesystem data source."
+                },
+                "inline_bytes": {
+                    "type": "string",
+                    "description": "Bytes inlined in the configuration."
+                },
+                "inline_string": {
+                    "type": "string",
+                    "description": "String inlined in the configuration."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "JWKS is in local data source. It could be either in a local file or embedded in the\n inline_string.\n\n Example: local file\n\n .. code-block:: yaml\n\n    local_jwks:\n      filename: /etc/envoy/jwks/jwks1.txt\n\n Example: inline_string\n\n .. code-block:: yaml\n\n    local_jwks:\n      inline_string: ACADADADADA"
+        },
+        "forward": {
+            "type": "boolean",
+            "description": "If false, the JWT is removed in the request after a success verification. If true, the JWT is\n not removed in the request. Default value is false."
+        },
+        "from_headers": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The HTTP header name."
+                    },
+                    "value_prefix": {
+                        "type": "string",
+                        "description": "The value prefix. The value format is \"value_prefix\u003ctoken\u003e\"\n For example, for \"Authorization: Bearer \u003ctoken\u003e\", value_prefix=\"Bearer \" with a space at the\n end."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "This message specifies a header location to extract JWT token."
+            },
+            "type": "array",
+            "description": "Two fields below define where to extract the JWT from an HTTP request.\n\n If no explicit location is specified, the following default locations are tried in order:\n\n 1. The Authorization header using the `Bearer schema\n \u003chttps://tools.ietf.org/html/rfc6750#section-2.1\u003e`_. Example::\n\n    Authorization: Bearer \u003ctoken\u003e.\n\n 2. `access_token \u003chttps://tools.ietf.org/html/rfc6750#section-2.3\u003e`_ query parameter.\n\n Multiple JWTs can be verified for a request. Each JWT has to be extracted from the locations\n its provider specified or from the default locations.\n\n Specify the HTTP headers to extract JWT token. For examples, following config:\n\n .. code-block:: yaml\n\n   from_headers:\n   - name: x-goog-iap-jwt-assertion\n\n can be used to extract token from header::\n\n   ``x-goog-iap-jwt-assertion: \u003cJWT\u003e``."
+        },
+        "from_params": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "JWT is sent in a query parameter. `jwt_params` represents the query parameter names.\n\n For example, if config is:\n\n .. code-block:: yaml\n\n   from_params:\n   - jwt_token\n\n The JWT format in query parameter is::\n\n    /path?jwt_token=\u003cJWT\u003e"
+        },
+        "forward_payload_header": {
+            "type": "string",
+            "description": "This field specifies the header name to forward a successfully verified JWT payload to the\n backend. The forwarded data is::\n\n    base64url_encoded(jwt_payload_in_JSON)\n\n If it is not specified, the payload will not be forwarded."
+        },
+        "payload_in_metadata": {
+            "type": "string",
+            "description": "If non empty, successfully verified JWT payloads will be written to StreamInfo DynamicMetadata\n in the format as: *namespace* is the jwt_authn filter name as **envoy.filters.http.jwt_authn**\n The value is the *protobuf::Struct*. The value of this field will be the key for its *fields*\n and the value is the *protobuf::Struct* converted from JWT JSON payload.\n\n For example, if payload_in_metadata is *my_payload*:\n\n .. code-block:: yaml\n\n   envoy.filters.http.jwt_authn:\n     my_payload:\n       iss: https://example.com\n       sub: test@example.com\n       aud: https://example.com\n       exp: 1501281058"
+        },
+        "clock_skew_seconds": {
+            "type": "integer",
+            "description": "Specify the clock skew in seconds when verifying JWT time constraint,\n such as `exp`, and `nbf`. If not specified, default is 60 seconds."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: JWT Authentication]\n JWT Authentication :ref:`configuration overview \u003cconfig_http_filters_jwt_authn\u003e`.\n [#extension: envoy.filters.http.jwt_authn]\n\nPlease see following for JWT authentication flow:\n\n * `JSON Web Token (JWT) \u003chttps://tools.ietf.org/html/rfc7519\u003e`_\n * `The OAuth 2.0 Authorization Framework \u003chttps://tools.ietf.org/html/rfc6749\u003e`_\n * `OpenID Connect \u003chttp://openid.net/connect\u003e`_\n\n A JwtProvider message specifies how a JSON Web Token (JWT) can be verified. It specifies:\n\n * issuer: the principal that issues the JWT. If specified, it has to match the *iss* field in JWT.\n * allowed audiences: the ones in the token have to be listed here.\n * how to fetch public key JWKS to verify the token signature.\n * how to extract JWT token in the request.\n * how to pass successfully verified token payload.\n\n Example:\n\n .. code-block:: yaml\n\n     issuer: https://example.com\n     audiences:\n     - bookstore_android.apps.googleusercontent.com\n     - bookstore_web.apps.googleusercontent.com\n     remote_jwks:\n       http_uri:\n         uri: https://example.com/.well-known/jwks.json\n         cluster: example_jwks_cluster\n         timeout: 1s\n       cache_duration:\n         seconds: 300\n\n [#next-free-field: 11]"
+}

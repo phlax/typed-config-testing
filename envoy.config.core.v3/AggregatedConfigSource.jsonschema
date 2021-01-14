@@ -1,1 +1,6 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "Aggregated Discovery Service (ADS) options. This is currently empty, but when\n set in :ref:`ConfigSource <envoy_api_msg_config.core.v3.ConfigSource>` can be used to\n specify that ADS is to be used."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Aggregated Discovery Service (ADS) options. This is currently empty, but when\n set in :ref:`ConfigSource \u003cenvoy_api_msg_config.core.v3.ConfigSource\u003e` can be used to\n specify that ADS is to be used."
+}

@@ -1,1 +1,72 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"cluster": {"type": "string", "description": "The name of the cluster that hosts the Squash server."}, "attachment_template": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object", "description": "When the filter requests the Squash server to create a DebugAttachment, it will use this\n structure as template for the body of the request. It can contain reference to environment\n variables in the form of '{{ ENV_VAR_NAME }}'. These can be used to provide the Squash server\n with more information to find the process to attach the debugger to. For example, in a\n Istio/k8s environment, this will contain information on the pod:\n\n .. code-block:: json\n\n  {\n    \"spec\": {\n      \"attachment\": {\n        \"pod\": \"{{ POD_NAME }}\",\n        \"namespace\": \"{{ POD_NAMESPACE }}\"\n      },\n      \"match_request\": true\n    }\n  }\n\n (where POD_NAME, POD_NAMESPACE are configured in the pod via the Downward API)"}, "request_timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The timeout for individual requests sent to the Squash cluster. Defaults to 1 second."}, "attachment_timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The total timeout Squash will delay a request and wait for it to be attached. Defaults to 60\n seconds."}, "attachment_poll_period": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Amount of time to poll for the status of the attachment object in the Squash server\n (to check if has been attached). Defaults to 1 second."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Squash]\n Squash :ref:`configuration overview <config_http_filters_squash>`.\n [#extension: envoy.filters.http.squash]\n\n[#next-free-field: 6]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "cluster": {
+            "type": "string",
+            "description": "The name of the cluster that hosts the Squash server."
+        },
+        "attachment_template": {
+            "properties": {
+                "fields": {
+                    "additionalProperties": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Unordered map of dynamically typed values."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "When the filter requests the Squash server to create a DebugAttachment, it will use this\n structure as template for the body of the request. It can contain reference to environment\n variables in the form of '{{ ENV_VAR_NAME }}'. These can be used to provide the Squash server\n with more information to find the process to attach the debugger to. For example, in a\n Istio/k8s environment, this will contain information on the pod:\n\n .. code-block:: json\n\n  {\n    \"spec\": {\n      \"attachment\": {\n        \"pod\": \"{{ POD_NAME }}\",\n        \"namespace\": \"{{ POD_NAMESPACE }}\"\n      },\n      \"match_request\": true\n    }\n  }\n\n (where POD_NAME, POD_NAMESPACE are configured in the pod via the Downward API)"
+        },
+        "request_timeout": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The timeout for individual requests sent to the Squash cluster. Defaults to 1 second."
+        },
+        "attachment_timeout": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The total timeout Squash will delay a request and wait for it to be attached. Defaults to 60\n seconds."
+        },
+        "attachment_poll_period": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Amount of time to poll for the status of the attachment object in the Squash server\n (to check if has been attached). Defaults to 1 second."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Squash]\n Squash :ref:`configuration overview \u003cconfig_http_filters_squash\u003e`.\n [#extension: envoy.filters.http.squash]\n\n[#next-free-field: 6]"
+}

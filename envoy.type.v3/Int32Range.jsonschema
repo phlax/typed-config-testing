@@ -1,1 +1,16 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"start": {"type": "integer", "description": "start of the range (inclusive)"}, "end": {"type": "integer", "description": "end of the range (exclusive)"}}, "additionalProperties": true, "type": "object", "description": "Specifies the int32 start and end of the range using half-open interval semantics [start,\n end)."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "start": {
+            "type": "integer",
+            "description": "start of the range (inclusive)"
+        },
+        "end": {
+            "type": "integer",
+            "description": "end of the range (exclusive)"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Specifies the int32 start and end of the range using half-open interval semantics [start,\n end)."
+}

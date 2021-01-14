@@ -1,1 +1,19 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"provider_name": {"type": "string", "description": "Specify a required provider name."}, "audiences": {"items": {"type": "string"}, "type": "array", "description": "This field overrides the one specified in the JwtProvider."}}, "additionalProperties": true, "type": "object", "description": "Specify a required provider with audiences."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "provider_name": {
+            "type": "string",
+            "description": "Specify a required provider name."
+        },
+        "audiences": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "This field overrides the one specified in the JwtProvider."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Specify a required provider with audiences."
+}

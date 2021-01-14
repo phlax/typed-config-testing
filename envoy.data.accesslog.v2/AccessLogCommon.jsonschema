@@ -1,1 +1,453 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"sample_rate": {"type": "number", "description": "[#not-implemented-hide:]\n This field indicates the rate at which this log entry was sampled.\n Valid range is (0.0, 1.0]."}, "downstream_remote_address": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.api.v2.core/Address.jsonschema", "additionalProperties": true, "description": "This field is the remote/origin address on which the request from the user was received.\n Note: This may not be the physical peer. E.g, if the remote address is inferred from for\n example the x-forwarder-for header, proxy protocol, etc."}, "downstream_local_address": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.api.v2.core/Address.jsonschema", "additionalProperties": true, "description": "This field is the local/destination address on which the request from the user was received."}, "tls_properties": {"properties": {"tls_version": {"enum": ["VERSION_UNSPECIFIED", 0, "TLSv1", 1, "TLSv1_1", 2, "TLSv1_2", 3, "TLSv1_3", 4], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Version of TLS that was negotiated."}, "tls_cipher_suite": {"additionalProperties": true, "type": "integer", "description": "TLS cipher suite negotiated during handshake. The value is a\n four-digit hex code defined by the IANA TLS Cipher Suite Registry\n (e.g. ``009C`` for ``TLS_RSA_WITH_AES_128_GCM_SHA256``).\n\n Here it is expressed as an integer."}, "tls_sni_hostname": {"type": "string", "description": "SNI hostname from handshake."}, "local_certificate_properties": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.data.accesslog.v2.TLSProperties/CertificateProperties.jsonschema", "additionalProperties": true, "description": "Properties of the local certificate used to negotiate TLS."}, "peer_certificate_properties": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.data.accesslog.v2.TLSProperties/CertificateProperties.jsonschema", "additionalProperties": true, "description": "Properties of the peer certificate used to negotiate TLS."}, "tls_session_id": {"type": "string", "description": "The TLS session ID."}}, "additionalProperties": true, "type": "object", "description": "If the connection is secure,S this field will contain TLS properties."}, "start_time": {"type": "string", "description": "The time that Envoy started servicing this request. This is effectively the time that the first\n downstream byte is received.", "format": "date-time"}, "time_to_last_rx_byte": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Interval between the first downstream byte received and the last\n downstream byte received (i.e. time it takes to receive a request)."}, "time_to_first_upstream_tx_byte": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Interval between the first downstream byte received and the first upstream byte sent. There may\n by considerable delta between *time_to_last_rx_byte* and this value due to filters.\n Additionally, the same caveats apply as documented in *time_to_last_downstream_tx_byte* about\n not accounting for kernel socket buffer time, etc."}, "time_to_last_upstream_tx_byte": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Interval between the first downstream byte received and the last upstream byte sent. There may\n by considerable delta between *time_to_last_rx_byte* and this value due to filters.\n Additionally, the same caveats apply as documented in *time_to_last_downstream_tx_byte* about\n not accounting for kernel socket buffer time, etc."}, "time_to_first_upstream_rx_byte": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Interval between the first downstream byte received and the first upstream\n byte received (i.e. time it takes to start receiving a response)."}, "time_to_last_upstream_rx_byte": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Interval between the first downstream byte received and the last upstream\n byte received (i.e. time it takes to receive a complete response)."}, "time_to_first_downstream_tx_byte": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Interval between the first downstream byte received and the first downstream byte sent.\n There may be a considerable delta between the *time_to_first_upstream_rx_byte* and this field\n due to filters. Additionally, the same caveats apply as documented in\n *time_to_last_downstream_tx_byte* about not accounting for kernel socket buffer time, etc."}, "time_to_last_downstream_tx_byte": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Interval between the first downstream byte received and the last downstream byte sent.\n Depending on protocol, buffering, windowing, filters, etc. there may be a considerable delta\n between *time_to_last_upstream_rx_byte* and this field. Note also that this is an approximate\n time. In the current implementation it does not include kernel socket buffer time. In the\n current implementation it also does not include send window buffering inside the HTTP/2 codec.\n In the future it is likely that work will be done to make this duration more accurate."}, "upstream_remote_address": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.api.v2.core/Address.jsonschema", "additionalProperties": true, "description": "The upstream remote/destination address that handles this exchange. This does not include\n retries."}, "upstream_local_address": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.api.v2.core/Address.jsonschema", "additionalProperties": true, "description": "The upstream local/origin address that handles this exchange. This does not include retries."}, "upstream_cluster": {"type": "string", "description": "The upstream cluster that *upstream_remote_address* belongs to."}, "response_flags": {"properties": {"failed_local_healthcheck": {"type": "boolean", "description": "Indicates local server healthcheck failed."}, "no_healthy_upstream": {"type": "boolean", "description": "Indicates there was no healthy upstream."}, "upstream_request_timeout": {"type": "boolean", "description": "Indicates an there was an upstream request timeout."}, "local_reset": {"type": "boolean", "description": "Indicates local codec level reset was sent on the stream."}, "upstream_remote_reset": {"type": "boolean", "description": "Indicates remote codec level reset was received on the stream."}, "upstream_connection_failure": {"type": "boolean", "description": "Indicates there was a local reset by a connection pool due to an initial connection failure."}, "upstream_connection_termination": {"type": "boolean", "description": "Indicates the stream was reset due to an upstream connection termination."}, "upstream_overflow": {"type": "boolean", "description": "Indicates the stream was reset because of a resource overflow."}, "no_route_found": {"type": "boolean", "description": "Indicates no route was found for the request."}, "delay_injected": {"type": "boolean", "description": "Indicates that the request was delayed before proxying."}, "fault_injected": {"type": "boolean", "description": "Indicates that the request was aborted with an injected error code."}, "rate_limited": {"type": "boolean", "description": "Indicates that the request was rate-limited locally."}, "unauthorized_details": {"properties": {"reason": {"enum": ["REASON_UNSPECIFIED", 0, "EXTERNAL_SERVICE", 1], "oneOf": [{"type": "string"}, {"type": "integer"}]}}, "additionalProperties": true, "type": "object", "description": "Indicates if the request was deemed unauthorized and the reason for it."}, "rate_limit_service_error": {"type": "boolean", "description": "Indicates that the request was rejected because there was an error in rate limit service."}, "downstream_connection_termination": {"type": "boolean", "description": "Indicates the stream was reset due to a downstream connection termination."}, "upstream_retry_limit_exceeded": {"type": "boolean", "description": "Indicates that the upstream retry limit was exceeded, resulting in a downstream error."}, "stream_idle_timeout": {"type": "boolean", "description": "Indicates that the stream idle timeout was hit, resulting in a downstream 408."}, "invalid_envoy_request_headers": {"type": "boolean", "description": "Indicates that the request was rejected because an envoy request header failed strict\n validation."}, "downstream_protocol_error": {"type": "boolean", "description": "Indicates there was an HTTP protocol error on the downstream request."}}, "additionalProperties": true, "type": "object", "description": "Flags indicating occurrences during request/response processing."}, "metadata": {"properties": {"filter_metadata": {"additionalProperties": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object"}, "type": "object", "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."}}, "additionalProperties": true, "type": "object", "description": "All metadata encountered during request processing, including endpoint\n selection.\n\n This can be used to associate IDs attached to the various configurations\n used to process this request with the access log entry. For example, a\n route created from a higher level forwarding rule with some ID can place\n that ID in this field and cross reference later. It can also be used to\n determine if a canary endpoint was used or not."}, "upstream_transport_failure_reason": {"type": "string", "description": "If upstream connection failed due to transport socket (e.g. TLS handshake), provides the\n failure reason from the transport socket. The format of this field depends on the configured\n upstream transport socket. Common TLS failures are in\n :ref:`TLS trouble shooting <arch_overview_ssl_trouble_shooting>`."}, "route_name": {"type": "string", "description": "The name of the route"}, "downstream_direct_remote_address": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.api.v2.core/Address.jsonschema", "additionalProperties": true, "description": "This field is the downstream direct remote address on which the request from the user was\n received. Note: This is always the physical peer, even if the remote address is inferred from\n for example the x-forwarder-for header, proxy protocol, etc."}, "filter_state_objects": {"additionalProperties": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object"}, "type": "object", "description": "Map of filter state in stream info that have been configured to be logged. If the filter\n state serialized to any message other than `google.protobuf.Any` it will be packed into\n `google.protobuf.Any`."}}, "additionalProperties": true, "type": "object", "description": "Defines fields that are shared by all Envoy access logs.\n [#next-free-field: 22]", "definitions": {"envoy.api.v2.core.Address": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"socket_address": {"properties": {"protocol": {"enum": ["TCP", 0, "UDP", 1], "oneOf": [{"type": "string"}, {"type": "integer"}]}, "address": {"type": "string", "description": "The address for this socket. :ref:`Listeners <config_listeners>` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch <envoy_api_msg_listener.FilterChainMatch>`.] When used\n within an upstream :ref:`BindConfig <envoy_api_msg_core.BindConfig>`, the address\n controls the source address of outbound connections. For :ref:`clusters\n <envoy_api_msg_Cluster>`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name <envoy_api_field_core.SocketAddress.resolver_name>`."}, "port_value": {"type": "integer"}, "named_port": {"type": "string", "description": "This is only valid if :ref:`resolver_name\n <envoy_api_field_core.SocketAddress.resolver_name>` is specified below and the\n named resolver is capable of named port resolution."}, "resolver_name": {"type": "string", "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."}, "ipv4_compat": {"type": "boolean", "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n <https://tools.ietf.org/html/rfc3493#page-11>`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:<IPv4-address>``."}}, "additionalProperties": true, "type": "object"}, "pipe": {"properties": {"path": {"type": "string", "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."}, "mode": {"type": "integer", "description": "The mode for the Pipe. Not applicable for abstract sockets."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "Addresses specify either a logical or physical address and port, which are\n used to tell Envoy where to bind/listen, connect to upstream and find\n management servers.", "id": "envoy.api.v2.core.Address"}, "envoy.data.accesslog.v2.TLSProperties.CertificateProperties": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"subject_alt_name": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"uri": {"type": "string"}, "dns": {"type": "string", "description": "[#not-implemented-hide:]"}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "SANs present in the certificate."}, "subject": {"type": "string", "description": "The subject field of the certificate."}}, "additionalProperties": true, "type": "object", "id": "envoy.data.accesslog.v2.TLSProperties.CertificateProperties"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "sample_rate": {
+            "type": "number",
+            "description": "[#not-implemented-hide:]\n This field indicates the rate at which this log entry was sampled.\n Valid range is (0.0, 1.0]."
+        },
+        "downstream_remote_address": {
+            "$ref": "envoy.api.v2.core.Address",
+            "additionalProperties": true,
+            "description": "This field is the remote/origin address on which the request from the user was received.\n Note: This may not be the physical peer. E.g, if the remote address is inferred from for\n example the x-forwarder-for header, proxy protocol, etc."
+        },
+        "downstream_local_address": {
+            "$ref": "envoy.api.v2.core.Address",
+            "additionalProperties": true,
+            "description": "This field is the local/destination address on which the request from the user was received."
+        },
+        "tls_properties": {
+            "properties": {
+                "tls_version": {
+                    "enum": [
+                        "VERSION_UNSPECIFIED",
+                        0,
+                        "TLSv1",
+                        1,
+                        "TLSv1_1",
+                        2,
+                        "TLSv1_2",
+                        3,
+                        "TLSv1_3",
+                        4
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Version of TLS that was negotiated."
+                },
+                "tls_cipher_suite": {
+                    "additionalProperties": true,
+                    "type": "integer",
+                    "description": "TLS cipher suite negotiated during handshake. The value is a\n four-digit hex code defined by the IANA TLS Cipher Suite Registry\n (e.g. ``009C`` for ``TLS_RSA_WITH_AES_128_GCM_SHA256``).\n\n Here it is expressed as an integer."
+                },
+                "tls_sni_hostname": {
+                    "type": "string",
+                    "description": "SNI hostname from handshake."
+                },
+                "local_certificate_properties": {
+                    "$ref": "envoy.data.accesslog.v2.TLSProperties.CertificateProperties",
+                    "additionalProperties": true,
+                    "description": "Properties of the local certificate used to negotiate TLS."
+                },
+                "peer_certificate_properties": {
+                    "$ref": "envoy.data.accesslog.v2.TLSProperties.CertificateProperties",
+                    "additionalProperties": true,
+                    "description": "Properties of the peer certificate used to negotiate TLS."
+                },
+                "tls_session_id": {
+                    "type": "string",
+                    "description": "The TLS session ID."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "If the connection is secure,S this field will contain TLS properties."
+        },
+        "start_time": {
+            "type": "string",
+            "description": "The time that Envoy started servicing this request. This is effectively the time that the first\n downstream byte is received.",
+            "format": "date-time"
+        },
+        "time_to_last_rx_byte": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Interval between the first downstream byte received and the last\n downstream byte received (i.e. time it takes to receive a request)."
+        },
+        "time_to_first_upstream_tx_byte": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Interval between the first downstream byte received and the first upstream byte sent. There may\n by considerable delta between *time_to_last_rx_byte* and this value due to filters.\n Additionally, the same caveats apply as documented in *time_to_last_downstream_tx_byte* about\n not accounting for kernel socket buffer time, etc."
+        },
+        "time_to_last_upstream_tx_byte": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Interval between the first downstream byte received and the last upstream byte sent. There may\n by considerable delta between *time_to_last_rx_byte* and this value due to filters.\n Additionally, the same caveats apply as documented in *time_to_last_downstream_tx_byte* about\n not accounting for kernel socket buffer time, etc."
+        },
+        "time_to_first_upstream_rx_byte": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Interval between the first downstream byte received and the first upstream\n byte received (i.e. time it takes to start receiving a response)."
+        },
+        "time_to_last_upstream_rx_byte": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Interval between the first downstream byte received and the last upstream\n byte received (i.e. time it takes to receive a complete response)."
+        },
+        "time_to_first_downstream_tx_byte": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Interval between the first downstream byte received and the first downstream byte sent.\n There may be a considerable delta between the *time_to_first_upstream_rx_byte* and this field\n due to filters. Additionally, the same caveats apply as documented in\n *time_to_last_downstream_tx_byte* about not accounting for kernel socket buffer time, etc."
+        },
+        "time_to_last_downstream_tx_byte": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Interval between the first downstream byte received and the last downstream byte sent.\n Depending on protocol, buffering, windowing, filters, etc. there may be a considerable delta\n between *time_to_last_upstream_rx_byte* and this field. Note also that this is an approximate\n time. In the current implementation it does not include kernel socket buffer time. In the\n current implementation it also does not include send window buffering inside the HTTP/2 codec.\n In the future it is likely that work will be done to make this duration more accurate."
+        },
+        "upstream_remote_address": {
+            "$ref": "envoy.api.v2.core.Address",
+            "additionalProperties": true,
+            "description": "The upstream remote/destination address that handles this exchange. This does not include\n retries."
+        },
+        "upstream_local_address": {
+            "$ref": "envoy.api.v2.core.Address",
+            "additionalProperties": true,
+            "description": "The upstream local/origin address that handles this exchange. This does not include retries."
+        },
+        "upstream_cluster": {
+            "type": "string",
+            "description": "The upstream cluster that *upstream_remote_address* belongs to."
+        },
+        "response_flags": {
+            "properties": {
+                "failed_local_healthcheck": {
+                    "type": "boolean",
+                    "description": "Indicates local server healthcheck failed."
+                },
+                "no_healthy_upstream": {
+                    "type": "boolean",
+                    "description": "Indicates there was no healthy upstream."
+                },
+                "upstream_request_timeout": {
+                    "type": "boolean",
+                    "description": "Indicates an there was an upstream request timeout."
+                },
+                "local_reset": {
+                    "type": "boolean",
+                    "description": "Indicates local codec level reset was sent on the stream."
+                },
+                "upstream_remote_reset": {
+                    "type": "boolean",
+                    "description": "Indicates remote codec level reset was received on the stream."
+                },
+                "upstream_connection_failure": {
+                    "type": "boolean",
+                    "description": "Indicates there was a local reset by a connection pool due to an initial connection failure."
+                },
+                "upstream_connection_termination": {
+                    "type": "boolean",
+                    "description": "Indicates the stream was reset due to an upstream connection termination."
+                },
+                "upstream_overflow": {
+                    "type": "boolean",
+                    "description": "Indicates the stream was reset because of a resource overflow."
+                },
+                "no_route_found": {
+                    "type": "boolean",
+                    "description": "Indicates no route was found for the request."
+                },
+                "delay_injected": {
+                    "type": "boolean",
+                    "description": "Indicates that the request was delayed before proxying."
+                },
+                "fault_injected": {
+                    "type": "boolean",
+                    "description": "Indicates that the request was aborted with an injected error code."
+                },
+                "rate_limited": {
+                    "type": "boolean",
+                    "description": "Indicates that the request was rate-limited locally."
+                },
+                "unauthorized_details": {
+                    "properties": {
+                        "reason": {
+                            "enum": [
+                                "REASON_UNSPECIFIED",
+                                0,
+                                "EXTERNAL_SERVICE",
+                                1
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Indicates if the request was deemed unauthorized and the reason for it."
+                },
+                "rate_limit_service_error": {
+                    "type": "boolean",
+                    "description": "Indicates that the request was rejected because there was an error in rate limit service."
+                },
+                "downstream_connection_termination": {
+                    "type": "boolean",
+                    "description": "Indicates the stream was reset due to a downstream connection termination."
+                },
+                "upstream_retry_limit_exceeded": {
+                    "type": "boolean",
+                    "description": "Indicates that the upstream retry limit was exceeded, resulting in a downstream error."
+                },
+                "stream_idle_timeout": {
+                    "type": "boolean",
+                    "description": "Indicates that the stream idle timeout was hit, resulting in a downstream 408."
+                },
+                "invalid_envoy_request_headers": {
+                    "type": "boolean",
+                    "description": "Indicates that the request was rejected because an envoy request header failed strict\n validation."
+                },
+                "downstream_protocol_error": {
+                    "type": "boolean",
+                    "description": "Indicates there was an HTTP protocol error on the downstream request."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Flags indicating occurrences during request/response processing."
+        },
+        "metadata": {
+            "properties": {
+                "filter_metadata": {
+                    "additionalProperties": {
+                        "properties": {
+                            "fields": {
+                                "additionalProperties": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "object",
+                                "description": "Unordered map of dynamically typed values."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "All metadata encountered during request processing, including endpoint\n selection.\n\n This can be used to associate IDs attached to the various configurations\n used to process this request with the access log entry. For example, a\n route created from a higher level forwarding rule with some ID can place\n that ID in this field and cross reference later. It can also be used to\n determine if a canary endpoint was used or not."
+        },
+        "upstream_transport_failure_reason": {
+            "type": "string",
+            "description": "If upstream connection failed due to transport socket (e.g. TLS handshake), provides the\n failure reason from the transport socket. The format of this field depends on the configured\n upstream transport socket. Common TLS failures are in\n :ref:`TLS trouble shooting \u003carch_overview_ssl_trouble_shooting\u003e`."
+        },
+        "route_name": {
+            "type": "string",
+            "description": "The name of the route"
+        },
+        "downstream_direct_remote_address": {
+            "$ref": "envoy.api.v2.core.Address",
+            "additionalProperties": true,
+            "description": "This field is the downstream direct remote address on which the request from the user was\n received. Note: This is always the physical peer, even if the remote address is inferred from\n for example the x-forwarder-for header, proxy protocol, etc."
+        },
+        "filter_state_objects": {
+            "additionalProperties": {
+                "properties": {
+                    "type_url": {
+                        "type": "string",
+                        "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "Must be a valid serialized protocol buffer of the above specified type."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object"
+            },
+            "type": "object",
+            "description": "Map of filter state in stream info that have been configured to be logged. If the filter\n state serialized to any message other than `google.protobuf.Any` it will be packed into\n `google.protobuf.Any`."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Defines fields that are shared by all Envoy access logs.\n [#next-free-field: 22]",
+    "definitions": {
+        "envoy.api.v2.core.Address": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "socket_address": {
+                    "properties": {
+                        "protocol": {
+                            "enum": [
+                                "TCP",
+                                0,
+                                "UDP",
+                                1
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "address": {
+                            "type": "string",
+                            "description": "The address for this socket. :ref:`Listeners \u003cconfig_listeners\u003e` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch \u003cenvoy_api_msg_listener.FilterChainMatch\u003e`.] When used\n within an upstream :ref:`BindConfig \u003cenvoy_api_msg_core.BindConfig\u003e`, the address\n controls the source address of outbound connections. For :ref:`clusters\n \u003cenvoy_api_msg_Cluster\u003e`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name \u003cenvoy_api_field_core.SocketAddress.resolver_name\u003e`."
+                        },
+                        "port_value": {
+                            "type": "integer"
+                        },
+                        "named_port": {
+                            "type": "string",
+                            "description": "This is only valid if :ref:`resolver_name\n \u003cenvoy_api_field_core.SocketAddress.resolver_name\u003e` is specified below and the\n named resolver is capable of named port resolution."
+                        },
+                        "resolver_name": {
+                            "type": "string",
+                            "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."
+                        },
+                        "ipv4_compat": {
+                            "type": "boolean",
+                            "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n \u003chttps://tools.ietf.org/html/rfc3493#page-11\u003e`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:\u003cIPv4-address\u003e``."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                },
+                "pipe": {
+                    "properties": {
+                        "path": {
+                            "type": "string",
+                            "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."
+                        },
+                        "mode": {
+                            "type": "integer",
+                            "description": "The mode for the Pipe. Not applicable for abstract sockets."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Addresses specify either a logical or physical address and port, which are\n used to tell Envoy where to bind/listen, connect to upstream and find\n management servers.",
+            "id": "envoy.api.v2.core.Address"
+        },
+        "envoy.data.accesslog.v2.TLSProperties.CertificateProperties": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "subject_alt_name": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "uri": {
+                                "type": "string"
+                            },
+                            "dns": {
+                                "type": "string",
+                                "description": "[#not-implemented-hide:]"
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "SANs present in the certificate."
+                },
+                "subject": {
+                    "type": "string",
+                    "description": "The subject field of the certificate."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "id": "envoy.data.accesslog.v2.TLSProperties.CertificateProperties"
+        }
+    }
+}

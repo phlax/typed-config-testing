@@ -1,1 +1,83 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"memory_level": {"additionalProperties": true, "type": "integer", "description": "Value from 1 to 9 that controls the amount of internal memory used by zlib. Higher values\n use more memory, but are faster and produce better compression results. The default value is 5."}, "compression_level": {"enum": ["DEFAULT_COMPRESSION", 0, "BEST_SPEED", 1, "COMPRESSION_LEVEL_1", 1, "COMPRESSION_LEVEL_2", 2, "COMPRESSION_LEVEL_3", 3, "COMPRESSION_LEVEL_4", 4, "COMPRESSION_LEVEL_5", 5, "COMPRESSION_LEVEL_6", 6, "COMPRESSION_LEVEL_7", 7, "COMPRESSION_LEVEL_8", 8, "COMPRESSION_LEVEL_9", 9, "BEST_COMPRESSION", 9], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "A value used for selecting the zlib compression level. This setting will affect speed and\n amount of compression applied to the content. \"BEST_COMPRESSION\" provides higher compression\n at the cost of higher latency and is equal to \"COMPRESSION_LEVEL_9\". \"BEST_SPEED\" provides\n lower compression with minimum impact on response time, the same as \"COMPRESSION_LEVEL_1\".\n \"DEFAULT_COMPRESSION\" provides an optimal result between speed and compression. According\n to zlib's manual this level gives the same result as \"COMPRESSION_LEVEL_6\".\n This field will be set to \"DEFAULT_COMPRESSION\" if not specified."}, "compression_strategy": {"enum": ["DEFAULT_STRATEGY", 0, "FILTERED", 1, "HUFFMAN_ONLY", 2, "RLE", 3, "FIXED", 4], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "A value used for selecting the zlib compression strategy which is directly related to the\n characteristics of the content. Most of the time \"DEFAULT_STRATEGY\" will be the best choice,\n which is also the default value for the parameter, though there are situations when\n changing this parameter might produce better results. For example, run-length encoding (RLE)\n is typically used when the content is known for having sequences which same data occurs many\n consecutive times. For more information about each strategy, please refer to zlib manual."}, "window_bits": {"additionalProperties": true, "type": "integer", "description": "Value from 9 to 15 that represents the base two logarithmic of the compressor's window size.\n Larger window results in better compression at the expense of memory usage. The default is 12\n which will produce a 4096 bytes window. For more details about this parameter, please refer to\n zlib manual > deflateInit2."}, "chunk_size": {"additionalProperties": true, "type": "integer", "description": "Value for Zlib's next output buffer. If not set, defaults to 4096.\n See https://www.zlib.net/manual.html for more details. Also see\n https://github.com/envoyproxy/envoy/issues/8448 for context on this filter's performance."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Gzip Compressor]\n [#extension: envoy.compression.gzip.compressor]\n\n[#next-free-field: 6]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "memory_level": {
+            "additionalProperties": true,
+            "type": "integer",
+            "description": "Value from 1 to 9 that controls the amount of internal memory used by zlib. Higher values\n use more memory, but are faster and produce better compression results. The default value is 5."
+        },
+        "compression_level": {
+            "enum": [
+                "DEFAULT_COMPRESSION",
+                0,
+                "BEST_SPEED",
+                1,
+                "COMPRESSION_LEVEL_1",
+                1,
+                "COMPRESSION_LEVEL_2",
+                2,
+                "COMPRESSION_LEVEL_3",
+                3,
+                "COMPRESSION_LEVEL_4",
+                4,
+                "COMPRESSION_LEVEL_5",
+                5,
+                "COMPRESSION_LEVEL_6",
+                6,
+                "COMPRESSION_LEVEL_7",
+                7,
+                "COMPRESSION_LEVEL_8",
+                8,
+                "COMPRESSION_LEVEL_9",
+                9,
+                "BEST_COMPRESSION",
+                9
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "A value used for selecting the zlib compression level. This setting will affect speed and\n amount of compression applied to the content. \"BEST_COMPRESSION\" provides higher compression\n at the cost of higher latency and is equal to \"COMPRESSION_LEVEL_9\". \"BEST_SPEED\" provides\n lower compression with minimum impact on response time, the same as \"COMPRESSION_LEVEL_1\".\n \"DEFAULT_COMPRESSION\" provides an optimal result between speed and compression. According\n to zlib's manual this level gives the same result as \"COMPRESSION_LEVEL_6\".\n This field will be set to \"DEFAULT_COMPRESSION\" if not specified."
+        },
+        "compression_strategy": {
+            "enum": [
+                "DEFAULT_STRATEGY",
+                0,
+                "FILTERED",
+                1,
+                "HUFFMAN_ONLY",
+                2,
+                "RLE",
+                3,
+                "FIXED",
+                4
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "A value used for selecting the zlib compression strategy which is directly related to the\n characteristics of the content. Most of the time \"DEFAULT_STRATEGY\" will be the best choice,\n which is also the default value for the parameter, though there are situations when\n changing this parameter might produce better results. For example, run-length encoding (RLE)\n is typically used when the content is known for having sequences which same data occurs many\n consecutive times. For more information about each strategy, please refer to zlib manual."
+        },
+        "window_bits": {
+            "additionalProperties": true,
+            "type": "integer",
+            "description": "Value from 9 to 15 that represents the base two logarithmic of the compressor's window size.\n Larger window results in better compression at the expense of memory usage. The default is 12\n which will produce a 4096 bytes window. For more details about this parameter, please refer to\n zlib manual \u003e deflateInit2."
+        },
+        "chunk_size": {
+            "additionalProperties": true,
+            "type": "integer",
+            "description": "Value for Zlib's next output buffer. If not set, defaults to 4096.\n See https://www.zlib.net/manual.html for more details. Also see\n https://github.com/envoyproxy/envoy/issues/8448 for context on this filter's performance."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Gzip Compressor]\n [#extension: envoy.compression.gzip.compressor]\n\n[#next-free-field: 6]"
+}

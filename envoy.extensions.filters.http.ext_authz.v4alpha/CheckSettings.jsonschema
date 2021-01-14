@@ -1,1 +1,19 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"context_extensions": {"additionalProperties": {"type": "string"}, "type": "object", "description": "Context extensions to set on the CheckRequest's\n :ref:`AttributeContext.context_extensions<envoy_api_field_service.auth.v4alpha.AttributeContext.context_extensions>`\n\n You can use this to provide extra context for the external authorization server on specific\n virtual hosts/routes. For example, adding a context extension on the virtual host level can\n give the ext-authz server information on what virtual host is used without needing to parse the\n host header. If CheckSettings is specified in multiple per-filter-configs, they will be merged\n in order, and the result will be used.\n\n Merge semantics for this field are such that keys from more specific configs override.\n\n .. note::\n\n   These settings are only applied to a filter configured with a\n   :ref:`grpc_service<envoy_api_field_extensions.filters.http.ext_authz.v4alpha.ExtAuthz.grpc_service>`."}, "disable_request_body_buffering": {"type": "boolean", "description": "When set to true, disable the configured :ref:`with_request_body\n <envoy_api_field_extensions.filters.http.ext_authz.v4alpha.ExtAuthz.with_request_body>` for a route."}}, "additionalProperties": true, "type": "object", "description": "Extra settings for the check request."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "context_extensions": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object",
+            "description": "Context extensions to set on the CheckRequest's\n :ref:`AttributeContext.context_extensions\u003cenvoy_api_field_service.auth.v4alpha.AttributeContext.context_extensions\u003e`\n\n You can use this to provide extra context for the external authorization server on specific\n virtual hosts/routes. For example, adding a context extension on the virtual host level can\n give the ext-authz server information on what virtual host is used without needing to parse the\n host header. If CheckSettings is specified in multiple per-filter-configs, they will be merged\n in order, and the result will be used.\n\n Merge semantics for this field are such that keys from more specific configs override.\n\n .. note::\n\n   These settings are only applied to a filter configured with a\n   :ref:`grpc_service\u003cenvoy_api_field_extensions.filters.http.ext_authz.v4alpha.ExtAuthz.grpc_service\u003e`."
+        },
+        "disable_request_body_buffering": {
+            "type": "boolean",
+            "description": "When set to true, disable the configured :ref:`with_request_body\n \u003cenvoy_api_field_extensions.filters.http.ext_authz.v4alpha.ExtAuthz.with_request_body\u003e` for a route."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Extra settings for the check request."
+}

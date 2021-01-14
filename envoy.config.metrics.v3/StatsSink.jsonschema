@@ -1,1 +1,26 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The name of the stats sink to instantiate. The name must match a supported\n stats sink. The built-in stats sinks are:\n\n * :ref:`envoy.stat_sinks.statsd <envoy_api_msg_config.metrics.v3.StatsdSink>`\n * :ref:`envoy.stat_sinks.dog_statsd <envoy_api_msg_config.metrics.v3.DogStatsdSink>`\n * :ref:`envoy.stat_sinks.metrics_service <envoy_api_msg_config.metrics.v3.MetricsServiceConfig>`\n * :ref:`envoy.stat_sinks.hystrix <envoy_api_msg_config.metrics.v3.HystrixSink>`\n\n Sinks optionally support tagged/multiple dimensional metrics."}, "typed_config": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Stats]\n Statistics :ref:`architecture overview <arch_overview_statistics>`.\n\nConfiguration for pluggable stats sinks."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name of the stats sink to instantiate. The name must match a supported\n stats sink. The built-in stats sinks are:\n\n * :ref:`envoy.stat_sinks.statsd \u003cenvoy_api_msg_config.metrics.v3.StatsdSink\u003e`\n * :ref:`envoy.stat_sinks.dog_statsd \u003cenvoy_api_msg_config.metrics.v3.DogStatsdSink\u003e`\n * :ref:`envoy.stat_sinks.metrics_service \u003cenvoy_api_msg_config.metrics.v3.MetricsServiceConfig\u003e`\n * :ref:`envoy.stat_sinks.hystrix \u003cenvoy_api_msg_config.metrics.v3.HystrixSink\u003e`\n\n Sinks optionally support tagged/multiple dimensional metrics."
+        },
+        "typed_config": {
+            "properties": {
+                "type_url": {
+                    "type": "string",
+                    "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Must be a valid serialized protocol buffer of the above specified type."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Stats]\n Statistics :ref:`architecture overview \u003carch_overview_statistics\u003e`.\n\nConfiguration for pluggable stats sinks."
+}

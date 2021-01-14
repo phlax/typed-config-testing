@@ -1,1 +1,44 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"content_length": {"additionalProperties": true, "type": "integer", "description": "Minimum response length, in bytes, which will trigger compression. The default value is 30."}, "content_type": {"items": {"type": "string"}, "type": "array", "description": "Set of strings that allows specifying which mime-types yield compression; e.g.,\n application/json, text/html, etc. When this field is not defined, compression will be applied\n to the following mime-types: \"application/javascript\", \"application/json\",\n \"application/xhtml+xml\", \"image/svg+xml\", \"text/css\", \"text/html\", \"text/plain\", \"text/xml\"\n and their synonyms."}, "disable_on_etag_header": {"type": "boolean", "description": "If true, disables compression when the response contains an etag header. When it is false, the\n filter will preserve weak etags and remove the ones that require strong validation."}, "remove_accept_encoding_header": {"type": "boolean", "description": "If true, removes accept-encoding from the request headers before dispatching it to the upstream\n so that responses do not get compressed before reaching the filter.\n .. attention:\n\n    To avoid interfering with other compression filters in the same chain use this option in\n    the filter closest to the upstream."}, "runtime_enabled": {"properties": {"default_value": {"additionalProperties": true, "type": "boolean", "description": "Default value if runtime value is not available."}, "runtime_key": {"type": "string", "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding <https://developers.google.com/protocol-buffers/docs/proto3#json>`_."}}, "additionalProperties": true, "type": "object", "description": "Runtime flag that controls whether the filter is enabled or not. If set to false, the\n filter will operate as a pass-through filter. If not specified, defaults to enabled."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Compressor]\n\n[#next-free-field: 6]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "content_length": {
+            "additionalProperties": true,
+            "type": "integer",
+            "description": "Minimum response length, in bytes, which will trigger compression. The default value is 30."
+        },
+        "content_type": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "Set of strings that allows specifying which mime-types yield compression; e.g.,\n application/json, text/html, etc. When this field is not defined, compression will be applied\n to the following mime-types: \"application/javascript\", \"application/json\",\n \"application/xhtml+xml\", \"image/svg+xml\", \"text/css\", \"text/html\", \"text/plain\", \"text/xml\"\n and their synonyms."
+        },
+        "disable_on_etag_header": {
+            "type": "boolean",
+            "description": "If true, disables compression when the response contains an etag header. When it is false, the\n filter will preserve weak etags and remove the ones that require strong validation."
+        },
+        "remove_accept_encoding_header": {
+            "type": "boolean",
+            "description": "If true, removes accept-encoding from the request headers before dispatching it to the upstream\n so that responses do not get compressed before reaching the filter.\n .. attention:\n\n    To avoid interfering with other compression filters in the same chain use this option in\n    the filter closest to the upstream."
+        },
+        "runtime_enabled": {
+            "properties": {
+                "default_value": {
+                    "additionalProperties": true,
+                    "type": "boolean",
+                    "description": "Default value if runtime value is not available."
+                },
+                "runtime_key": {
+                    "type": "string",
+                    "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding \u003chttps://developers.google.com/protocol-buffers/docs/proto3#json\u003e`_."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Runtime flag that controls whether the filter is enabled or not. If set to false, the\n filter will operate as a pass-through filter. If not specified, defaults to enabled."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Compressor]\n\n[#next-free-field: 6]"
+}

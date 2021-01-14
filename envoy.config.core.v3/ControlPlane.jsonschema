@@ -1,1 +1,12 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"identifier": {"type": "string", "description": "An opaque control plane identifier that uniquely identifies an instance\n of control plane. This can be used to identify which control plane instance,\n the Envoy is connected to."}}, "additionalProperties": true, "type": "object", "description": "Identifies a specific ControlPlane instance that Envoy is connected to."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "identifier": {
+            "type": "string",
+            "description": "An opaque control plane identifier that uniquely identifies an instance\n of control plane. This can be used to identify which control plane instance,\n the Envoy is connected to."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Identifies a specific ControlPlane instance that Envoy is connected to."
+}

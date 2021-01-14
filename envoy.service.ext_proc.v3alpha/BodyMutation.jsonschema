@@ -1,1 +1,16 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"body": {"type": "string", "description": "The entire body to replace"}, "clear_body": {"type": "boolean", "description": "Clear the corresponding body chunk"}}, "additionalProperties": true, "type": "object", "description": "Replace the entire message body chunk received in the corresponding\n HttpBody message with this new body, or clear the body."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "body": {
+            "type": "string",
+            "description": "The entire body to replace"
+        },
+        "clear_body": {
+            "type": "boolean",
+            "description": "Clear the corresponding body chunk"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Replace the entire message body chunk received in the corresponding\n HttpBody message with this new body, or clear the body."
+}

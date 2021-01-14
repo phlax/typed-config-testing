@@ -1,1 +1,31 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"stat_prefix": {"type": "string", "description": "The stat prefix used when emitting UDP proxy filter stats."}, "cluster": {"type": "string", "description": "The upstream cluster to connect to."}, "idle_timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The idle timeout for sessions. Idle is defined as no datagrams between received or sent by\n the session. The default if not specified is 1 minute."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: UDP proxy]\n UDP proxy :ref:`configuration overview <config_udp_listener_filters_udp_proxy>`.\n [#extension: envoy.filters.udp_listener.udp_proxy]\n\nConfiguration for the UDP proxy filter."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "stat_prefix": {
+            "type": "string",
+            "description": "The stat prefix used when emitting UDP proxy filter stats."
+        },
+        "cluster": {
+            "type": "string",
+            "description": "The upstream cluster to connect to."
+        },
+        "idle_timeout": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The idle timeout for sessions. Idle is defined as no datagrams between received or sent by\n the session. The default if not specified is 1 minute."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: UDP proxy]\n UDP proxy :ref:`configuration overview \u003cconfig_udp_listener_filters_udp_proxy\u003e`.\n [#extension: envoy.filters.udp_listener.udp_proxy]\n\nConfiguration for the UDP proxy filter."
+}

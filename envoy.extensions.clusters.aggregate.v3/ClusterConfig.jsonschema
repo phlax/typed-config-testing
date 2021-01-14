@@ -1,1 +1,15 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"clusters": {"items": {"type": "string"}, "type": "array", "description": "Load balancing clusters in aggregate cluster. Clusters are prioritized based on the order they\n appear in this list."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Aggregate cluster configuration]\n\nConfiguration for the aggregate cluster. See the :ref:`architecture overview\n <arch_overview_aggregate_cluster>` for more information.\n [#extension: envoy.clusters.aggregate]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "clusters": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "Load balancing clusters in aggregate cluster. Clusters are prioritized based on the order they\n appear in this list."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Aggregate cluster configuration]\n\nConfiguration for the aggregate cluster. See the :ref:`architecture overview\n \u003carch_overview_aggregate_cluster\u003e` for more information.\n [#extension: envoy.clusters.aggregate]"
+}

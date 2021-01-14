@@ -1,1 +1,6 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "Filters for requests that are not health check requests. A health check\n request is marked by the health check filter."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Filters for requests that are not health check requests. A health check\n request is marked by the health check filter."
+}

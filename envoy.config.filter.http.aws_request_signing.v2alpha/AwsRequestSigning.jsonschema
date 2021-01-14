@@ -1,1 +1,20 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"service_name": {"type": "string", "description": "The `service namespace\n <https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces>`_\n of the HTTP endpoint.\n\n Example: s3"}, "region": {"type": "string", "description": "The `region <https://docs.aws.amazon.com/general/latest/gr/rande.html>`_ hosting the HTTP\n endpoint.\n\n Example: us-west-2"}, "host_rewrite": {"type": "string", "description": "Indicates that before signing headers, the host header will be swapped with\n this value. If not set or empty, the original host header value\n will be used and no rewrite will happen.\n\n Note: this rewrite affects both signing and host header forwarding. However, this\n option shouldn't be used with\n :ref:`HCM host rewrite <envoy_api_field_route.RouteAction.host_rewrite>` given that the\n value set here would be used for signing whereas the value set in the HCM would be used\n for host header forwarding which is not the desired outcome."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: AwsRequestSigning]\n AwsRequestSigning :ref:`configuration overview <config_http_filters_aws_request_signing>`.\n [#extension: envoy.filters.http.aws_request_signing]\n\nTop level configuration for the AWS request signing filter."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "service_name": {
+            "type": "string",
+            "description": "The `service namespace\n \u003chttps://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces\u003e`_\n of the HTTP endpoint.\n\n Example: s3"
+        },
+        "region": {
+            "type": "string",
+            "description": "The `region \u003chttps://docs.aws.amazon.com/general/latest/gr/rande.html\u003e`_ hosting the HTTP\n endpoint.\n\n Example: us-west-2"
+        },
+        "host_rewrite": {
+            "type": "string",
+            "description": "Indicates that before signing headers, the host header will be swapped with\n this value. If not set or empty, the original host header value\n will be used and no rewrite will happen.\n\n Note: this rewrite affects both signing and host header forwarding. However, this\n option shouldn't be used with\n :ref:`HCM host rewrite \u003cenvoy_api_field_route.RouteAction.host_rewrite\u003e` given that the\n value set here would be used for signing whereas the value set in the HCM would be used\n for host header forwarding which is not the desired outcome."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: AwsRequestSigning]\n AwsRequestSigning :ref:`configuration overview \u003cconfig_http_filters_aws_request_signing\u003e`.\n [#extension: envoy.filters.http.aws_request_signing]\n\nTop level configuration for the AWS request signing filter."
+}

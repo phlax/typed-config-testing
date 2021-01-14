@@ -1,1 +1,52 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"transport": {"enum": ["AUTO_TRANSPORT", 0, "FRAMED", 1, "UNFRAMED", 2, "HEADER", 3], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Supplies the type of transport that the Thrift proxy should use for upstream connections.\n Selecting\n :ref:`AUTO_TRANSPORT<envoy_api_enum_value_config.filter.network.thrift_proxy.v2alpha1.TransportType.AUTO_TRANSPORT>`,\n which is the default, causes the proxy to use the same transport as the downstream connection."}, "protocol": {"enum": ["AUTO_PROTOCOL", 0, "BINARY", 1, "LAX_BINARY", 2, "COMPACT", 3, "TWITTER", 4], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Supplies the type of protocol that the Thrift proxy should use for upstream connections.\n Selecting\n :ref:`AUTO_PROTOCOL<envoy_api_enum_value_config.filter.network.thrift_proxy.v2alpha1.ProtocolType.AUTO_PROTOCOL>`,\n which is the default, causes the proxy to use the same protocol as the downstream connection."}}, "additionalProperties": true, "type": "object", "description": "ThriftProtocolOptions specifies Thrift upstream protocol options. This object is used in\n in\n :ref:`typed_extension_protocol_options<envoy_api_field_Cluster.typed_extension_protocol_options>`,\n keyed by the name `envoy.filters.network.thrift_proxy`."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "transport": {
+            "enum": [
+                "AUTO_TRANSPORT",
+                0,
+                "FRAMED",
+                1,
+                "UNFRAMED",
+                2,
+                "HEADER",
+                3
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "Supplies the type of transport that the Thrift proxy should use for upstream connections.\n Selecting\n :ref:`AUTO_TRANSPORT\u003cenvoy_api_enum_value_config.filter.network.thrift_proxy.v2alpha1.TransportType.AUTO_TRANSPORT\u003e`,\n which is the default, causes the proxy to use the same transport as the downstream connection."
+        },
+        "protocol": {
+            "enum": [
+                "AUTO_PROTOCOL",
+                0,
+                "BINARY",
+                1,
+                "LAX_BINARY",
+                2,
+                "COMPACT",
+                3,
+                "TWITTER",
+                4
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "Supplies the type of protocol that the Thrift proxy should use for upstream connections.\n Selecting\n :ref:`AUTO_PROTOCOL\u003cenvoy_api_enum_value_config.filter.network.thrift_proxy.v2alpha1.ProtocolType.AUTO_PROTOCOL\u003e`,\n which is the default, causes the proxy to use the same protocol as the downstream connection."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "ThriftProtocolOptions specifies Thrift upstream protocol options. This object is used in\n in\n :ref:`typed_extension_protocol_options\u003cenvoy_api_field_Cluster.typed_extension_protocol_options\u003e`,\n keyed by the name `envoy.filters.network.thrift_proxy`."
+}

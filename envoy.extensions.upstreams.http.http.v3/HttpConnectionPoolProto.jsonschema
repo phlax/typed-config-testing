@@ -1,1 +1,6 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Http Connection Pool]\n\nA connection pool which forwards downstream HTTP as HTTP to upstream.\n [#extension: envoy.upstreams.http.http]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Http Connection Pool]\n\nA connection pool which forwards downstream HTTP as HTTP to upstream.\n [#extension: envoy.upstreams.http.http]"
+}

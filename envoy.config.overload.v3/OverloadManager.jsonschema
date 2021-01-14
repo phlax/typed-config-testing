@@ -1,1 +1,121 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"refresh_interval": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The interval for refreshing resource usage."}, "resource_monitors": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The name of the resource monitor to instantiate. Must match a registered\n resource monitor type. The built-in resource monitors are:\n\n * :ref:`envoy.resource_monitors.fixed_heap\n   <envoy_api_msg_config.resource_monitor.fixed_heap.v2alpha.FixedHeapConfig>`\n * :ref:`envoy.resource_monitors.injected_resource\n   <envoy_api_msg_config.resource_monitor.injected_resource.v2alpha.InjectedResourceConfig>`"}, "typed_config": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Overload Manager]\n\nThe Overload Manager provides an extensible framework to protect Envoy instances\n from overload of various resources (memory, cpu, file descriptors, etc).\n It monitors a configurable set of resources and notifies registered listeners\n when triggers related to those resources fire."}, "type": "array", "description": "The set of resources to monitor."}, "actions": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The name of the overload action. This is just a well-known string that listeners can\n use for registering callbacks. Custom overload actions should be named using reverse\n DNS to ensure uniqueness."}, "triggers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The name of the resource this is a trigger for."}, "threshold": {"properties": {"value": {"type": "number", "description": "If the resource pressure is greater than or equal to this value, the trigger\n will enter saturation."}}, "additionalProperties": true, "type": "object"}, "scaled": {"properties": {"scaling_threshold": {"type": "number", "description": "If the resource pressure is greater than this value, the trigger will be in the\n :ref:`scaling <arch_overview_overload_manager-triggers-state>` state with value\n `(pressure - scaling_threshold) / (saturation_threshold - scaling_threshold)`."}, "saturation_threshold": {"type": "number", "description": "If the resource pressure is greater than this value, the trigger will enter saturation."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "A set of triggers for this action. The state of the action is the maximum\n state of all triggers, which can be scaling between 0 and 1 or saturated. Listeners\n are notified when the overload action changes state."}, "typed_config": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object", "description": "Configuration for the action being instantiated."}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "The set of overload actions."}}, "additionalProperties": true, "type": "object"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "refresh_interval": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The interval for refreshing resource usage."
+        },
+        "resource_monitors": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the resource monitor to instantiate. Must match a registered\n resource monitor type. The built-in resource monitors are:\n\n * :ref:`envoy.resource_monitors.fixed_heap\n   \u003cenvoy_api_msg_config.resource_monitor.fixed_heap.v2alpha.FixedHeapConfig\u003e`\n * :ref:`envoy.resource_monitors.injected_resource\n   \u003cenvoy_api_msg_config.resource_monitor.injected_resource.v2alpha.InjectedResourceConfig\u003e`"
+                    },
+                    "typed_config": {
+                        "properties": {
+                            "type_url": {
+                                "type": "string",
+                                "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Must be a valid serialized protocol buffer of the above specified type."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "[#protodoc-title: Overload Manager]\n\nThe Overload Manager provides an extensible framework to protect Envoy instances\n from overload of various resources (memory, cpu, file descriptors, etc).\n It monitors a configurable set of resources and notifies registered listeners\n when triggers related to those resources fire."
+            },
+            "type": "array",
+            "description": "The set of resources to monitor."
+        },
+        "actions": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the overload action. This is just a well-known string that listeners can\n use for registering callbacks. Custom overload actions should be named using reverse\n DNS to ensure uniqueness."
+                    },
+                    "triggers": {
+                        "items": {
+                            "$schema": "http://json-schema.org/draft-04/schema#",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "The name of the resource this is a trigger for."
+                                },
+                                "threshold": {
+                                    "properties": {
+                                        "value": {
+                                            "type": "number",
+                                            "description": "If the resource pressure is greater than or equal to this value, the trigger\n will enter saturation."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "scaled": {
+                                    "properties": {
+                                        "scaling_threshold": {
+                                            "type": "number",
+                                            "description": "If the resource pressure is greater than this value, the trigger will be in the\n :ref:`scaling \u003carch_overview_overload_manager-triggers-state\u003e` state with value\n `(pressure - scaling_threshold) / (saturation_threshold - scaling_threshold)`."
+                                        },
+                                        "saturation_threshold": {
+                                            "type": "number",
+                                            "description": "If the resource pressure is greater than this value, the trigger will enter saturation."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "description": "A set of triggers for this action. The state of the action is the maximum\n state of all triggers, which can be scaling between 0 and 1 or saturated. Listeners\n are notified when the overload action changes state."
+                    },
+                    "typed_config": {
+                        "properties": {
+                            "type_url": {
+                                "type": "string",
+                                "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Must be a valid serialized protocol buffer of the above specified type."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Configuration for the action being instantiated."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object"
+            },
+            "type": "array",
+            "description": "The set of overload actions."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

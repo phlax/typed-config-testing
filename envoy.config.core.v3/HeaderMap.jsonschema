@@ -1,1 +1,27 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair."}, "type": "array"}}, "additionalProperties": true, "type": "object", "description": "Wrapper for a set of headers."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "headers": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "description": "Header name."
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "Header name/value pair."
+            },
+            "type": "array"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Wrapper for a set of headers."
+}

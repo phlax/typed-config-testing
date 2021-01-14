@@ -1,1 +1,95 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"certificate_chain": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema", "additionalProperties": true, "description": "The TLS certificate chain.\n\n If *certificate_chain* is a filesystem path, a watch will be added to the\n parent directory for any file moves to support rotation. This currently\n only applies to dynamic secrets, when the *TlsCertificate* is delivered via\n SDS."}, "private_key": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema", "additionalProperties": true, "description": "The TLS private key.\n\n If *private_key* is a filesystem path, a watch will be added to the parent\n directory for any file moves to support rotation. This currently only\n applies to dynamic secrets, when the *TlsCertificate* is delivered via SDS."}, "watched_directory": {"properties": {"path": {"type": "string", "description": "Directory path to watch."}}, "additionalProperties": true, "type": "object", "description": "If specified, updates of file-based *certificate_chain* and *private_key*\n sources will be triggered by this watch. The certificate/key pair will be\n read together and validated for atomic read consistency (i.e. no\n intervening modification occurred between cert/key read, verified by file\n hash comparisons). This allows explicit control over the path watched, by\n default the parent directories of the filesystem paths in\n *certificate_chain* and *private_key* are watched if this field is not\n specified. This only applies when a *TlsCertificate* is delivered by SDS\n with references to filesystem paths. See the :ref:`SDS key rotation\n <sds_key_rotation>` documentation for further details."}, "private_key_provider": {"properties": {"provider_name": {"type": "string", "description": "Private key method provider name. The name must match a\n supported private key method provider type."}, "typed_config": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "BoringSSL private key method provider. This is an alternative to :ref:`private_key\n <envoy_api_field_extensions.transport_sockets.tls.v4alpha.TlsCertificate.private_key>` field. This can't be\n marked as ``oneof`` due to API compatibility reasons. Setting both :ref:`private_key\n <envoy_api_field_extensions.transport_sockets.tls.v4alpha.TlsCertificate.private_key>` and\n :ref:`private_key_provider\n <envoy_api_field_extensions.transport_sockets.tls.v4alpha.TlsCertificate.private_key_provider>` fields will result in an\n error."}, "password": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema", "additionalProperties": true, "description": "The password to decrypt the TLS private key. If this field is not set, it is assumed that the\n TLS private key is not password encrypted."}, "ocsp_staple": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema", "additionalProperties": true, "description": "The OCSP response to be stapled with this certificate during the handshake.\n The response must be DER-encoded and may only be  provided via ``filename`` or\n ``inline_bytes``. The response may pertain to only one certificate."}, "signed_certificate_timestamp": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/DataSource.jsonschema"}, "type": "array", "description": "[#not-implemented-hide:]"}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 8]", "definitions": {"envoy.config.core.v4alpha.DataSource": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"filename": {"type": "string", "description": "Local filesystem data source."}, "inline_bytes": {"type": "string", "description": "Bytes inlined in the configuration."}, "inline_string": {"type": "string", "description": "String inlined in the configuration."}}, "additionalProperties": true, "type": "object", "description": "Data source consisting of either a file or an inline value.", "id": "envoy.config.core.v4alpha.DataSource"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "certificate_chain": {
+            "$ref": "envoy.config.core.v4alpha.DataSource",
+            "additionalProperties": true,
+            "description": "The TLS certificate chain.\n\n If *certificate_chain* is a filesystem path, a watch will be added to the\n parent directory for any file moves to support rotation. This currently\n only applies to dynamic secrets, when the *TlsCertificate* is delivered via\n SDS."
+        },
+        "private_key": {
+            "$ref": "envoy.config.core.v4alpha.DataSource",
+            "additionalProperties": true,
+            "description": "The TLS private key.\n\n If *private_key* is a filesystem path, a watch will be added to the parent\n directory for any file moves to support rotation. This currently only\n applies to dynamic secrets, when the *TlsCertificate* is delivered via SDS."
+        },
+        "watched_directory": {
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "description": "Directory path to watch."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "If specified, updates of file-based *certificate_chain* and *private_key*\n sources will be triggered by this watch. The certificate/key pair will be\n read together and validated for atomic read consistency (i.e. no\n intervening modification occurred between cert/key read, verified by file\n hash comparisons). This allows explicit control over the path watched, by\n default the parent directories of the filesystem paths in\n *certificate_chain* and *private_key* are watched if this field is not\n specified. This only applies when a *TlsCertificate* is delivered by SDS\n with references to filesystem paths. See the :ref:`SDS key rotation\n \u003csds_key_rotation\u003e` documentation for further details."
+        },
+        "private_key_provider": {
+            "properties": {
+                "provider_name": {
+                    "type": "string",
+                    "description": "Private key method provider name. The name must match a\n supported private key method provider type."
+                },
+                "typed_config": {
+                    "properties": {
+                        "type_url": {
+                            "type": "string",
+                            "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Must be a valid serialized protocol buffer of the above specified type."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "BoringSSL private key method provider. This is an alternative to :ref:`private_key\n \u003cenvoy_api_field_extensions.transport_sockets.tls.v4alpha.TlsCertificate.private_key\u003e` field. This can't be\n marked as ``oneof`` due to API compatibility reasons. Setting both :ref:`private_key\n \u003cenvoy_api_field_extensions.transport_sockets.tls.v4alpha.TlsCertificate.private_key\u003e` and\n :ref:`private_key_provider\n \u003cenvoy_api_field_extensions.transport_sockets.tls.v4alpha.TlsCertificate.private_key_provider\u003e` fields will result in an\n error."
+        },
+        "password": {
+            "$ref": "envoy.config.core.v4alpha.DataSource",
+            "additionalProperties": true,
+            "description": "The password to decrypt the TLS private key. If this field is not set, it is assumed that the\n TLS private key is not password encrypted."
+        },
+        "ocsp_staple": {
+            "$ref": "envoy.config.core.v4alpha.DataSource",
+            "additionalProperties": true,
+            "description": "The OCSP response to be stapled with this certificate during the handshake.\n The response must be DER-encoded and may only be  provided via ``filename`` or\n ``inline_bytes``. The response may pertain to only one certificate."
+        },
+        "signed_certificate_timestamp": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "$ref": "envoy.config.core.v4alpha.DataSource"
+            },
+            "type": "array",
+            "description": "[#not-implemented-hide:]"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#next-free-field: 8]",
+    "definitions": {
+        "envoy.config.core.v4alpha.DataSource": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Local filesystem data source."
+                },
+                "inline_bytes": {
+                    "type": "string",
+                    "description": "Bytes inlined in the configuration."
+                },
+                "inline_string": {
+                    "type": "string",
+                    "description": "String inlined in the configuration."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Data source consisting of either a file or an inline value.",
+            "id": "envoy.config.core.v4alpha.DataSource"
+        }
+    }
+}

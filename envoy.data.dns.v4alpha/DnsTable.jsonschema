@@ -1,1 +1,199 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"external_retry_count": {"type": "integer", "description": "Control how many times Envoy makes an attempt to forward a query to an external DNS server"}, "virtual_domains": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "A domain name for which Envoy will respond to query requests"}, "endpoint": {"properties": {"address_list": {"properties": {"address": {"items": {"type": "string"}, "type": "array", "description": "This field contains a well formed IP address that is returned in the answer for a\n name query. The address field can be an IPv4 or IPv6 address. Address family\n detection is done automatically when Envoy parses the string. Since this field is\n repeated, Envoy will return as many entries from this list in the DNS response while\n keeping the response under 512 bytes"}}, "additionalProperties": true, "type": "object", "description": "Define a list of addresses to return for the specified endpoint"}, "cluster_name": {"type": "string", "description": "Define a cluster whose addresses are returned for the specified endpoint"}, "service_list": {"properties": {"services": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"service_name": {"type": "string", "description": "The name of the service without the protocol or domain name"}, "protocol": {"properties": {"number": {"type": "integer", "description": "Specify the protocol number for the service. Envoy will try to resolve the number to\n the protocol name. For example, 6 will resolve to \"tcp\". Refer to:\n https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml\n for protocol names and numbers"}, "name": {"type": "string", "description": "Specify the protocol name for the service."}}, "additionalProperties": true, "type": "object", "description": "The service protocol. This can be specified as a string or the numeric value of the protocol"}, "ttl": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The service entry time to live. This is independent from the DNS Answer record TTL"}, "targets": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"host_name": {"type": "string", "description": "Use a resolvable hostname as the endpoint for a service."}, "cluster_name": {"type": "string", "description": "Use a cluster name as the endpoint for a service."}, "priority": {"type": "integer", "description": "The priority of the service record target"}, "weight": {"type": "integer", "description": "The weight of the service record target"}, "port": {"type": "integer", "description": "The port to which the service is bound. This value is optional if the target is a\n cluster. Setting port to zero in this case makes the filter use the port value\n from the cluster host"}}, "additionalProperties": true, "type": "object", "description": "Specify the target for a given DNS service\n [#next-free-field: 6]"}, "type": "array", "description": "The list of targets hosting the service"}}, "additionalProperties": true, "type": "object", "description": "This message defines a service selection record returned for a service query in a domain"}, "type": "array"}}, "additionalProperties": true, "type": "object", "description": "Define a DNS Service List for the specified endpoint"}}, "additionalProperties": true, "type": "object", "description": "The configuration containing the method to determine the address of this endpoint"}, "answer_ttl": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Sets the TTL in DNS answers from Envoy returned to the client. The default TTL is 300s"}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "Fully qualified domain names for which Envoy will respond to DNS queries. By leaving this\n list empty, Envoy will forward all queries to external resolvers"}, "known_suffixes": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"exact": {"type": "string", "description": "The input string must match exactly the string specified here.\n\n Examples:\n\n * *abc* only matches the value *abc*."}, "prefix": {"type": "string", "description": "The input string must have the prefix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *abc.xyz*"}, "suffix": {"type": "string", "description": "The input string must have the suffix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc*"}, "safe_regex": {"properties": {"google_re2": {"additionalProperties": true, "type": "object", "description": "Google's RE2 regex engine."}, "regex": {"type": "string", "description": "The regex match string. The string must be supported by the configured engine."}}, "additionalProperties": true, "type": "object", "description": "The input string must match the regular expression specified here."}, "contains": {"type": "string", "description": "The input string must have the substring specified here.\n Note: empty contains match is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc.def*"}, "ignore_case": {"type": "boolean", "description": "If true, indicates the exact/prefix/suffix matching should be case insensitive. This has no\n effect for the safe_regex match.\n For example, the matcher *data* will match both input string *Data* and *data* if set to true."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: String matcher]\n\nSpecifies the way to match a string.\n [#next-free-field: 8]"}, "type": "array", "description": "This field serves to help Envoy determine whether it can authoritatively answer a query\n for a name matching a suffix in this list. If the query name does not match a suffix in\n this list, Envoy will forward the query to an upstream DNS server"}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: DNS Filter Table Data]\n :ref:`DNS Filter config overview <config_udp_listener_filters_dns_filter>`.\n\nThis message contains the configuration for the DNS Filter if populated\n from the control plane"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "external_retry_count": {
+            "type": "integer",
+            "description": "Control how many times Envoy makes an attempt to forward a query to an external DNS server"
+        },
+        "virtual_domains": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "A domain name for which Envoy will respond to query requests"
+                    },
+                    "endpoint": {
+                        "properties": {
+                            "address_list": {
+                                "properties": {
+                                    "address": {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array",
+                                        "description": "This field contains a well formed IP address that is returned in the answer for a\n name query. The address field can be an IPv4 or IPv6 address. Address family\n detection is done automatically when Envoy parses the string. Since this field is\n repeated, Envoy will return as many entries from this list in the DNS response while\n keeping the response under 512 bytes"
+                                    }
+                                },
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "Define a list of addresses to return for the specified endpoint"
+                            },
+                            "cluster_name": {
+                                "type": "string",
+                                "description": "Define a cluster whose addresses are returned for the specified endpoint"
+                            },
+                            "service_list": {
+                                "properties": {
+                                    "services": {
+                                        "items": {
+                                            "$schema": "http://json-schema.org/draft-04/schema#",
+                                            "properties": {
+                                                "service_name": {
+                                                    "type": "string",
+                                                    "description": "The name of the service without the protocol or domain name"
+                                                },
+                                                "protocol": {
+                                                    "properties": {
+                                                        "number": {
+                                                            "type": "integer",
+                                                            "description": "Specify the protocol number for the service. Envoy will try to resolve the number to\n the protocol name. For example, 6 will resolve to \"tcp\". Refer to:\n https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml\n for protocol names and numbers"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "description": "Specify the protocol name for the service."
+                                                        }
+                                                    },
+                                                    "additionalProperties": true,
+                                                    "type": "object",
+                                                    "description": "The service protocol. This can be specified as a string or the numeric value of the protocol"
+                                                },
+                                                "ttl": {
+                                                    "properties": {
+                                                        "seconds": {
+                                                            "type": "string",
+                                                            "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                                        },
+                                                        "nanos": {
+                                                            "type": "integer",
+                                                            "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                                        }
+                                                    },
+                                                    "additionalProperties": true,
+                                                    "type": "object",
+                                                    "description": "The service entry time to live. This is independent from the DNS Answer record TTL"
+                                                },
+                                                "targets": {
+                                                    "items": {
+                                                        "$schema": "http://json-schema.org/draft-04/schema#",
+                                                        "properties": {
+                                                            "host_name": {
+                                                                "type": "string",
+                                                                "description": "Use a resolvable hostname as the endpoint for a service."
+                                                            },
+                                                            "cluster_name": {
+                                                                "type": "string",
+                                                                "description": "Use a cluster name as the endpoint for a service."
+                                                            },
+                                                            "priority": {
+                                                                "type": "integer",
+                                                                "description": "The priority of the service record target"
+                                                            },
+                                                            "weight": {
+                                                                "type": "integer",
+                                                                "description": "The weight of the service record target"
+                                                            },
+                                                            "port": {
+                                                                "type": "integer",
+                                                                "description": "The port to which the service is bound. This value is optional if the target is a\n cluster. Setting port to zero in this case makes the filter use the port value\n from the cluster host"
+                                                            }
+                                                        },
+                                                        "additionalProperties": true,
+                                                        "type": "object",
+                                                        "description": "Specify the target for a given DNS service\n [#next-free-field: 6]"
+                                                    },
+                                                    "type": "array",
+                                                    "description": "The list of targets hosting the service"
+                                                }
+                                            },
+                                            "additionalProperties": true,
+                                            "type": "object",
+                                            "description": "This message defines a service selection record returned for a service query in a domain"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "Define a DNS Service List for the specified endpoint"
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "The configuration containing the method to determine the address of this endpoint"
+                    },
+                    "answer_ttl": {
+                        "properties": {
+                            "seconds": {
+                                "type": "string",
+                                "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                            },
+                            "nanos": {
+                                "type": "integer",
+                                "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Sets the TTL in DNS answers from Envoy returned to the client. The default TTL is 300s"
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object"
+            },
+            "type": "array",
+            "description": "Fully qualified domain names for which Envoy will respond to DNS queries. By leaving this\n list empty, Envoy will forward all queries to external resolvers"
+        },
+        "known_suffixes": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "exact": {
+                        "type": "string",
+                        "description": "The input string must match exactly the string specified here.\n\n Examples:\n\n * *abc* only matches the value *abc*."
+                    },
+                    "prefix": {
+                        "type": "string",
+                        "description": "The input string must have the prefix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *abc.xyz*"
+                    },
+                    "suffix": {
+                        "type": "string",
+                        "description": "The input string must have the suffix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc*"
+                    },
+                    "safe_regex": {
+                        "properties": {
+                            "google_re2": {
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "Google's RE2 regex engine."
+                            },
+                            "regex": {
+                                "type": "string",
+                                "description": "The regex match string. The string must be supported by the configured engine."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "The input string must match the regular expression specified here."
+                    },
+                    "contains": {
+                        "type": "string",
+                        "description": "The input string must have the substring specified here.\n Note: empty contains match is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc.def*"
+                    },
+                    "ignore_case": {
+                        "type": "boolean",
+                        "description": "If true, indicates the exact/prefix/suffix matching should be case insensitive. This has no\n effect for the safe_regex match.\n For example, the matcher *data* will match both input string *Data* and *data* if set to true."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "[#protodoc-title: String matcher]\n\nSpecifies the way to match a string.\n [#next-free-field: 8]"
+            },
+            "type": "array",
+            "description": "This field serves to help Envoy determine whether it can authoritatively answer a query\n for a name matching a suffix in this list. If the query name does not match a suffix in\n this list, Envoy will forward the query to an upstream DNS server"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: DNS Filter Table Data]\n :ref:`DNS Filter config overview \u003cconfig_udp_listener_filters_dns_filter\u003e`.\n\nThis message contains the configuration for the DNS Filter if populated\n from the control plane"
+}

@@ -1,1 +1,26 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"failure_type": {"enum": ["ACTIVE", 0, "PASSIVE", 1, "NETWORK", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "The type of failure that caused this ejection."}}, "additionalProperties": true, "type": "object"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "failure_type": {
+            "enum": [
+                "ACTIVE",
+                0,
+                "PASSIVE",
+                1,
+                "NETWORK",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "The type of failure that caused this ejection."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

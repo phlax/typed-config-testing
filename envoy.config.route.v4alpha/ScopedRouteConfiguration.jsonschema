@@ -1,1 +1,42 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"on_demand": {"type": "boolean", "description": "Whether the RouteConfiguration should be loaded on demand."}, "name": {"type": "string", "description": "The name assigned to the routing scope."}, "route_configuration_name": {"type": "string", "description": "The resource name to use for a :ref:`envoy_api_msg_service.discovery.v4alpha.DiscoveryRequest` to an\n RDS server to fetch the :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration` associated\n with this scope."}, "key": {"properties": {"fragments": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"string_key": {"type": "string", "description": "A string to match against."}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "The ordered set of fragments to match against. The order must match the\n fragments in the corresponding\n :ref:`scope_key_builder<envoy_api_field_extensions.filters.network.http_connection_manager.v4alpha.ScopedRoutes.scope_key_builder>`."}}, "additionalProperties": true, "type": "object", "description": "The key to match against."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: HTTP scoped routing configuration]\n * Routing :ref:`architecture overview <arch_overview_http_routing>`\n\nSpecifies a routing scope, which associates a\n :ref:`Key<envoy_api_msg_config.route.v4alpha.ScopedRouteConfiguration.Key>` to a\n :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration` (identified by its resource name).\n\n The HTTP connection manager builds up a table consisting of these Key to\n RouteConfiguration mappings, and looks up the RouteConfiguration to use per\n request according to the algorithm specified in the\n :ref:`scope_key_builder<envoy_api_field_extensions.filters.network.http_connection_manager.v4alpha.ScopedRoutes.scope_key_builder>`\n assigned to the HttpConnectionManager.\n\n For example, with the following configurations (in YAML):\n\n HttpConnectionManager config:\n\n .. code::\n\n   ...\n   scoped_routes:\n     name: foo-scoped-routes\n     scope_key_builder:\n       fragments:\n         - header_value_extractor:\n             name: X-Route-Selector\n             element_separator: ,\n             element:\n               separator: =\n               key: vip\n\n ScopedRouteConfiguration resources (specified statically via\n :ref:`scoped_route_configurations_list<envoy_api_field_extensions.filters.network.http_connection_manager.v4alpha.ScopedRoutes.scoped_route_configurations_list>`\n or obtained dynamically via SRDS):\n\n .. code::\n\n  (1)\n   name: route-scope1\n   route_configuration_name: route-config1\n   key:\n      fragments:\n        - string_key: 172.10.10.20\n\n  (2)\n   name: route-scope2\n   route_configuration_name: route-config2\n   key:\n     fragments:\n       - string_key: 172.20.20.30\n\n A request from a client such as:\n\n .. code::\n\n     GET / HTTP/1.1\n     Host: foo.com\n     X-Route-Selector: vip=172.10.10.20\n\n would result in the routing table defined by the `route-config1`\n RouteConfiguration being assigned to the HTTP request/stream."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "on_demand": {
+            "type": "boolean",
+            "description": "Whether the RouteConfiguration should be loaded on demand."
+        },
+        "name": {
+            "type": "string",
+            "description": "The name assigned to the routing scope."
+        },
+        "route_configuration_name": {
+            "type": "string",
+            "description": "The resource name to use for a :ref:`envoy_api_msg_service.discovery.v4alpha.DiscoveryRequest` to an\n RDS server to fetch the :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration` associated\n with this scope."
+        },
+        "key": {
+            "properties": {
+                "fragments": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "string_key": {
+                                "type": "string",
+                                "description": "A string to match against."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "The ordered set of fragments to match against. The order must match the\n fragments in the corresponding\n :ref:`scope_key_builder\u003cenvoy_api_field_extensions.filters.network.http_connection_manager.v4alpha.ScopedRoutes.scope_key_builder\u003e`."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The key to match against."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: HTTP scoped routing configuration]\n * Routing :ref:`architecture overview \u003carch_overview_http_routing\u003e`\n\nSpecifies a routing scope, which associates a\n :ref:`Key\u003cenvoy_api_msg_config.route.v4alpha.ScopedRouteConfiguration.Key\u003e` to a\n :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration` (identified by its resource name).\n\n The HTTP connection manager builds up a table consisting of these Key to\n RouteConfiguration mappings, and looks up the RouteConfiguration to use per\n request according to the algorithm specified in the\n :ref:`scope_key_builder\u003cenvoy_api_field_extensions.filters.network.http_connection_manager.v4alpha.ScopedRoutes.scope_key_builder\u003e`\n assigned to the HttpConnectionManager.\n\n For example, with the following configurations (in YAML):\n\n HttpConnectionManager config:\n\n .. code::\n\n   ...\n   scoped_routes:\n     name: foo-scoped-routes\n     scope_key_builder:\n       fragments:\n         - header_value_extractor:\n             name: X-Route-Selector\n             element_separator: ,\n             element:\n               separator: =\n               key: vip\n\n ScopedRouteConfiguration resources (specified statically via\n :ref:`scoped_route_configurations_list\u003cenvoy_api_field_extensions.filters.network.http_connection_manager.v4alpha.ScopedRoutes.scoped_route_configurations_list\u003e`\n or obtained dynamically via SRDS):\n\n .. code::\n\n  (1)\n   name: route-scope1\n   route_configuration_name: route-config1\n   key:\n      fragments:\n        - string_key: 172.10.10.20\n\n  (2)\n   name: route-scope2\n   route_configuration_name: route-config2\n   key:\n     fragments:\n       - string_key: 172.20.20.30\n\n A request from a client such as:\n\n .. code::\n\n     GET / HTTP/1.1\n     Host: foo.com\n     X-Route-Selector: vip=172.10.10.20\n\n would result in the routing table defined by the `route-config1`\n RouteConfiguration being assigned to the HTTP request/stream."
+}

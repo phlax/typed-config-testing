@@ -1,1 +1,16 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"default_value": {"type": "number", "description": "Default value if runtime value is not available."}, "runtime_key": {"type": "string", "description": "Runtime key to get value for comparison. This value is used if defined."}}, "additionalProperties": true, "type": "object", "description": "Runtime derived double with a default when not specified."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "default_value": {
+            "type": "number",
+            "description": "Default value if runtime value is not available."
+        },
+        "runtime_key": {
+            "type": "string",
+            "description": "Runtime key to get value for comparison. This value is used if defined."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Runtime derived double with a default when not specified."
+}

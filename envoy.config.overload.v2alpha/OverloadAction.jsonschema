@@ -1,1 +1,36 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The name of the overload action. This is just a well-known string that listeners can\n use for registering callbacks. Custom overload actions should be named using reverse\n DNS to ensure uniqueness."}, "triggers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The name of the resource this is a trigger for."}, "threshold": {"properties": {"value": {"type": "number", "description": "If the resource pressure is greater than or equal to this value, the trigger\n will fire."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "A set of triggers for this action. If any of these triggers fire the overload action\n is activated. Listeners are notified when the overload action transitions from\n inactivated to activated, or vice versa."}}, "additionalProperties": true, "type": "object"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name of the overload action. This is just a well-known string that listeners can\n use for registering callbacks. Custom overload actions should be named using reverse\n DNS to ensure uniqueness."
+        },
+        "triggers": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the resource this is a trigger for."
+                    },
+                    "threshold": {
+                        "properties": {
+                            "value": {
+                                "type": "number",
+                                "description": "If the resource pressure is greater than or equal to this value, the trigger\n will fire."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object"
+            },
+            "type": "array",
+            "description": "A set of triggers for this action. If any of these triggers fire the overload action\n is activated. Listeners are notified when the overload action transitions from\n inactivated to activated, or vice versa."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

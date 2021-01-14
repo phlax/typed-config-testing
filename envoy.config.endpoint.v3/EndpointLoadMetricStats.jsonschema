@@ -1,1 +1,19 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"metric_name": {"type": "string", "description": "Name of the metric; may be empty."}, "num_requests_finished_with_metric": {"type": "string", "description": "Number of calls that finished and included this metric."}, "total_metric_value": {"type": "number", "description": "Sum of metric values across all calls that finished with this metric for\n load_reporting_interval."}}, "additionalProperties": true, "type": "object"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "metric_name": {
+            "type": "string",
+            "description": "Name of the metric; may be empty."
+        },
+        "num_requests_finished_with_metric": {
+            "type": "string",
+            "description": "Number of calls that finished and included this metric."
+        },
+        "total_metric_value": {
+            "type": "number",
+            "description": "Sum of metric values across all calls that finished with this metric for\n load_reporting_interval."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

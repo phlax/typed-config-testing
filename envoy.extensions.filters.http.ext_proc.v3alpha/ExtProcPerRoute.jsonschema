@@ -1,1 +1,162 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"disabled": {"type": "boolean", "description": "Disable the filter for this particular vhost or route.\n If disabled is specified in multiple per-filter-configs, the most specific one will be used."}, "overrides": {"properties": {"processing_mode": {"properties": {"request_header_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request header. Default is \"SEND\"."}, "response_header_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the response header. Default is \"SEND\"."}, "request_body_mode": {"enum": ["NONE", 0, "STREAMED", 1, "BUFFERED", 2, "BUFFERED_PARTIAL", 3], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request body. Default is \"NONE\"."}, "response_body_mode": {"enum": ["NONE", 0, "STREAMED", 1, "BUFFERED", 2, "BUFFERED_PARTIAL", 3], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How do handle the response body. Default is \"NONE\"."}, "request_trailer_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the request trailers. Default is \"SKIP\"."}, "response_trailer_mode": {"enum": ["DEFAULT", 0, "SEND", 1, "SKIP", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How to handle the response trailers. Default is \"SKIP\"."}}, "additionalProperties": true, "type": "object", "description": "Set a different processing mode for this route than the default."}, "async_mode": {"type": "boolean", "description": "Set a different asynchronous processing option than the default."}, "request_properties": {"items": {"type": "string"}, "type": "array", "description": "Set different optional properties than the default."}, "response_properties": {"items": {"type": "string"}, "type": "array", "description": "Set different optional properties than the default."}}, "additionalProperties": true, "type": "object", "description": "Override aspects of the configuration for this route"}}, "additionalProperties": true, "type": "object", "description": "[#not-implemented-hide:]\n Extra settings that may be added to per-route configuration for a\n virtual host or cluster."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "disabled": {
+            "type": "boolean",
+            "description": "Disable the filter for this particular vhost or route.\n If disabled is specified in multiple per-filter-configs, the most specific one will be used."
+        },
+        "overrides": {
+            "properties": {
+                "processing_mode": {
+                    "properties": {
+                        "request_header_mode": {
+                            "enum": [
+                                "DEFAULT",
+                                0,
+                                "SEND",
+                                1,
+                                "SKIP",
+                                2
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "How to handle the request header. Default is \"SEND\"."
+                        },
+                        "response_header_mode": {
+                            "enum": [
+                                "DEFAULT",
+                                0,
+                                "SEND",
+                                1,
+                                "SKIP",
+                                2
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "How to handle the response header. Default is \"SEND\"."
+                        },
+                        "request_body_mode": {
+                            "enum": [
+                                "NONE",
+                                0,
+                                "STREAMED",
+                                1,
+                                "BUFFERED",
+                                2,
+                                "BUFFERED_PARTIAL",
+                                3
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "How to handle the request body. Default is \"NONE\"."
+                        },
+                        "response_body_mode": {
+                            "enum": [
+                                "NONE",
+                                0,
+                                "STREAMED",
+                                1,
+                                "BUFFERED",
+                                2,
+                                "BUFFERED_PARTIAL",
+                                3
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "How do handle the response body. Default is \"NONE\"."
+                        },
+                        "request_trailer_mode": {
+                            "enum": [
+                                "DEFAULT",
+                                0,
+                                "SEND",
+                                1,
+                                "SKIP",
+                                2
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "How to handle the request trailers. Default is \"SKIP\"."
+                        },
+                        "response_trailer_mode": {
+                            "enum": [
+                                "DEFAULT",
+                                0,
+                                "SEND",
+                                1,
+                                "SKIP",
+                                2
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "How to handle the response trailers. Default is \"SKIP\"."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Set a different processing mode for this route than the default."
+                },
+                "async_mode": {
+                    "type": "boolean",
+                    "description": "Set a different asynchronous processing option than the default."
+                },
+                "request_properties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "Set different optional properties than the default."
+                },
+                "response_properties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "Set different optional properties than the default."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Override aspects of the configuration for this route"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#not-implemented-hide:]\n Extra settings that may be added to per-route configuration for a\n virtual host or cluster."
+}

@@ -1,1 +1,264 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"status": {"properties": {"code": {"type": "integer", "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."}, "message": {"type": "string", "description": "A developer-facing error message, which should be in English. Any\n user-facing error message should be localized and sent in the\n [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."}, "details": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object", "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\n URL that describes the type of the serialized message.\n\n Protobuf library provides support to pack/unpack Any values in the form\n of utility functions or additional generated methods of the Any type.\n\n Example 1: Pack and unpack a message in C++.\n\n     Foo foo = ...;\n     Any any;\n     any.PackFrom(foo);\n     ...\n     if (any.UnpackTo(&foo)) {\n       ...\n     }\n\n Example 2: Pack and unpack a message in Java.\n\n     Foo foo = ...;\n     Any any = Any.pack(foo);\n     ...\n     if (any.is(Foo.class)) {\n       foo = any.unpack(Foo.class);\n     }\n\n  Example 3: Pack and unpack a message in Python.\n\n     foo = Foo(...)\n     any = Any()\n     any.Pack(foo)\n     ...\n     if any.Is(Foo.DESCRIPTOR):\n       any.Unpack(foo)\n       ...\n\n  Example 4: Pack and unpack a message in Go\n\n      foo := &pb.Foo{...}\n      any, err := anypb.New(foo)\n      if err != nil {\n        ...\n      }\n      ...\n      foo := &pb.Foo{}\n      if err := any.UnmarshalTo(foo); err != nil {\n        ...\n      }\n\n The pack methods provided by protobuf library will by default use\n 'type.googleapis.com/full.type.name' as the type URL and the unpack\n methods only use the fully qualified type name after the last '/'\n in the type URL, for example \"foo.bar.com/x/y.z\" will yield type\n name \"y.z\".\n\n\n JSON\n ====\n The JSON representation of an `Any` value uses the regular\n representation of the deserialized, embedded message, with an\n additional field `@type` which contains the type URL. Example:\n\n     package google.profile;\n     message Person {\n       string first_name = 1;\n       string last_name = 2;\n     }\n\n     {\n       \"@type\": \"type.googleapis.com/google.profile.Person\",\n       \"firstName\": <string>,\n       \"lastName\": <string>\n     }\n\n If the embedded message type is well-known and has a custom JSON\n representation, that representation will be embedded adding a field\n `value` which holds the custom JSON in addition to the `@type`\n field. Example (for message [google.protobuf.Duration][]):\n\n     {\n       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n       \"value\": \"1.212s\"\n     }"}, "type": "array", "description": "A list of messages that carry the error details.  There is a common set of\n message types for APIs to use."}}, "additionalProperties": true, "type": "object", "description": "Status `OK` allows the request. Any other status indicates the request should be denied."}, "denied_response": {"properties": {"status": {"properties": {"code": {"enum": ["Empty", 0, "Continue", 100, "OK", 200, "Created", 201, "Accepted", 202, "NonAuthoritativeInformation", 203, "NoContent", 204, "ResetContent", 205, "PartialContent", 206, "MultiStatus", 207, "AlreadyReported", 208, "IMUsed", 226, "MultipleChoices", 300, "MovedPermanently", 301, "Found", 302, "SeeOther", 303, "NotModified", 304, "UseProxy", 305, "TemporaryRedirect", 307, "PermanentRedirect", 308, "BadRequest", 400, "Unauthorized", 401, "PaymentRequired", 402, "Forbidden", 403, "NotFound", 404, "MethodNotAllowed", 405, "NotAcceptable", 406, "ProxyAuthenticationRequired", 407, "RequestTimeout", 408, "Conflict", 409, "Gone", 410, "LengthRequired", 411, "PreconditionFailed", 412, "PayloadTooLarge", 413, "URITooLong", 414, "UnsupportedMediaType", 415, "RangeNotSatisfiable", 416, "ExpectationFailed", 417, "MisdirectedRequest", 421, "UnprocessableEntity", 422, "Locked", 423, "FailedDependency", 424, "UpgradeRequired", 426, "PreconditionRequired", 428, "TooManyRequests", 429, "RequestHeaderFieldsTooLarge", 431, "InternalServerError", 500, "NotImplemented", 501, "BadGateway", 502, "ServiceUnavailable", 503, "GatewayTimeout", 504, "HTTPVersionNotSupported", 505, "VariantAlsoNegotiates", 506, "InsufficientStorage", 507, "LoopDetected", 508, "NotExtended", 510, "NetworkAuthenticationRequired", 511], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Supplies HTTP response code."}}, "additionalProperties": true, "type": "object", "description": "This field allows the authorization service to send a HTTP response status\n code to the downstream client other than 403 (Forbidden)."}, "headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/HeaderValueOption.jsonschema"}, "type": "array", "description": "This field allows the authorization service to send HTTP response headers\n to the downstream client. Note that the `append` field in `HeaderValueOption` defaults to\n false when used in this message."}, "body": {"type": "string", "description": "This field allows the authorization service to send a response body data\n to the downstream client."}}, "additionalProperties": true, "type": "object", "description": "Supplies http attributes for a denied response."}, "ok_response": {"properties": {"headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/HeaderValueOption.jsonschema"}, "type": "array", "description": "HTTP entity headers in addition to the original request headers. This allows the authorization\n service to append, to add or to override headers from the original request before\n dispatching it to the upstream. Note that the `append` field in `HeaderValueOption` defaults to\n false when used in this message. By setting the `append` field to `true`,\n the filter will append the correspondent header value to the matched request header.\n By leaving `append` as false, the filter will either add a new header, or override an existing\n one if there is a match."}, "headers_to_remove": {"items": {"type": "string"}, "type": "array", "description": "HTTP entity headers to remove from the original request before dispatching\n it to the upstream. This allows the authorization service to act on auth\n related headers (like `Authorization`), process them, and consume them.\n Under this model, the upstream will either receive the request (if it's\n authorized) or not receive it (if it's not), but will not see headers\n containing authorization credentials.\n\n Pseudo headers (such as `:authority`, `:method`, `:path` etc), as well as\n the header `Host`, may not be removed as that would make the request\n malformed. If mentioned in `headers_to_remove` these special headers will\n be ignored.\n\n When using the HTTP service this must instead be set by the HTTP\n authorization service as a comma separated list like so:\n ``x-envoy-auth-headers-to-remove: one-auth-header, another-auth-header``."}}, "additionalProperties": true, "type": "object", "description": "Supplies http attributes for an ok response."}, "dynamic_metadata": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object", "description": "Optional response metadata that will be emitted as dynamic metadata to be consumed by the next\n filter. This metadata lives in a namespace specified by the canonical name of extension filter\n that requires it:\n\n - :ref:`envoy.filters.http.ext_authz <config_http_filters_ext_authz_dynamic_metadata>` for HTTP filter.\n - :ref:`envoy.filters.network.ext_authz <config_network_filters_ext_authz_dynamic_metadata>` for network filter."}}, "additionalProperties": true, "type": "object", "description": "Intended for gRPC and Network Authorization servers `only`.", "definitions": {"envoy.config.core.v4alpha.HeaderValueOption": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header": {"properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair that this option applies to."}, "append": {"additionalProperties": true, "type": "boolean", "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair plus option to control append behavior.", "id": "envoy.config.core.v4alpha.HeaderValueOption"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "status": {
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "description": "The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]."
+                },
+                "message": {
+                    "type": "string",
+                    "description": "A developer-facing error message, which should be in English. Any\n user-facing error message should be localized and sent in the\n [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client."
+                },
+                "details": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "type_url": {
+                                "type": "string",
+                                "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Must be a valid serialized protocol buffer of the above specified type."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\n URL that describes the type of the serialized message.\n\n Protobuf library provides support to pack/unpack Any values in the form\n of utility functions or additional generated methods of the Any type.\n\n Example 1: Pack and unpack a message in C++.\n\n     Foo foo = ...;\n     Any any;\n     any.PackFrom(foo);\n     ...\n     if (any.UnpackTo(\u0026foo)) {\n       ...\n     }\n\n Example 2: Pack and unpack a message in Java.\n\n     Foo foo = ...;\n     Any any = Any.pack(foo);\n     ...\n     if (any.is(Foo.class)) {\n       foo = any.unpack(Foo.class);\n     }\n\n  Example 3: Pack and unpack a message in Python.\n\n     foo = Foo(...)\n     any = Any()\n     any.Pack(foo)\n     ...\n     if any.Is(Foo.DESCRIPTOR):\n       any.Unpack(foo)\n       ...\n\n  Example 4: Pack and unpack a message in Go\n\n      foo := \u0026pb.Foo{...}\n      any, err := anypb.New(foo)\n      if err != nil {\n        ...\n      }\n      ...\n      foo := \u0026pb.Foo{}\n      if err := any.UnmarshalTo(foo); err != nil {\n        ...\n      }\n\n The pack methods provided by protobuf library will by default use\n 'type.googleapis.com/full.type.name' as the type URL and the unpack\n methods only use the fully qualified type name after the last '/'\n in the type URL, for example \"foo.bar.com/x/y.z\" will yield type\n name \"y.z\".\n\n\n JSON\n ====\n The JSON representation of an `Any` value uses the regular\n representation of the deserialized, embedded message, with an\n additional field `@type` which contains the type URL. Example:\n\n     package google.profile;\n     message Person {\n       string first_name = 1;\n       string last_name = 2;\n     }\n\n     {\n       \"@type\": \"type.googleapis.com/google.profile.Person\",\n       \"firstName\": \u003cstring\u003e,\n       \"lastName\": \u003cstring\u003e\n     }\n\n If the embedded message type is well-known and has a custom JSON\n representation, that representation will be embedded adding a field\n `value` which holds the custom JSON in addition to the `@type`\n field. Example (for message [google.protobuf.Duration][]):\n\n     {\n       \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n       \"value\": \"1.212s\"\n     }"
+                    },
+                    "type": "array",
+                    "description": "A list of messages that carry the error details.  There is a common set of\n message types for APIs to use."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Status `OK` allows the request. Any other status indicates the request should be denied."
+        },
+        "denied_response": {
+            "properties": {
+                "status": {
+                    "properties": {
+                        "code": {
+                            "enum": [
+                                "Empty",
+                                0,
+                                "Continue",
+                                100,
+                                "OK",
+                                200,
+                                "Created",
+                                201,
+                                "Accepted",
+                                202,
+                                "NonAuthoritativeInformation",
+                                203,
+                                "NoContent",
+                                204,
+                                "ResetContent",
+                                205,
+                                "PartialContent",
+                                206,
+                                "MultiStatus",
+                                207,
+                                "AlreadyReported",
+                                208,
+                                "IMUsed",
+                                226,
+                                "MultipleChoices",
+                                300,
+                                "MovedPermanently",
+                                301,
+                                "Found",
+                                302,
+                                "SeeOther",
+                                303,
+                                "NotModified",
+                                304,
+                                "UseProxy",
+                                305,
+                                "TemporaryRedirect",
+                                307,
+                                "PermanentRedirect",
+                                308,
+                                "BadRequest",
+                                400,
+                                "Unauthorized",
+                                401,
+                                "PaymentRequired",
+                                402,
+                                "Forbidden",
+                                403,
+                                "NotFound",
+                                404,
+                                "MethodNotAllowed",
+                                405,
+                                "NotAcceptable",
+                                406,
+                                "ProxyAuthenticationRequired",
+                                407,
+                                "RequestTimeout",
+                                408,
+                                "Conflict",
+                                409,
+                                "Gone",
+                                410,
+                                "LengthRequired",
+                                411,
+                                "PreconditionFailed",
+                                412,
+                                "PayloadTooLarge",
+                                413,
+                                "URITooLong",
+                                414,
+                                "UnsupportedMediaType",
+                                415,
+                                "RangeNotSatisfiable",
+                                416,
+                                "ExpectationFailed",
+                                417,
+                                "MisdirectedRequest",
+                                421,
+                                "UnprocessableEntity",
+                                422,
+                                "Locked",
+                                423,
+                                "FailedDependency",
+                                424,
+                                "UpgradeRequired",
+                                426,
+                                "PreconditionRequired",
+                                428,
+                                "TooManyRequests",
+                                429,
+                                "RequestHeaderFieldsTooLarge",
+                                431,
+                                "InternalServerError",
+                                500,
+                                "NotImplemented",
+                                501,
+                                "BadGateway",
+                                502,
+                                "ServiceUnavailable",
+                                503,
+                                "GatewayTimeout",
+                                504,
+                                "HTTPVersionNotSupported",
+                                505,
+                                "VariantAlsoNegotiates",
+                                506,
+                                "InsufficientStorage",
+                                507,
+                                "LoopDetected",
+                                508,
+                                "NotExtended",
+                                510,
+                                "NetworkAuthenticationRequired",
+                                511
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "Supplies HTTP response code."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "This field allows the authorization service to send a HTTP response status\n code to the downstream client other than 403 (Forbidden)."
+                },
+                "headers": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "envoy.config.core.v4alpha.HeaderValueOption"
+                    },
+                    "type": "array",
+                    "description": "This field allows the authorization service to send HTTP response headers\n to the downstream client. Note that the `append` field in `HeaderValueOption` defaults to\n false when used in this message."
+                },
+                "body": {
+                    "type": "string",
+                    "description": "This field allows the authorization service to send a response body data\n to the downstream client."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Supplies http attributes for a denied response."
+        },
+        "ok_response": {
+            "properties": {
+                "headers": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "envoy.config.core.v4alpha.HeaderValueOption"
+                    },
+                    "type": "array",
+                    "description": "HTTP entity headers in addition to the original request headers. This allows the authorization\n service to append, to add or to override headers from the original request before\n dispatching it to the upstream. Note that the `append` field in `HeaderValueOption` defaults to\n false when used in this message. By setting the `append` field to `true`,\n the filter will append the correspondent header value to the matched request header.\n By leaving `append` as false, the filter will either add a new header, or override an existing\n one if there is a match."
+                },
+                "headers_to_remove": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array",
+                    "description": "HTTP entity headers to remove from the original request before dispatching\n it to the upstream. This allows the authorization service to act on auth\n related headers (like `Authorization`), process them, and consume them.\n Under this model, the upstream will either receive the request (if it's\n authorized) or not receive it (if it's not), but will not see headers\n containing authorization credentials.\n\n Pseudo headers (such as `:authority`, `:method`, `:path` etc), as well as\n the header `Host`, may not be removed as that would make the request\n malformed. If mentioned in `headers_to_remove` these special headers will\n be ignored.\n\n When using the HTTP service this must instead be set by the HTTP\n authorization service as a comma separated list like so:\n ``x-envoy-auth-headers-to-remove: one-auth-header, another-auth-header``."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Supplies http attributes for an ok response."
+        },
+        "dynamic_metadata": {
+            "properties": {
+                "fields": {
+                    "additionalProperties": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Unordered map of dynamically typed values."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Optional response metadata that will be emitted as dynamic metadata to be consumed by the next\n filter. This metadata lives in a namespace specified by the canonical name of extension filter\n that requires it:\n\n - :ref:`envoy.filters.http.ext_authz \u003cconfig_http_filters_ext_authz_dynamic_metadata\u003e` for HTTP filter.\n - :ref:`envoy.filters.network.ext_authz \u003cconfig_network_filters_ext_authz_dynamic_metadata\u003e` for network filter."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Intended for gRPC and Network Authorization servers `only`.",
+    "definitions": {
+        "envoy.config.core.v4alpha.HeaderValueOption": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "header": {
+                    "properties": {
+                        "key": {
+                            "type": "string",
+                            "description": "Header name."
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Header name/value pair that this option applies to."
+                },
+                "append": {
+                    "additionalProperties": true,
+                    "type": "boolean",
+                    "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Header name/value pair plus option to control append behavior.",
+            "id": "envoy.config.core.v4alpha.HeaderValueOption"
+        }
+    }
+}

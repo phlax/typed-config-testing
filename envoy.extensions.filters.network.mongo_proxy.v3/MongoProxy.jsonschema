@@ -1,1 +1,84 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"stat_prefix": {"type": "string", "description": "The human readable prefix to use when emitting :ref:`statistics\n <config_network_filters_mongo_proxy_stats>`."}, "access_log": {"type": "string", "description": "The optional path to use for writing Mongo access logs. If not access log\n path is specified no access logs will be written. Note that access log is\n also gated :ref:`runtime <config_network_filters_mongo_proxy_runtime>`."}, "delay": {"properties": {"fixed_delay": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Add a fixed delay before forwarding the operation upstream. See\n https://developers.google.com/protocol-buffers/docs/proto3#json for\n the JSON/YAML Duration mapping. For HTTP/Mongo/Redis, the specified\n delay will be injected before a new request/operation. For TCP\n connections, the proxying of the connection upstream will be delayed\n for the specified period. This is required if type is FIXED."}, "header_delay": {"additionalProperties": true, "type": "object", "description": "Fault delays are controlled via an HTTP header (if applicable)."}, "percentage": {"properties": {"numerator": {"type": "integer", "description": "Specifies the numerator. Defaults to 0."}, "denominator": {"enum": ["HUNDRED", 0, "TEN_THOUSAND", 1, "MILLION", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."}}, "additionalProperties": true, "type": "object", "description": "The percentage of operations/connections/requests on which the delay will be injected."}}, "additionalProperties": true, "type": "object", "description": "Inject a fixed delay before proxying a Mongo operation. Delays are\n applied to the following MongoDB operations: Query, Insert, GetMore,\n and KillCursors. Once an active delay is in progress, all incoming\n data up until the timer event fires will be a part of the delay."}, "emit_dynamic_metadata": {"type": "boolean", "description": "Flag to specify whether :ref:`dynamic metadata\n <config_network_filters_mongo_proxy_dynamic_metadata>` should be emitted. Defaults to false."}, "commands": {"items": {"type": "string"}, "type": "array", "description": "List of commands to emit metrics for. Defaults to \"delete\", \"insert\", and \"update\".\n Note that metrics will not be emitted for \"find\" commands, since those are considered\n queries, and metrics for those are emitted under a dedicated \"query\" namespace."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Mongo proxy]\n MongoDB :ref:`configuration overview <config_network_filters_mongo_proxy>`.\n [#extension: envoy.filters.network.mongo_proxy]\n\n[#next-free-field: 6]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "stat_prefix": {
+            "type": "string",
+            "description": "The human readable prefix to use when emitting :ref:`statistics\n \u003cconfig_network_filters_mongo_proxy_stats\u003e`."
+        },
+        "access_log": {
+            "type": "string",
+            "description": "The optional path to use for writing Mongo access logs. If not access log\n path is specified no access logs will be written. Note that access log is\n also gated :ref:`runtime \u003cconfig_network_filters_mongo_proxy_runtime\u003e`."
+        },
+        "delay": {
+            "properties": {
+                "fixed_delay": {
+                    "properties": {
+                        "seconds": {
+                            "type": "string",
+                            "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                        },
+                        "nanos": {
+                            "type": "integer",
+                            "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Add a fixed delay before forwarding the operation upstream. See\n https://developers.google.com/protocol-buffers/docs/proto3#json for\n the JSON/YAML Duration mapping. For HTTP/Mongo/Redis, the specified\n delay will be injected before a new request/operation. For TCP\n connections, the proxying of the connection upstream will be delayed\n for the specified period. This is required if type is FIXED."
+                },
+                "header_delay": {
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Fault delays are controlled via an HTTP header (if applicable)."
+                },
+                "percentage": {
+                    "properties": {
+                        "numerator": {
+                            "type": "integer",
+                            "description": "Specifies the numerator. Defaults to 0."
+                        },
+                        "denominator": {
+                            "enum": [
+                                "HUNDRED",
+                                0,
+                                "TEN_THOUSAND",
+                                1,
+                                "MILLION",
+                                2
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "The percentage of operations/connections/requests on which the delay will be injected."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Inject a fixed delay before proxying a Mongo operation. Delays are\n applied to the following MongoDB operations: Query, Insert, GetMore,\n and KillCursors. Once an active delay is in progress, all incoming\n data up until the timer event fires will be a part of the delay."
+        },
+        "emit_dynamic_metadata": {
+            "type": "boolean",
+            "description": "Flag to specify whether :ref:`dynamic metadata\n \u003cconfig_network_filters_mongo_proxy_dynamic_metadata\u003e` should be emitted. Defaults to false."
+        },
+        "commands": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "List of commands to emit metrics for. Defaults to \"delete\", \"insert\", and \"update\".\n Note that metrics will not be emitted for \"find\" commands, since those are considered\n queries, and metrics for those are emitted under a dedicated \"query\" namespace."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Mongo proxy]\n MongoDB :ref:`configuration overview \u003cconfig_network_filters_mongo_proxy\u003e`.\n [#extension: envoy.filters.network.mongo_proxy]\n\n[#next-free-field: 6]"
+}

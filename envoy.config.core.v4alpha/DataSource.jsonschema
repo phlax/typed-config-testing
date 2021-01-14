@@ -1,1 +1,20 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"filename": {"type": "string", "description": "Local filesystem data source."}, "inline_bytes": {"type": "string", "description": "Bytes inlined in the configuration."}, "inline_string": {"type": "string", "description": "String inlined in the configuration."}}, "additionalProperties": true, "type": "object", "description": "Data source consisting of either a file or an inline value."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "filename": {
+            "type": "string",
+            "description": "Local filesystem data source."
+        },
+        "inline_bytes": {
+            "type": "string",
+            "description": "Bytes inlined in the configuration."
+        },
+        "inline_string": {
+            "type": "string",
+            "description": "String inlined in the configuration."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Data source consisting of either a file or an inline value."
+}

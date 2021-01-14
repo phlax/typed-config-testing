@@ -1,1 +1,23 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"disabled": {"type": "boolean", "description": "Disable the buffer filter for this particular vhost or route."}, "buffer": {"properties": {"max_request_bytes": {"additionalProperties": true, "type": "integer", "description": "The maximum request size that the filter will buffer before the connection\n manager will stop buffering and return a 413 response."}}, "additionalProperties": true, "type": "object", "description": "Override the global configuration of the filter with this new config."}}, "additionalProperties": true, "type": "object"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "disabled": {
+            "type": "boolean",
+            "description": "Disable the buffer filter for this particular vhost or route."
+        },
+        "buffer": {
+            "properties": {
+                "max_request_bytes": {
+                    "additionalProperties": true,
+                    "type": "integer",
+                    "description": "The maximum request size that the filter will buffer before the connection\n manager will stop buffering and return a 413 response."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Override the global configuration of the filter with this new config."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

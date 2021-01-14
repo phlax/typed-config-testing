@@ -1,1 +1,23 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"wait_duration": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "How long to wait for the thread to respond to the thread kill function\n before killing the process from this action. This is a blocking action.\n By default this is 5 seconds."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Watchdog Action that kills a stuck thread to kill the process.]\n\nA GuardDogAction that will terminate the process by killing the\n stuck thread. This would allow easier access to the call stack of the stuck\n thread since we would run signal handlers on that thread. By default\n this will be registered to run as the last watchdog action on KILL and\n MULTIKILL events if those are enabled."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "wait_duration": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "How long to wait for the thread to respond to the thread kill function\n before killing the process from this action. This is a blocking action.\n By default this is 5 seconds."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Watchdog Action that kills a stuck thread to kill the process.]\n\nA GuardDogAction that will terminate the process by killing the\n stuck thread. This would allow easier access to the call stack of the stuck\n thread since we would run signal handlers on that thread. By default\n this will be registered to run as the last watchdog action on KILL and\n MULTIKILL events if those are enabled."
+}

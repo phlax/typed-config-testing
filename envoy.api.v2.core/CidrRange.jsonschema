@@ -1,1 +1,17 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"address_prefix": {"type": "string", "description": "IPv4 or IPv6 address, e.g. ``192.0.0.0`` or ``2001:db8::``."}, "prefix_len": {"additionalProperties": true, "type": "integer", "description": "Length of prefix, e.g. 0, 32."}}, "additionalProperties": true, "type": "object", "description": "CidrRange specifies an IP Address and a prefix length to construct\n the subnet mask for a `CIDR <https://tools.ietf.org/html/rfc4632>`_ range."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "address_prefix": {
+            "type": "string",
+            "description": "IPv4 or IPv6 address, e.g. ``192.0.0.0`` or ``2001:db8::``."
+        },
+        "prefix_len": {
+            "additionalProperties": true,
+            "type": "integer",
+            "description": "Length of prefix, e.g. 0, 32."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "CidrRange specifies an IP Address and a prefix length to construct\n the subnet mask for a `CIDR \u003chttps://tools.ietf.org/html/rfc4632\u003e`_ range."
+}

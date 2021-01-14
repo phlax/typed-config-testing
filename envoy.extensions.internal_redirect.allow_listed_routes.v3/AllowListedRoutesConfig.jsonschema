@@ -1,1 +1,15 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"allowed_route_names": {"items": {"type": "string"}, "type": "array", "description": "The list of routes that's allowed as redirect target by this predicate,\n identified by the route's :ref:`name <envoy_api_field_config.route.v3.Route.route>`.\n Empty route names are not allowed."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Allow listed routes internal redirect predicate]\n\nAn internal redirect predicate that accepts only explicitly allowed target routes.\n [#extension: envoy.internal_redirect_predicates.allow_listed_routes]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "allowed_route_names": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "The list of routes that's allowed as redirect target by this predicate,\n identified by the route's :ref:`name \u003cenvoy_api_field_config.route.v3.Route.route\u003e`.\n Empty route names are not allowed."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Allow listed routes internal redirect predicate]\n\nAn internal redirect predicate that accepts only explicitly allowed target routes.\n [#extension: envoy.internal_redirect_predicates.allow_listed_routes]"
+}

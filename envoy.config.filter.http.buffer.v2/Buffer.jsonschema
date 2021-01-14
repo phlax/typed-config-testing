@@ -1,1 +1,13 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"max_request_bytes": {"additionalProperties": true, "type": "integer", "description": "The maximum request size that the filter will buffer before the connection\n manager will stop buffering and return a 413 response."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Buffer]\n Buffer :ref:`configuration overview <config_http_filters_buffer>`.\n [#extension: envoy.filters.http.buffer]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "max_request_bytes": {
+            "additionalProperties": true,
+            "type": "integer",
+            "description": "The maximum request size that the filter will buffer before the connection\n manager will stop buffering and return a 413 response."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Buffer]\n Buffer :ref:`configuration overview \u003cconfig_http_filters_buffer\u003e`.\n [#extension: envoy.filters.http.buffer]"
+}

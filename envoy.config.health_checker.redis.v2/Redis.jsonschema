@@ -1,1 +1,12 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"key": {"type": "string", "description": "If set, optionally perform ``EXISTS <key>`` instead of ``PING``. A return value\n from Redis of 0 (does not exist) is considered a passing healthcheck. A return value other\n than 0 is considered a failure. This allows the user to mark a Redis instance for maintenance\n by setting the specified key to any value and waiting for traffic to drain."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Redis]\n Redis health checker :ref:`configuration overview <config_health_checkers_redis>`.\n [#extension: envoy.health_checkers.redis]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "key": {
+            "type": "string",
+            "description": "If set, optionally perform ``EXISTS \u003ckey\u003e`` instead of ``PING``. A return value\n from Redis of 0 (does not exist) is considered a passing healthcheck. A return value other\n than 0 is considered a failure. This allows the user to mark a Redis instance for maintenance\n by setting the specified key to any value and waiting for traffic to drain."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Redis]\n Redis health checker :ref:`configuration overview \u003cconfig_health_checkers_redis\u003e`.\n [#extension: envoy.health_checkers.redis]"
+}

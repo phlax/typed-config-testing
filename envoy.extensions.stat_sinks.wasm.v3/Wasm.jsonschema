@@ -1,1 +1,196 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"config": {"properties": {"name": {"type": "string", "description": "A unique name for a filters/services in a VM for use in identifying the filter/service if\n multiple filters/services are handled by the same *vm_id* and *root_id* and for\n logging/debugging."}, "root_id": {"type": "string", "description": "A unique ID for a set of filters/services in a VM which will share a RootContext and Contexts\n if applicable (e.g. an Wasm HttpFilter and an Wasm AccessLog). If left blank, all\n filters/services with a blank root_id with the same *vm_id* will share Context(s)."}, "vm_config": {"properties": {"vm_id": {"type": "string", "description": "An ID which will be used along with a hash of the wasm code (or the name of the registered Null\n VM plugin) to determine which VM will be used for the plugin. All plugins which use the same\n *vm_id* and code will use the same VM. May be left blank. Sharing a VM between plugins can\n reduce memory utilization and make sharing of data easier which may have security implications.\n See ref: \"TODO: add ref\" for details."}, "runtime": {"type": "string", "description": "The Wasm runtime type.\n Available Wasm runtime types are registered as extensions. The following runtimes are included\n in Envoy code base:\n\n .. _extension_envoy.wasm.runtime.null:\n\n **envoy.wasm.runtime.null**: Null sandbox, the Wasm module must be compiled and linked into the\n Envoy binary. The registered name is given in the *code* field as *inline_string*.\n\n .. _extension_envoy.wasm.runtime.v8:\n\n **envoy.wasm.runtime.v8**: `V8 <https://v8.dev/>`_-based WebAssembly runtime.\n\n .. _extension_envoy.wasm.runtime.wavm:\n\n **envoy.wasm.runtime.wavm**: `WAVM <https://wavm.github.io/>`_-based WebAssembly runtime.\n This runtime is not enabled in the official build.\n\n .. _extension_envoy.wasm.runtime.wasmtime:\n\n **envoy.wasm.runtime.wasmtime**: `Wasmtime <https://wasmtime.dev/>`_-based WebAssembly runtime.\n This runtime is not enabled in the official build."}, "code": {"properties": {"local": {"properties": {"filename": {"type": "string", "description": "Local filesystem data source."}, "inline_bytes": {"type": "string", "description": "Bytes inlined in the configuration."}, "inline_string": {"type": "string", "description": "String inlined in the configuration."}}, "additionalProperties": true, "type": "object", "description": "Local async data source."}, "remote": {"properties": {"http_uri": {"properties": {"uri": {"type": "string", "description": "The HTTP server URI. It should be a full FQDN with protocol, host and path.\n\n Example:\n\n .. code-block:: yaml\n\n    uri: https://www.googleapis.com/oauth2/v1/certs"}, "cluster": {"type": "string", "description": "A cluster is created in the Envoy \"cluster_manager\" config\n section. This field specifies the cluster name.\n\n Example:\n\n .. code-block:: yaml\n\n    cluster: jwks_cluster"}, "timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Sets the maximum duration in milliseconds that a response can take to arrive upon request."}}, "additionalProperties": true, "type": "object", "description": "The HTTP URI to fetch the remote data."}, "sha256": {"type": "string", "description": "SHA256 string for verifying data."}, "retry_policy": {"properties": {"retry_back_off": {"properties": {"base_interval": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The base interval to be used for the next back off computation. It should\n be greater than zero and less than or equal to :ref:`max_interval\n <envoy_api_field_config.core.v3.BackoffStrategy.max_interval>`."}, "max_interval": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Specifies the maximum interval between retries. This parameter is optional,\n but must be greater than or equal to the :ref:`base_interval\n <envoy_api_field_config.core.v3.BackoffStrategy.base_interval>` if set. The default\n is 10 times the :ref:`base_interval\n <envoy_api_field_config.core.v3.BackoffStrategy.base_interval>`."}}, "additionalProperties": true, "type": "object", "description": "Specifies parameters that control :ref:`retry backoff strategy <envoy_api_msg_config.core.v3.BackoffStrategy>`.\n This parameter is optional, in which case the default base interval is 1000 milliseconds. The\n default maximum interval is 10 times the base interval."}, "num_retries": {"additionalProperties": true, "type": "integer", "description": "Specifies the allowed number of retries. This parameter is optional and\n defaults to 1."}}, "additionalProperties": true, "type": "object", "description": "Retry policy for fetching remote data."}}, "additionalProperties": true, "type": "object", "description": "Remote async data source."}}, "additionalProperties": true, "type": "object", "description": "The Wasm code that Envoy will execute."}, "configuration": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object", "description": "The Wasm configuration used in initialization of a new VM\n (proxy_on_start). `google.protobuf.Struct` is serialized as JSON before\n passing it to the plugin. `google.protobuf.BytesValue` and\n `google.protobuf.StringValue` are passed directly without the wrapper."}, "allow_precompiled": {"type": "boolean", "description": "Allow the wasm file to include pre-compiled code on VMs which support it.\n Warning: this should only be enable for trusted sources as the precompiled code is not\n verified."}, "nack_on_code_cache_miss": {"type": "boolean", "description": "If true and the code needs to be remotely fetched and it is not in the cache then NACK the configuration\n update and do a background fetch to fill the cache, otherwise fetch the code asynchronously and enter\n warming state."}}, "additionalProperties": true, "type": "object", "description": "TODO: add referential VM configurations."}, "configuration": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object", "description": "Filter/service configuration used to configure or reconfigure a plugin\n (proxy_on_configuration).\n `google.protobuf.Struct` is serialized as JSON before\n passing it to the plugin. `google.protobuf.BytesValue` and\n `google.protobuf.StringValue` are passed directly without the wrapper."}, "fail_open": {"type": "boolean", "description": "If there is a fatal error on the VM (e.g. exception, abort(), on_start or on_configure return false),\n then all plugins associated with the VM will either fail closed (by default), e.g. by returning an HTTP 503 error,\n or fail open (if 'fail_open' is set to true) by bypassing the filter. Note: when on_start or on_configure return false\n during xDS updates the xDS configuration will be rejected and when on_start or on_configuration return false on initial\n startup the proxy will not start."}}, "additionalProperties": true, "type": "object", "description": "General Plugin configuration."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Wasm]\n Wasm :ref:`configuration overview <config_stat_sinks_wasm>`.\n [#extension: envoy.stat_sinks.wasm]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "config": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "A unique name for a filters/services in a VM for use in identifying the filter/service if\n multiple filters/services are handled by the same *vm_id* and *root_id* and for\n logging/debugging."
+                },
+                "root_id": {
+                    "type": "string",
+                    "description": "A unique ID for a set of filters/services in a VM which will share a RootContext and Contexts\n if applicable (e.g. an Wasm HttpFilter and an Wasm AccessLog). If left blank, all\n filters/services with a blank root_id with the same *vm_id* will share Context(s)."
+                },
+                "vm_config": {
+                    "properties": {
+                        "vm_id": {
+                            "type": "string",
+                            "description": "An ID which will be used along with a hash of the wasm code (or the name of the registered Null\n VM plugin) to determine which VM will be used for the plugin. All plugins which use the same\n *vm_id* and code will use the same VM. May be left blank. Sharing a VM between plugins can\n reduce memory utilization and make sharing of data easier which may have security implications.\n See ref: \"TODO: add ref\" for details."
+                        },
+                        "runtime": {
+                            "type": "string",
+                            "description": "The Wasm runtime type.\n Available Wasm runtime types are registered as extensions. The following runtimes are included\n in Envoy code base:\n\n .. _extension_envoy.wasm.runtime.null:\n\n **envoy.wasm.runtime.null**: Null sandbox, the Wasm module must be compiled and linked into the\n Envoy binary. The registered name is given in the *code* field as *inline_string*.\n\n .. _extension_envoy.wasm.runtime.v8:\n\n **envoy.wasm.runtime.v8**: `V8 \u003chttps://v8.dev/\u003e`_-based WebAssembly runtime.\n\n .. _extension_envoy.wasm.runtime.wavm:\n\n **envoy.wasm.runtime.wavm**: `WAVM \u003chttps://wavm.github.io/\u003e`_-based WebAssembly runtime.\n This runtime is not enabled in the official build.\n\n .. _extension_envoy.wasm.runtime.wasmtime:\n\n **envoy.wasm.runtime.wasmtime**: `Wasmtime \u003chttps://wasmtime.dev/\u003e`_-based WebAssembly runtime.\n This runtime is not enabled in the official build."
+                        },
+                        "code": {
+                            "properties": {
+                                "local": {
+                                    "properties": {
+                                        "filename": {
+                                            "type": "string",
+                                            "description": "Local filesystem data source."
+                                        },
+                                        "inline_bytes": {
+                                            "type": "string",
+                                            "description": "Bytes inlined in the configuration."
+                                        },
+                                        "inline_string": {
+                                            "type": "string",
+                                            "description": "String inlined in the configuration."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Local async data source."
+                                },
+                                "remote": {
+                                    "properties": {
+                                        "http_uri": {
+                                            "properties": {
+                                                "uri": {
+                                                    "type": "string",
+                                                    "description": "The HTTP server URI. It should be a full FQDN with protocol, host and path.\n\n Example:\n\n .. code-block:: yaml\n\n    uri: https://www.googleapis.com/oauth2/v1/certs"
+                                                },
+                                                "cluster": {
+                                                    "type": "string",
+                                                    "description": "A cluster is created in the Envoy \"cluster_manager\" config\n section. This field specifies the cluster name.\n\n Example:\n\n .. code-block:: yaml\n\n    cluster: jwks_cluster"
+                                                },
+                                                "timeout": {
+                                                    "properties": {
+                                                        "seconds": {
+                                                            "type": "string",
+                                                            "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                                        },
+                                                        "nanos": {
+                                                            "type": "integer",
+                                                            "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                                        }
+                                                    },
+                                                    "additionalProperties": true,
+                                                    "type": "object",
+                                                    "description": "Sets the maximum duration in milliseconds that a response can take to arrive upon request."
+                                                }
+                                            },
+                                            "additionalProperties": true,
+                                            "type": "object",
+                                            "description": "The HTTP URI to fetch the remote data."
+                                        },
+                                        "sha256": {
+                                            "type": "string",
+                                            "description": "SHA256 string for verifying data."
+                                        },
+                                        "retry_policy": {
+                                            "properties": {
+                                                "retry_back_off": {
+                                                    "properties": {
+                                                        "base_interval": {
+                                                            "properties": {
+                                                                "seconds": {
+                                                                    "type": "string",
+                                                                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                                                },
+                                                                "nanos": {
+                                                                    "type": "integer",
+                                                                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                                                }
+                                                            },
+                                                            "additionalProperties": true,
+                                                            "type": "object",
+                                                            "description": "The base interval to be used for the next back off computation. It should\n be greater than zero and less than or equal to :ref:`max_interval\n \u003cenvoy_api_field_config.core.v3.BackoffStrategy.max_interval\u003e`."
+                                                        },
+                                                        "max_interval": {
+                                                            "properties": {
+                                                                "seconds": {
+                                                                    "type": "string",
+                                                                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                                                },
+                                                                "nanos": {
+                                                                    "type": "integer",
+                                                                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                                                }
+                                                            },
+                                                            "additionalProperties": true,
+                                                            "type": "object",
+                                                            "description": "Specifies the maximum interval between retries. This parameter is optional,\n but must be greater than or equal to the :ref:`base_interval\n \u003cenvoy_api_field_config.core.v3.BackoffStrategy.base_interval\u003e` if set. The default\n is 10 times the :ref:`base_interval\n \u003cenvoy_api_field_config.core.v3.BackoffStrategy.base_interval\u003e`."
+                                                        }
+                                                    },
+                                                    "additionalProperties": true,
+                                                    "type": "object",
+                                                    "description": "Specifies parameters that control :ref:`retry backoff strategy \u003cenvoy_api_msg_config.core.v3.BackoffStrategy\u003e`.\n This parameter is optional, in which case the default base interval is 1000 milliseconds. The\n default maximum interval is 10 times the base interval."
+                                                },
+                                                "num_retries": {
+                                                    "additionalProperties": true,
+                                                    "type": "integer",
+                                                    "description": "Specifies the allowed number of retries. This parameter is optional and\n defaults to 1."
+                                                }
+                                            },
+                                            "additionalProperties": true,
+                                            "type": "object",
+                                            "description": "Retry policy for fetching remote data."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Remote async data source."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "The Wasm code that Envoy will execute."
+                        },
+                        "configuration": {
+                            "properties": {
+                                "type_url": {
+                                    "type": "string",
+                                    "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                                },
+                                "value": {
+                                    "type": "string",
+                                    "description": "Must be a valid serialized protocol buffer of the above specified type."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "The Wasm configuration used in initialization of a new VM\n (proxy_on_start). `google.protobuf.Struct` is serialized as JSON before\n passing it to the plugin. `google.protobuf.BytesValue` and\n `google.protobuf.StringValue` are passed directly without the wrapper."
+                        },
+                        "allow_precompiled": {
+                            "type": "boolean",
+                            "description": "Allow the wasm file to include pre-compiled code on VMs which support it.\n Warning: this should only be enable for trusted sources as the precompiled code is not\n verified."
+                        },
+                        "nack_on_code_cache_miss": {
+                            "type": "boolean",
+                            "description": "If true and the code needs to be remotely fetched and it is not in the cache then NACK the configuration\n update and do a background fetch to fill the cache, otherwise fetch the code asynchronously and enter\n warming state."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "TODO: add referential VM configurations."
+                },
+                "configuration": {
+                    "properties": {
+                        "type_url": {
+                            "type": "string",
+                            "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Must be a valid serialized protocol buffer of the above specified type."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Filter/service configuration used to configure or reconfigure a plugin\n (proxy_on_configuration).\n `google.protobuf.Struct` is serialized as JSON before\n passing it to the plugin. `google.protobuf.BytesValue` and\n `google.protobuf.StringValue` are passed directly without the wrapper."
+                },
+                "fail_open": {
+                    "type": "boolean",
+                    "description": "If there is a fatal error on the VM (e.g. exception, abort(), on_start or on_configure return false),\n then all plugins associated with the VM will either fail closed (by default), e.g. by returning an HTTP 503 error,\n or fail open (if 'fail_open' is set to true) by bypassing the filter. Note: when on_start or on_configure return false\n during xDS updates the xDS configuration will be rejected and when on_start or on_configuration return false on initial\n startup the proxy will not start."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "General Plugin configuration."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Wasm]\n Wasm :ref:`configuration overview \u003cconfig_stat_sinks_wasm\u003e`.\n [#extension: envoy.stat_sinks.wasm]"
+}

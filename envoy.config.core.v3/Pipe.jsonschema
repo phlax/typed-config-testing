@@ -1,1 +1,16 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"path": {"type": "string", "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."}, "mode": {"type": "integer", "description": "The mode for the Pipe. Not applicable for abstract sockets."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Network addresses]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "path": {
+            "type": "string",
+            "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."
+        },
+        "mode": {
+            "type": "integer",
+            "description": "The mode for the Pipe. Not applicable for abstract sockets."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Network addresses]"
+}

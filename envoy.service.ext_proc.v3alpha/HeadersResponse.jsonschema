@@ -1,1 +1,119 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"response": {"properties": {"status": {"enum": ["CONTINUE", 0, "CONTINUE_AND_REPLACE", 1], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "If set, provide additional direction on how the Envoy proxy should\n handle the rest of the HTTP filter chain."}, "header_mutation": {"properties": {"set_headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/HeaderValue.jsonschema", "additionalProperties": true, "description": "Header name/value pair that this option applies to."}, "append": {"additionalProperties": true, "type": "boolean", "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair plus option to control append behavior."}, "type": "array", "description": "Add or replace HTTP headers. Attempts to set the value of\n any \"x-envoy\" header, and attempts to set the \":method\",\n \":authority\", \":scheme\", or \"host\" headers will be ignored."}, "remove_headers": {"items": {"type": "string"}, "type": "array", "description": "Remove these HTTP headers. Attempts to remove system headers --\n any header starting with \":\", plus \"host\" -- will be ignored."}}, "additionalProperties": true, "type": "object", "description": "Instructions on how to manipulate the headers. When responding to an\n HttpBody request, header mutations will only take effect if the\n headers were not already sent further on the filter chain, which\n happens only if the current processing mode for the body is BUFFERED\n or BUFFERED_PARTIAL."}, "body_mutation": {"properties": {"body": {"type": "string", "description": "The entire body to replace"}, "clear_body": {"type": "boolean", "description": "Clear the corresponding body chunk"}}, "additionalProperties": true, "type": "object", "description": "Replace the body of the last message sent to the remote server on this\n stream. If responding to an HttpBody request, simply replace or clear\n the body chunk that was sent with that request. If responding to an\n HttpHeaders request, then a new body may be added to the request if this\n message is returned along with the CONTINUE_AND_REPLACE status."}, "trailers": {"properties": {"headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/HeaderValue.jsonschema"}, "type": "array"}}, "additionalProperties": true, "type": "object", "description": "Add new trailers to the message. This may be used when responding to either a\n HttpHeaders or HttpBody message, but only if this message is returned\n along with the CONTINUE_AND_REPLACE status."}, "clear_route_cache": {"type": "boolean", "description": "Clear the route cache for the current request.\n This is necessary if the remote server\n modified headers that are used to calculate the route."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "The following are messages that may be sent back by the server.\n\nThis message must be sent in response to an HttpHeaders message.", "definitions": {"envoy.config.core.v3.HeaderValue": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair.", "id": "envoy.config.core.v3.HeaderValue"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "response": {
+            "properties": {
+                "status": {
+                    "enum": [
+                        "CONTINUE",
+                        0,
+                        "CONTINUE_AND_REPLACE",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "If set, provide additional direction on how the Envoy proxy should\n handle the rest of the HTTP filter chain."
+                },
+                "header_mutation": {
+                    "properties": {
+                        "set_headers": {
+                            "items": {
+                                "$schema": "http://json-schema.org/draft-04/schema#",
+                                "properties": {
+                                    "header": {
+                                        "$ref": "envoy.config.core.v3.HeaderValue",
+                                        "additionalProperties": true,
+                                        "description": "Header name/value pair that this option applies to."
+                                    },
+                                    "append": {
+                                        "additionalProperties": true,
+                                        "type": "boolean",
+                                        "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."
+                                    }
+                                },
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "Header name/value pair plus option to control append behavior."
+                            },
+                            "type": "array",
+                            "description": "Add or replace HTTP headers. Attempts to set the value of\n any \"x-envoy\" header, and attempts to set the \":method\",\n \":authority\", \":scheme\", or \"host\" headers will be ignored."
+                        },
+                        "remove_headers": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array",
+                            "description": "Remove these HTTP headers. Attempts to remove system headers --\n any header starting with \":\", plus \"host\" -- will be ignored."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Instructions on how to manipulate the headers. When responding to an\n HttpBody request, header mutations will only take effect if the\n headers were not already sent further on the filter chain, which\n happens only if the current processing mode for the body is BUFFERED\n or BUFFERED_PARTIAL."
+                },
+                "body_mutation": {
+                    "properties": {
+                        "body": {
+                            "type": "string",
+                            "description": "The entire body to replace"
+                        },
+                        "clear_body": {
+                            "type": "boolean",
+                            "description": "Clear the corresponding body chunk"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Replace the body of the last message sent to the remote server on this\n stream. If responding to an HttpBody request, simply replace or clear\n the body chunk that was sent with that request. If responding to an\n HttpHeaders request, then a new body may be added to the request if this\n message is returned along with the CONTINUE_AND_REPLACE status."
+                },
+                "trailers": {
+                    "properties": {
+                        "headers": {
+                            "items": {
+                                "$schema": "http://json-schema.org/draft-04/schema#",
+                                "$ref": "envoy.config.core.v3.HeaderValue"
+                            },
+                            "type": "array"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Add new trailers to the message. This may be used when responding to either a\n HttpHeaders or HttpBody message, but only if this message is returned\n along with the CONTINUE_AND_REPLACE status."
+                },
+                "clear_route_cache": {
+                    "type": "boolean",
+                    "description": "Clear the route cache for the current request.\n This is necessary if the remote server\n modified headers that are used to calculate the route."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "The following are messages that may be sent back by the server.\n\nThis message must be sent in response to an HttpHeaders message.",
+    "definitions": {
+        "envoy.config.core.v3.HeaderValue": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Header name."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Header name/value pair.",
+            "id": "envoy.config.core.v3.HeaderValue"
+        }
+    }
+}

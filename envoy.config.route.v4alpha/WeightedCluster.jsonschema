@@ -1,1 +1,142 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"clusters": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "Name of the upstream cluster. The cluster must exist in the\n :ref:`cluster manager configuration <config_cluster_manager>`."}, "weight": {"additionalProperties": true, "type": "integer", "description": "An integer between 0 and :ref:`total_weight\n <envoy_api_field_config.route.v4alpha.WeightedCluster.total_weight>`. When a request matches the route,\n the choice of an upstream cluster is determined by its weight. The sum of weights across all\n entries in the clusters array must add up to the total_weight, which defaults to 100."}, "metadata_match": {"properties": {"filter_metadata": {"additionalProperties": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object"}, "type": "object", "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."}}, "additionalProperties": true, "type": "object", "description": "Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints in\n the upstream cluster with metadata matching what is set in this field will be considered for\n load balancing. Note that this will be merged with what's provided in\n :ref:`RouteAction.metadata_match <envoy_api_field_config.route.v4alpha.RouteAction.metadata_match>`, with\n values here taking precedence. The filter name should be specified as *envoy.lb*."}, "request_headers_to_add": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/HeaderValueOption.jsonschema"}, "type": "array", "description": "Specifies a list of headers to be added to requests when this cluster is selected\n through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`.\n Headers specified at this level are applied before headers from the enclosing\n :ref:`envoy_api_msg_config.route.v4alpha.Route`, :ref:`envoy_api_msg_config.route.v4alpha.VirtualHost`, and\n :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration`. For more information, including details on\n header value syntax, see the documentation on :ref:`custom request headers\n <config_http_conn_man_headers_custom_request_headers>`."}, "request_headers_to_remove": {"items": {"type": "string"}, "type": "array", "description": "Specifies a list of HTTP headers that should be removed from each request when\n this cluster is selected through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`."}, "response_headers_to_add": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v4alpha/HeaderValueOption.jsonschema"}, "type": "array", "description": "Specifies a list of headers to be added to responses when this cluster is selected\n through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`.\n Headers specified at this level are applied before headers from the enclosing\n :ref:`envoy_api_msg_config.route.v4alpha.Route`, :ref:`envoy_api_msg_config.route.v4alpha.VirtualHost`, and\n :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration`. For more information, including details on\n header value syntax, see the documentation on :ref:`custom request headers\n <config_http_conn_man_headers_custom_request_headers>`."}, "response_headers_to_remove": {"items": {"type": "string"}, "type": "array", "description": "Specifies a list of headers to be removed from responses when this cluster is selected\n through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`."}, "typed_per_filter_config": {"additionalProperties": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object"}, "type": "object", "description": "The per_filter_config field can be used to provide weighted cluster-specific\n configurations for filters. The key should match the filter name, such as\n *envoy.filters.http.buffer* for the HTTP buffer filter. Use of this field is filter\n specific; see the :ref:`HTTP filter documentation <config_http_filters>`\n for if and how it is utilized."}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 11]"}, "type": "array", "description": "Specifies one or more upstream clusters associated with the route."}, "total_weight": {"additionalProperties": true, "type": "integer", "description": "Specifies the total weight across all clusters. The sum of all cluster weights must equal this\n value, which must be greater than 0. Defaults to 100."}, "runtime_key_prefix": {"type": "string", "description": "Specifies the runtime key prefix that should be used to construct the\n runtime keys associated with each cluster. When the *runtime_key_prefix* is\n specified, the router will look for weights associated with each upstream\n cluster under the key *runtime_key_prefix* + \".\" + *cluster[i].name* where\n *cluster[i]* denotes an entry in the clusters array field. If the runtime\n key for the cluster does not exist, the value specified in the\n configuration file will be used as the default weight. See the :ref:`runtime documentation\n <operations_runtime>` for how key names map to the underlying implementation."}}, "additionalProperties": true, "type": "object", "description": "Compared to the :ref:`cluster <envoy_api_field_config.route.v4alpha.RouteAction.cluster>` field that specifies a\n single upstream cluster as the target of a request, the :ref:`weighted_clusters\n <envoy_api_field_config.route.v4alpha.RouteAction.weighted_clusters>` option allows for specification of\n multiple upstream clusters along with weights that indicate the percentage of\n traffic to be forwarded to each cluster. The router selects an upstream cluster based on the\n weights.", "definitions": {"envoy.config.core.v4alpha.HeaderValueOption": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header": {"properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair that this option applies to."}, "append": {"additionalProperties": true, "type": "boolean", "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair plus option to control append behavior.", "id": "envoy.config.core.v4alpha.HeaderValueOption"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "clusters": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the upstream cluster. The cluster must exist in the\n :ref:`cluster manager configuration \u003cconfig_cluster_manager\u003e`."
+                    },
+                    "weight": {
+                        "additionalProperties": true,
+                        "type": "integer",
+                        "description": "An integer between 0 and :ref:`total_weight\n \u003cenvoy_api_field_config.route.v4alpha.WeightedCluster.total_weight\u003e`. When a request matches the route,\n the choice of an upstream cluster is determined by its weight. The sum of weights across all\n entries in the clusters array must add up to the total_weight, which defaults to 100."
+                    },
+                    "metadata_match": {
+                        "properties": {
+                            "filter_metadata": {
+                                "additionalProperties": {
+                                    "properties": {
+                                        "fields": {
+                                            "additionalProperties": {
+                                                "additionalProperties": true,
+                                                "type": "object"
+                                            },
+                                            "type": "object",
+                                            "description": "Unordered map of dynamically typed values."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "object",
+                                "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints in\n the upstream cluster with metadata matching what is set in this field will be considered for\n load balancing. Note that this will be merged with what's provided in\n :ref:`RouteAction.metadata_match \u003cenvoy_api_field_config.route.v4alpha.RouteAction.metadata_match\u003e`, with\n values here taking precedence. The filter name should be specified as *envoy.lb*."
+                    },
+                    "request_headers_to_add": {
+                        "items": {
+                            "$schema": "http://json-schema.org/draft-04/schema#",
+                            "$ref": "envoy.config.core.v4alpha.HeaderValueOption"
+                        },
+                        "type": "array",
+                        "description": "Specifies a list of headers to be added to requests when this cluster is selected\n through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`.\n Headers specified at this level are applied before headers from the enclosing\n :ref:`envoy_api_msg_config.route.v4alpha.Route`, :ref:`envoy_api_msg_config.route.v4alpha.VirtualHost`, and\n :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration`. For more information, including details on\n header value syntax, see the documentation on :ref:`custom request headers\n \u003cconfig_http_conn_man_headers_custom_request_headers\u003e`."
+                    },
+                    "request_headers_to_remove": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "Specifies a list of HTTP headers that should be removed from each request when\n this cluster is selected through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`."
+                    },
+                    "response_headers_to_add": {
+                        "items": {
+                            "$schema": "http://json-schema.org/draft-04/schema#",
+                            "$ref": "envoy.config.core.v4alpha.HeaderValueOption"
+                        },
+                        "type": "array",
+                        "description": "Specifies a list of headers to be added to responses when this cluster is selected\n through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`.\n Headers specified at this level are applied before headers from the enclosing\n :ref:`envoy_api_msg_config.route.v4alpha.Route`, :ref:`envoy_api_msg_config.route.v4alpha.VirtualHost`, and\n :ref:`envoy_api_msg_config.route.v4alpha.RouteConfiguration`. For more information, including details on\n header value syntax, see the documentation on :ref:`custom request headers\n \u003cconfig_http_conn_man_headers_custom_request_headers\u003e`."
+                    },
+                    "response_headers_to_remove": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "Specifies a list of headers to be removed from responses when this cluster is selected\n through the enclosing :ref:`envoy_api_msg_config.route.v4alpha.RouteAction`."
+                    },
+                    "typed_per_filter_config": {
+                        "additionalProperties": {
+                            "properties": {
+                                "type_url": {
+                                    "type": "string",
+                                    "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                                },
+                                "value": {
+                                    "type": "string",
+                                    "description": "Must be a valid serialized protocol buffer of the above specified type."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "type": "object",
+                        "description": "The per_filter_config field can be used to provide weighted cluster-specific\n configurations for filters. The key should match the filter name, such as\n *envoy.filters.http.buffer* for the HTTP buffer filter. Use of this field is filter\n specific; see the :ref:`HTTP filter documentation \u003cconfig_http_filters\u003e`\n for if and how it is utilized."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "[#next-free-field: 11]"
+            },
+            "type": "array",
+            "description": "Specifies one or more upstream clusters associated with the route."
+        },
+        "total_weight": {
+            "additionalProperties": true,
+            "type": "integer",
+            "description": "Specifies the total weight across all clusters. The sum of all cluster weights must equal this\n value, which must be greater than 0. Defaults to 100."
+        },
+        "runtime_key_prefix": {
+            "type": "string",
+            "description": "Specifies the runtime key prefix that should be used to construct the\n runtime keys associated with each cluster. When the *runtime_key_prefix* is\n specified, the router will look for weights associated with each upstream\n cluster under the key *runtime_key_prefix* + \".\" + *cluster[i].name* where\n *cluster[i]* denotes an entry in the clusters array field. If the runtime\n key for the cluster does not exist, the value specified in the\n configuration file will be used as the default weight. See the :ref:`runtime documentation\n \u003coperations_runtime\u003e` for how key names map to the underlying implementation."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Compared to the :ref:`cluster \u003cenvoy_api_field_config.route.v4alpha.RouteAction.cluster\u003e` field that specifies a\n single upstream cluster as the target of a request, the :ref:`weighted_clusters\n \u003cenvoy_api_field_config.route.v4alpha.RouteAction.weighted_clusters\u003e` option allows for specification of\n multiple upstream clusters along with weights that indicate the percentage of\n traffic to be forwarded to each cluster. The router selects an upstream cluster based on the\n weights.",
+    "definitions": {
+        "envoy.config.core.v4alpha.HeaderValueOption": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "header": {
+                    "properties": {
+                        "key": {
+                            "type": "string",
+                            "description": "Header name."
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Header name/value pair that this option applies to."
+                },
+                "append": {
+                    "additionalProperties": true,
+                    "type": "boolean",
+                    "description": "Should the value be appended? If true (default), the value is appended to\n existing values. Otherwise it replaces any existing values."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Header name/value pair plus option to control append behavior.",
+            "id": "envoy.config.core.v4alpha.HeaderValueOption"
+        }
+    }
+}

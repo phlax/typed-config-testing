@@ -1,1 +1,99 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"daemon_endpoint": {"properties": {"protocol": {"enum": ["TCP", 0, "UDP", 1], "oneOf": [{"type": "string"}, {"type": "integer"}]}, "address": {"type": "string", "description": "The address for this socket. :ref:`Listeners <config_listeners>` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch <envoy_api_msg_config.listener.v3.FilterChainMatch>`.] When used\n within an upstream :ref:`BindConfig <envoy_api_msg_config.core.v3.BindConfig>`, the address\n controls the source address of outbound connections. For :ref:`clusters\n <envoy_api_msg_config.cluster.v3.Cluster>`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name <envoy_api_field_config.core.v3.SocketAddress.resolver_name>`."}, "port_value": {"type": "integer"}, "named_port": {"type": "string", "description": "This is only valid if :ref:`resolver_name\n <envoy_api_field_config.core.v3.SocketAddress.resolver_name>` is specified below and the\n named resolver is capable of named port resolution."}, "resolver_name": {"type": "string", "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."}, "ipv4_compat": {"type": "boolean", "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n <https://tools.ietf.org/html/rfc3493#page-11>`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:<IPv4-address>``."}}, "additionalProperties": true, "type": "object", "description": "The UDP endpoint of the X-Ray Daemon where the spans will be sent.\n If this value is not set, the default value of 127.0.0.1:2000 will be used."}, "segment_name": {"type": "string", "description": "The name of the X-Ray segment."}, "sampling_rule_manifest": {"properties": {"filename": {"type": "string", "description": "Local filesystem data source."}, "inline_bytes": {"type": "string", "description": "Bytes inlined in the configuration."}, "inline_string": {"type": "string", "description": "String inlined in the configuration."}}, "additionalProperties": true, "type": "object", "description": "The location of a local custom sampling rules JSON file.\n For an example of the sampling rules see:\n `X-Ray SDK documentation\n <https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-go-configuration.html#xray-sdk-go-configuration-sampling>`_"}, "segment_fields": {"properties": {"origin": {"type": "string", "description": "The type of AWS resource, e.g. \"AWS::AppMesh::Proxy\"."}, "aws": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object", "description": "AWS resource metadata dictionary.\n See: `X-Ray Segment Document documentation <https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html#api-segmentdocuments-aws>`__"}}, "additionalProperties": true, "type": "object", "description": "Optional custom fields to be added to each trace segment.\n see: `X-Ray Segment Document documentation\n <https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html>`__"}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: AWS X-Ray Tracer Configuration]\n Configuration for AWS X-Ray tracer"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "daemon_endpoint": {
+            "properties": {
+                "protocol": {
+                    "enum": [
+                        "TCP",
+                        0,
+                        "UDP",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ]
+                },
+                "address": {
+                    "type": "string",
+                    "description": "The address for this socket. :ref:`Listeners \u003cconfig_listeners\u003e` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch \u003cenvoy_api_msg_config.listener.v3.FilterChainMatch\u003e`.] When used\n within an upstream :ref:`BindConfig \u003cenvoy_api_msg_config.core.v3.BindConfig\u003e`, the address\n controls the source address of outbound connections. For :ref:`clusters\n \u003cenvoy_api_msg_config.cluster.v3.Cluster\u003e`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name \u003cenvoy_api_field_config.core.v3.SocketAddress.resolver_name\u003e`."
+                },
+                "port_value": {
+                    "type": "integer"
+                },
+                "named_port": {
+                    "type": "string",
+                    "description": "This is only valid if :ref:`resolver_name\n \u003cenvoy_api_field_config.core.v3.SocketAddress.resolver_name\u003e` is specified below and the\n named resolver is capable of named port resolution."
+                },
+                "resolver_name": {
+                    "type": "string",
+                    "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."
+                },
+                "ipv4_compat": {
+                    "type": "boolean",
+                    "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n \u003chttps://tools.ietf.org/html/rfc3493#page-11\u003e`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:\u003cIPv4-address\u003e``."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The UDP endpoint of the X-Ray Daemon where the spans will be sent.\n If this value is not set, the default value of 127.0.0.1:2000 will be used."
+        },
+        "segment_name": {
+            "type": "string",
+            "description": "The name of the X-Ray segment."
+        },
+        "sampling_rule_manifest": {
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Local filesystem data source."
+                },
+                "inline_bytes": {
+                    "type": "string",
+                    "description": "Bytes inlined in the configuration."
+                },
+                "inline_string": {
+                    "type": "string",
+                    "description": "String inlined in the configuration."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The location of a local custom sampling rules JSON file.\n For an example of the sampling rules see:\n `X-Ray SDK documentation\n \u003chttps://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-go-configuration.html#xray-sdk-go-configuration-sampling\u003e`_"
+        },
+        "segment_fields": {
+            "properties": {
+                "origin": {
+                    "type": "string",
+                    "description": "The type of AWS resource, e.g. \"AWS::AppMesh::Proxy\"."
+                },
+                "aws": {
+                    "properties": {
+                        "fields": {
+                            "additionalProperties": {
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            "type": "object",
+                            "description": "Unordered map of dynamically typed values."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "AWS resource metadata dictionary.\n See: `X-Ray Segment Document documentation \u003chttps://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html#api-segmentdocuments-aws\u003e`__"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Optional custom fields to be added to each trace segment.\n see: `X-Ray Segment Document documentation\n \u003chttps://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html\u003e`__"
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: AWS X-Ray Tracer Configuration]\n Configuration for AWS X-Ray tracer"
+}

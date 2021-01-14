@@ -1,1 +1,214 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"address": {"properties": {"socket_address": {"properties": {"protocol": {"enum": ["TCP", 0, "UDP", 1], "oneOf": [{"type": "string"}, {"type": "integer"}]}, "address": {"type": "string", "description": "The address for this socket. :ref:`Listeners <config_listeners>` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch <envoy_api_msg_listener.FilterChainMatch>`.] When used\n within an upstream :ref:`BindConfig <envoy_api_msg_core.BindConfig>`, the address\n controls the source address of outbound connections. For :ref:`clusters\n <envoy_api_msg_Cluster>`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name <envoy_api_field_core.SocketAddress.resolver_name>`."}, "port_value": {"type": "integer"}, "named_port": {"type": "string", "description": "This is only valid if :ref:`resolver_name\n <envoy_api_field_core.SocketAddress.resolver_name>` is specified below and the\n named resolver is capable of named port resolution."}, "resolver_name": {"type": "string", "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."}, "ipv4_compat": {"type": "boolean", "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n <https://tools.ietf.org/html/rfc3493#page-11>`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:<IPv4-address>``."}}, "additionalProperties": true, "type": "object"}, "pipe": {"properties": {"path": {"type": "string", "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."}, "mode": {"type": "integer", "description": "The mode for the Pipe. Not applicable for abstract sockets."}}, "additionalProperties": true, "type": "object"}}, "additionalProperties": true, "type": "object", "description": "Address of this host."}, "stats": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"type": {"enum": ["COUNTER", 0, "GAUGE", 1], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Type of the metric represented."}, "value": {"type": "string", "description": "Current metric value."}, "name": {"type": "string", "description": "Name of the metric."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Metrics]\n\nProto representation of an Envoy Counter or Gauge value."}, "type": "array", "description": "List of stats specific to this host."}, "health_status": {"properties": {"failed_active_health_check": {"type": "boolean", "description": "The host is currently failing active health checks."}, "failed_outlier_check": {"type": "boolean", "description": "The host is currently considered an outlier and has been ejected."}, "failed_active_degraded_check": {"type": "boolean", "description": "The host is currently being marked as degraded through active health checking."}, "pending_dynamic_removal": {"type": "boolean", "description": "The host has been removed from service discovery, but is being stabilized due to active\n health checking."}, "pending_active_hc": {"type": "boolean", "description": "The host has not yet been health checked."}, "eds_health_status": {"enum": ["UNKNOWN", 0, "HEALTHY", 1, "UNHEALTHY", 2, "DRAINING", 3, "TIMEOUT", 4, "DEGRADED", 5], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Health status as reported by EDS. Note: only HEALTHY and UNHEALTHY are currently supported\n here.\n [#comment:TODO(mrice32): pipe through remaining EDS health status possibilities.]"}}, "additionalProperties": true, "type": "object", "description": "The host's current health status."}, "success_rate": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type/Percent.jsonschema", "additionalProperties": true, "description": "Request success rate for this host over the last calculated interval.\n If\n :ref:`outlier_detection.split_external_local_origin_errors<envoy_api_field_cluster.OutlierDetection.split_external_local_origin_errors>`\n is *false*, all errors: externally and locally generated were used in success rate\n calculation. If\n :ref:`outlier_detection.split_external_local_origin_errors<envoy_api_field_cluster.OutlierDetection.split_external_local_origin_errors>`\n is *true*, only externally generated errors were used in success rate calculation.\n See :ref:`Cluster outlier detection <arch_overview_outlier_detection>` documentation for\n details.\n\n Note: the message will not be present if host did not have enough request volume to calculate\n success rate or the cluster did not have enough hosts to run through success rate outlier\n ejection."}, "weight": {"type": "integer", "description": "The host's weight. If not configured, the value defaults to 1."}, "hostname": {"type": "string", "description": "The hostname of the host, if applicable."}, "priority": {"type": "integer", "description": "The host's priority. If not configured, the value defaults to 0 (highest priority)."}, "local_origin_success_rate": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type/Percent.jsonschema", "additionalProperties": true, "description": "Request success rate for this host over the last calculated\n interval when only locally originated errors are taken into account and externally originated\n errors were treated as success.\n This field should be interpreted only when\n :ref:`outlier_detection.split_external_local_origin_errors<envoy_api_field_cluster.OutlierDetection.split_external_local_origin_errors>`\n is *true*.\n See :ref:`Cluster outlier detection <arch_overview_outlier_detection>` documentation for\n details.\n\n Note: the message will not be present if host did not have enough request volume to calculate\n success rate or the cluster did not have enough hosts to run through success rate outlier\n ejection."}, "locality": {"properties": {"region": {"type": "string", "description": "Region this :ref:`zone <envoy_api_field_core.Locality.zone>` belongs to."}, "zone": {"type": "string", "description": "Defines the local service zone where Envoy is running. Though optional, it\n should be set if discovery service routing is used and the discovery\n service exposes :ref:`zone data <envoy_api_field_endpoint.LocalityLbEndpoints.locality>`,\n either in this message or via :option:`--service-zone`. The meaning of zone\n is context dependent, e.g. `Availability Zone (AZ)\n <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html>`_\n on AWS, `Zone <https://cloud.google.com/compute/docs/regions-zones/>`_ on\n GCP, etc."}, "sub_zone": {"type": "string", "description": "When used for locality of upstream hosts, this field further splits zone\n into smaller chunks of sub-zones so they can be load balanced\n independently."}}, "additionalProperties": true, "type": "object", "description": "locality of the host."}}, "additionalProperties": true, "type": "object", "description": "Current state of a particular host.\n [#next-free-field: 10]", "definitions": {"envoy.type.Percent": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"value": {"type": "number"}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Percent]\n\nIdentifies a percentage, in the range [0.0, 100.0].", "id": "envoy.type.Percent"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "address": {
+            "properties": {
+                "socket_address": {
+                    "properties": {
+                        "protocol": {
+                            "enum": [
+                                "TCP",
+                                0,
+                                "UDP",
+                                1
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "address": {
+                            "type": "string",
+                            "description": "The address for this socket. :ref:`Listeners \u003cconfig_listeners\u003e` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch \u003cenvoy_api_msg_listener.FilterChainMatch\u003e`.] When used\n within an upstream :ref:`BindConfig \u003cenvoy_api_msg_core.BindConfig\u003e`, the address\n controls the source address of outbound connections. For :ref:`clusters\n \u003cenvoy_api_msg_Cluster\u003e`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name \u003cenvoy_api_field_core.SocketAddress.resolver_name\u003e`."
+                        },
+                        "port_value": {
+                            "type": "integer"
+                        },
+                        "named_port": {
+                            "type": "string",
+                            "description": "This is only valid if :ref:`resolver_name\n \u003cenvoy_api_field_core.SocketAddress.resolver_name\u003e` is specified below and the\n named resolver is capable of named port resolution."
+                        },
+                        "resolver_name": {
+                            "type": "string",
+                            "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."
+                        },
+                        "ipv4_compat": {
+                            "type": "boolean",
+                            "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n \u003chttps://tools.ietf.org/html/rfc3493#page-11\u003e`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:\u003cIPv4-address\u003e``."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                },
+                "pipe": {
+                    "properties": {
+                        "path": {
+                            "type": "string",
+                            "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."
+                        },
+                        "mode": {
+                            "type": "integer",
+                            "description": "The mode for the Pipe. Not applicable for abstract sockets."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Address of this host."
+        },
+        "stats": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "type": {
+                        "enum": [
+                            "COUNTER",
+                            0,
+                            "GAUGE",
+                            1
+                        ],
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "description": "Type of the metric represented."
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "Current metric value."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of the metric."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "[#protodoc-title: Metrics]\n\nProto representation of an Envoy Counter or Gauge value."
+            },
+            "type": "array",
+            "description": "List of stats specific to this host."
+        },
+        "health_status": {
+            "properties": {
+                "failed_active_health_check": {
+                    "type": "boolean",
+                    "description": "The host is currently failing active health checks."
+                },
+                "failed_outlier_check": {
+                    "type": "boolean",
+                    "description": "The host is currently considered an outlier and has been ejected."
+                },
+                "failed_active_degraded_check": {
+                    "type": "boolean",
+                    "description": "The host is currently being marked as degraded through active health checking."
+                },
+                "pending_dynamic_removal": {
+                    "type": "boolean",
+                    "description": "The host has been removed from service discovery, but is being stabilized due to active\n health checking."
+                },
+                "pending_active_hc": {
+                    "type": "boolean",
+                    "description": "The host has not yet been health checked."
+                },
+                "eds_health_status": {
+                    "enum": [
+                        "UNKNOWN",
+                        0,
+                        "HEALTHY",
+                        1,
+                        "UNHEALTHY",
+                        2,
+                        "DRAINING",
+                        3,
+                        "TIMEOUT",
+                        4,
+                        "DEGRADED",
+                        5
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Health status as reported by EDS. Note: only HEALTHY and UNHEALTHY are currently supported\n here.\n [#comment:TODO(mrice32): pipe through remaining EDS health status possibilities.]"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The host's current health status."
+        },
+        "success_rate": {
+            "$ref": "envoy.type.Percent",
+            "additionalProperties": true,
+            "description": "Request success rate for this host over the last calculated interval.\n If\n :ref:`outlier_detection.split_external_local_origin_errors\u003cenvoy_api_field_cluster.OutlierDetection.split_external_local_origin_errors\u003e`\n is *false*, all errors: externally and locally generated were used in success rate\n calculation. If\n :ref:`outlier_detection.split_external_local_origin_errors\u003cenvoy_api_field_cluster.OutlierDetection.split_external_local_origin_errors\u003e`\n is *true*, only externally generated errors were used in success rate calculation.\n See :ref:`Cluster outlier detection \u003carch_overview_outlier_detection\u003e` documentation for\n details.\n\n Note: the message will not be present if host did not have enough request volume to calculate\n success rate or the cluster did not have enough hosts to run through success rate outlier\n ejection."
+        },
+        "weight": {
+            "type": "integer",
+            "description": "The host's weight. If not configured, the value defaults to 1."
+        },
+        "hostname": {
+            "type": "string",
+            "description": "The hostname of the host, if applicable."
+        },
+        "priority": {
+            "type": "integer",
+            "description": "The host's priority. If not configured, the value defaults to 0 (highest priority)."
+        },
+        "local_origin_success_rate": {
+            "$ref": "envoy.type.Percent",
+            "additionalProperties": true,
+            "description": "Request success rate for this host over the last calculated\n interval when only locally originated errors are taken into account and externally originated\n errors were treated as success.\n This field should be interpreted only when\n :ref:`outlier_detection.split_external_local_origin_errors\u003cenvoy_api_field_cluster.OutlierDetection.split_external_local_origin_errors\u003e`\n is *true*.\n See :ref:`Cluster outlier detection \u003carch_overview_outlier_detection\u003e` documentation for\n details.\n\n Note: the message will not be present if host did not have enough request volume to calculate\n success rate or the cluster did not have enough hosts to run through success rate outlier\n ejection."
+        },
+        "locality": {
+            "properties": {
+                "region": {
+                    "type": "string",
+                    "description": "Region this :ref:`zone \u003cenvoy_api_field_core.Locality.zone\u003e` belongs to."
+                },
+                "zone": {
+                    "type": "string",
+                    "description": "Defines the local service zone where Envoy is running. Though optional, it\n should be set if discovery service routing is used and the discovery\n service exposes :ref:`zone data \u003cenvoy_api_field_endpoint.LocalityLbEndpoints.locality\u003e`,\n either in this message or via :option:`--service-zone`. The meaning of zone\n is context dependent, e.g. `Availability Zone (AZ)\n \u003chttps://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html\u003e`_\n on AWS, `Zone \u003chttps://cloud.google.com/compute/docs/regions-zones/\u003e`_ on\n GCP, etc."
+                },
+                "sub_zone": {
+                    "type": "string",
+                    "description": "When used for locality of upstream hosts, this field further splits zone\n into smaller chunks of sub-zones so they can be load balanced\n independently."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "locality of the host."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Current state of a particular host.\n [#next-free-field: 10]",
+    "definitions": {
+        "envoy.type.Percent": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "value": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "[#protodoc-title: Percent]\n\nIdentifies a percentage, in the range [0.0, 100.0].",
+            "id": "envoy.type.Percent"
+        }
+    }
+}

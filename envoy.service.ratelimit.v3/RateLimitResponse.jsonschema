@@ -1,1 +1,168 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"overall_code": {"enum": ["UNKNOWN", 0, "OK", 1, "OVER_LIMIT", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "The overall response code which takes into account all of the descriptors that were passed\n in the RateLimitRequest message."}, "statuses": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"code": {"enum": ["UNKNOWN", 0, "OK", 1, "OVER_LIMIT", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "The response code for an individual descriptor."}, "current_limit": {"properties": {"name": {"type": "string", "description": "A name or description of this limit."}, "requests_per_unit": {"type": "integer", "description": "The number of requests per unit of time."}, "unit": {"enum": ["UNKNOWN", 0, "SECOND", 1, "MINUTE", 2, "HOUR", 3, "DAY", 4], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "The unit of time."}}, "additionalProperties": true, "type": "object", "description": "The current limit as configured by the server. Useful for debugging, etc."}, "limit_remaining": {"type": "integer", "description": "The limit remaining in the current time unit."}, "duration_until_reset": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Duration until reset of the current limit window."}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "A list of DescriptorStatus messages which matches the length of the descriptor list passed\n in the RateLimitRequest. This can be used by the caller to determine which individual\n descriptors failed and/or what the currently configured limits are for all of them."}, "response_headers_to_add": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/HeaderValue.jsonschema"}, "type": "array", "description": "A list of headers to add to the response"}, "request_headers_to_add": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/HeaderValue.jsonschema"}, "type": "array", "description": "A list of headers to add to the request when forwarded"}, "raw_body": {"type": "string", "description": "A response body to send to the downstream client when the response code is not OK."}, "dynamic_metadata": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object", "description": "Optional response metadata that will be emitted as dynamic metadata to be consumed by the next\n filter. This metadata lives in a namespace specified by the canonical name of extension filter\n that requires it:\n\n - :ref:`envoy.filters.http.ratelimit <config_http_filters_ratelimit_dynamic_metadata>` for HTTP filter.\n - :ref:`envoy.filters.network.ratelimit <config_network_filters_ratelimit_dynamic_metadata>` for network filter.\n - :ref:`envoy.filters.thrift.rate_limit <config_thrift_filters_rate_limit_dynamic_metadata>` for Thrift filter."}}, "additionalProperties": true, "type": "object", "description": "A response from a ShouldRateLimit call.\n [#next-free-field: 7]", "definitions": {"envoy.config.core.v3.HeaderValue": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"key": {"type": "string", "description": "Header name."}, "value": {"type": "string", "description": "Header value.\n\n The same :ref:`format specifier <config_access_log_format>` as used for\n :ref:`HTTP access logging <config_access_log>` applies here, however\n unknown header values are replaced with the empty string instead of `-`."}}, "additionalProperties": true, "type": "object", "description": "Header name/value pair.", "id": "envoy.config.core.v3.HeaderValue"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "overall_code": {
+            "enum": [
+                "UNKNOWN",
+                0,
+                "OK",
+                1,
+                "OVER_LIMIT",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "The overall response code which takes into account all of the descriptors that were passed\n in the RateLimitRequest message."
+        },
+        "statuses": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "code": {
+                        "enum": [
+                            "UNKNOWN",
+                            0,
+                            "OK",
+                            1,
+                            "OVER_LIMIT",
+                            2
+                        ],
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "description": "The response code for an individual descriptor."
+                    },
+                    "current_limit": {
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "A name or description of this limit."
+                            },
+                            "requests_per_unit": {
+                                "type": "integer",
+                                "description": "The number of requests per unit of time."
+                            },
+                            "unit": {
+                                "enum": [
+                                    "UNKNOWN",
+                                    0,
+                                    "SECOND",
+                                    1,
+                                    "MINUTE",
+                                    2,
+                                    "HOUR",
+                                    3,
+                                    "DAY",
+                                    4
+                                ],
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "integer"
+                                    }
+                                ],
+                                "description": "The unit of time."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "The current limit as configured by the server. Useful for debugging, etc."
+                    },
+                    "limit_remaining": {
+                        "type": "integer",
+                        "description": "The limit remaining in the current time unit."
+                    },
+                    "duration_until_reset": {
+                        "properties": {
+                            "seconds": {
+                                "type": "string",
+                                "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                            },
+                            "nanos": {
+                                "type": "integer",
+                                "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Duration until reset of the current limit window."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object"
+            },
+            "type": "array",
+            "description": "A list of DescriptorStatus messages which matches the length of the descriptor list passed\n in the RateLimitRequest. This can be used by the caller to determine which individual\n descriptors failed and/or what the currently configured limits are for all of them."
+        },
+        "response_headers_to_add": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "$ref": "envoy.config.core.v3.HeaderValue"
+            },
+            "type": "array",
+            "description": "A list of headers to add to the response"
+        },
+        "request_headers_to_add": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "$ref": "envoy.config.core.v3.HeaderValue"
+            },
+            "type": "array",
+            "description": "A list of headers to add to the request when forwarded"
+        },
+        "raw_body": {
+            "type": "string",
+            "description": "A response body to send to the downstream client when the response code is not OK."
+        },
+        "dynamic_metadata": {
+            "properties": {
+                "fields": {
+                    "additionalProperties": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Unordered map of dynamically typed values."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Optional response metadata that will be emitted as dynamic metadata to be consumed by the next\n filter. This metadata lives in a namespace specified by the canonical name of extension filter\n that requires it:\n\n - :ref:`envoy.filters.http.ratelimit \u003cconfig_http_filters_ratelimit_dynamic_metadata\u003e` for HTTP filter.\n - :ref:`envoy.filters.network.ratelimit \u003cconfig_network_filters_ratelimit_dynamic_metadata\u003e` for network filter.\n - :ref:`envoy.filters.thrift.rate_limit \u003cconfig_thrift_filters_rate_limit_dynamic_metadata\u003e` for Thrift filter."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "A response from a ShouldRateLimit call.\n [#next-free-field: 7]",
+    "definitions": {
+        "envoy.config.core.v3.HeaderValue": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "description": "Header name."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "Header value.\n\n The same :ref:`format specifier \u003cconfig_access_log_format\u003e` as used for\n :ref:`HTTP access logging \u003cconfig_access_log\u003e` applies here, however\n unknown header values are replaced with the empty string instead of `-`."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Header name/value pair.",
+            "id": "envoy.config.core.v3.HeaderValue"
+        }
+    }
+}

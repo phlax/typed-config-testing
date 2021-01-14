@@ -1,1 +1,11 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"first_check": {"type": "boolean", "description": "Whether this addition is the result of the first ever health check on a host, in which case\n the configured :ref:`healthy threshold <envoy_api_field_config.core.v3.HealthCheck.healthy_threshold>`\n is bypassed and the host is immediately added."}}, "additionalProperties": true, "type": "object"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "first_check": {
+            "type": "boolean",
+            "description": "Whether this addition is the result of the first ever health check on a host, in which case\n the configured :ref:`healthy threshold \u003cenvoy_api_field_config.core.v3.HealthCheck.healthy_threshold\u003e`\n is bypassed and the host is immediately added."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

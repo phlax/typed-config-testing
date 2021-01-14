@@ -1,1 +1,254 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"cluster": {"type": "string", "description": "Indicates a single upstream cluster to which the request should be routed\n to."}, "weighted_clusters": {"properties": {"clusters": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "Name of the upstream cluster."}, "weight": {"additionalProperties": true, "type": "integer", "description": "When a request matches the route, the choice of an upstream cluster is determined by its\n weight. The sum of weights across all entries in the clusters array determines the total\n weight."}, "metadata_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.api.v2.core/Metadata.jsonschema", "additionalProperties": true, "description": "Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints in\n the upstream cluster with metadata matching what is set in this field, combined with what's\n provided in :ref:`RouteAction's metadata_match\n <envoy_api_field_config.filter.network.thrift_proxy.v2alpha1.RouteAction.metadata_match>`,\n will be considered. Values here will take precedence. Keys and values should be provided\n under the \"envoy.lb\" metadata key."}}, "additionalProperties": true, "type": "object"}, "type": "array", "description": "Specifies one or more upstream clusters associated with the route."}}, "additionalProperties": true, "type": "object", "description": "Multiple upstream clusters can be specified for a given route. The\n request is routed to one of the upstream clusters based on weights\n assigned to each cluster."}, "cluster_header": {"type": "string", "description": "Envoy will determine the cluster to route to by reading the value of the\n Thrift header named by cluster_header from the request headers. If the\n header is not found or the referenced cluster does not exist Envoy will\n respond with an unknown method exception or an internal error exception,\n respectively."}, "metadata_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.api.v2.core/Metadata.jsonschema", "additionalProperties": true, "description": "Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints in\n the upstream cluster with metadata matching what is set in this field will be considered.\n Note that this will be merged with what's provided in :ref:`WeightedCluster.metadata_match\n <envoy_api_field_config.filter.network.thrift_proxy.v2alpha1.WeightedCluster.ClusterWeight.metadata_match>`,\n with values there taking precedence. Keys and values should be provided under the \"envoy.lb\"\n metadata key."}, "rate_limits": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"stage": {"additionalProperties": true, "type": "integer", "description": "Refers to the stage set in the filter. The rate limit configuration only\n applies to filters with the same stage number. The default stage number is\n 0.\n\n .. note::\n\n   The filter supports a range of 0 - 10 inclusively for stage numbers."}, "disable_key": {"type": "string", "description": "The key to be set in runtime to disable this rate limit configuration."}, "actions": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"source_cluster": {"additionalProperties": true, "type": "object", "description": "Rate limit on source cluster."}, "destination_cluster": {"additionalProperties": true, "type": "object", "description": "Rate limit on destination cluster."}, "request_headers": {"properties": {"header_name": {"type": "string", "description": "The header name to be queried from the request headers. The header\u2019s\n value is used to populate the value of the descriptor entry for the\n descriptor_key."}, "descriptor_key": {"type": "string", "description": "The key to use in the descriptor entry."}}, "additionalProperties": true, "type": "object", "description": "Rate limit on request headers."}, "remote_address": {"additionalProperties": true, "type": "object", "description": "Rate limit on remote address."}, "generic_key": {"properties": {"descriptor_value": {"type": "string", "description": "The value to use in the descriptor entry."}}, "additionalProperties": true, "type": "object", "description": "Rate limit on a generic key."}, "header_value_match": {"properties": {"descriptor_value": {"type": "string", "description": "The value to use in the descriptor entry."}, "expect_match": {"additionalProperties": true, "type": "boolean", "description": "If set to true, the action will append a descriptor entry when the\n request matches the headers. If set to false, the action will append a\n descriptor entry when the request does not match the headers. The\n default value is true."}, "headers": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "Specifies the name of the header in the request."}, "exact_match": {"type": "string", "description": "If specified, header match will be performed based on the value of the header."}, "regex_match": {"type": "string", "description": "If specified, this regex string is a regular expression rule which implies the entire request\n header value must match the regex. The rule will not match if only a subsequence of the\n request header value matches the regex. The regex grammar used in the value field is defined\n `here <https://en.cppreference.com/w/cpp/regex/ecmascript>`_.\n\n Examples:\n\n * The regex ``\\d{3}`` matches the value *123*\n * The regex ``\\d{3}`` does not match the value *1234*\n * The regex ``\\d{3}`` does not match the value *123.456*\n\n .. attention::\n   This field has been deprecated in favor of `safe_regex_match` as it is not safe for use\n   with untrusted input in all cases."}, "safe_regex_match": {"properties": {"google_re2": {"properties": {"max_program_size": {"additionalProperties": true, "type": "integer", "description": "This field controls the RE2 \"program size\" which is a rough estimate of how complex a\n compiled regex is to evaluate. A regex that has a program size greater than the configured\n value will fail to compile. In this case, the configured max program size can be increased\n or the regex can be simplified. If not specified, the default is 100.\n\n This field is deprecated; regexp validation should be performed on the management server\n instead of being done by each individual client."}}, "additionalProperties": true, "type": "object", "description": "Google's RE2 regex engine."}, "regex": {"type": "string", "description": "The regex match string. The string must be supported by the configured engine."}}, "additionalProperties": true, "type": "object", "description": "If specified, this regex string is a regular expression rule which implies the entire request\n header value must match the regex. The rule will not match if only a subsequence of the\n request header value matches the regex."}, "range_match": {"properties": {"start": {"type": "string", "description": "start of the range (inclusive)"}, "end": {"type": "string", "description": "end of the range (exclusive)"}}, "additionalProperties": true, "type": "object", "description": "If specified, header match will be performed based on range.\n The rule will match if the request header value is within this range.\n The entire request header value must represent an integer in base 10 notation: consisting of\n an optional plus or minus sign followed by a sequence of digits. The rule will not match if\n the header value does not represent an integer. Match will fail for empty values, floating\n point numbers or if only a subsequence of the header value is an integer.\n\n Examples:\n\n * For range [-10,0), route will match for header value -1, but not for 0, \"somestring\", 10.9,\n   \"-1somestring\""}, "present_match": {"type": "boolean", "description": "If specified, header match will be performed based on whether the header is in the\n request."}, "prefix_match": {"type": "string", "description": "If specified, header match will be performed based on the prefix of the header value.\n Note: empty prefix is not allowed, please use present_match instead.\n\n Examples:\n\n * The prefix *abcd* matches the value *abcdxyz*, but not for *abcxyz*."}, "suffix_match": {"type": "string", "description": "If specified, header match will be performed based on the suffix of the header value.\n Note: empty suffix is not allowed, please use present_match instead.\n\n Examples:\n\n * The suffix *abcd* matches the value *xyzabcd*, but not for *xyzbcd*."}, "invert_match": {"type": "boolean", "description": "If specified, the match result will be inverted before checking. Defaults to false.\n\n Examples:\n\n * The regex ``\\d{3}`` does not match the value *1234*, so it will match when inverted.\n * The range [-10,0) will match the value -1, so it will not match when inverted."}}, "additionalProperties": true, "type": "object", "description": ".. attention::\n\n   Internally, Envoy always uses the HTTP/2 *:authority* header to represent the HTTP/1 *Host*\n   header. Thus, if attempting to match on *Host*, match on *:authority* instead.\n\n .. attention::\n\n   To route on HTTP method, use the special HTTP/2 *:method* header. This works for both\n   HTTP/1 and HTTP/2 as Envoy normalizes headers. E.g.,\n\n   .. code-block:: json\n\n     {\n       \"name\": \":method\",\n       \"exact_match\": \"POST\"\n     }\n\n .. attention::\n   In the absence of any header match specifier, match will default to :ref:`present_match\n   <envoy_api_field_route.HeaderMatcher.present_match>`. i.e, a request that has the :ref:`name\n   <envoy_api_field_route.HeaderMatcher.name>` header will match, regardless of the header's\n   value.\n\n  [#next-major-version: HeaderMatcher should be refactored to use StringMatcher.]\n [#next-free-field: 12]"}, "type": "array", "description": "Specifies a set of headers that the rate limit action should match\n on. The action will check the request\u2019s headers against all the\n specified headers in the config. A match will happen if all the\n headers in the config are present in the request with the same values\n (or based on presence if the value field is not in the config)."}}, "additionalProperties": true, "type": "object", "description": "Rate limit on the existence of request headers."}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 7]"}, "type": "array", "description": "A list of actions that are to be applied for this rate limit configuration.\n Order matters as the actions are processed sequentially and the descriptor\n is composed by appending descriptor entries in that sequence. If an action\n cannot append a descriptor entry, no descriptor is generated for the\n configuration. See :ref:`composing actions\n <config_http_filters_rate_limit_composing_actions>` for additional documentation."}}, "additionalProperties": true, "type": "object", "description": "Global rate limiting :ref:`architecture overview <arch_overview_global_rate_limit>`."}, "type": "array", "description": "Specifies a set of rate limit configurations that could be applied to the route.\n N.B. Thrift service or method name matching can be achieved by specifying a RequestHeaders\n action with the header name \":method-name\"."}, "strip_service_name": {"type": "boolean", "description": "Strip the service prefix from the method name, if there's a prefix. For\n example, the method call Service:method would end up being just method."}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 7]", "definitions": {"envoy.api.v2.core.Metadata": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"filter_metadata": {"additionalProperties": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object"}, "type": "object", "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."}}, "additionalProperties": true, "type": "object", "description": "Metadata provides additional inputs to filters based on matched listeners,\n filter chains, routes and endpoints. It is structured as a map, usually from\n filter name (in reverse DNS format) to metadata specific to the filter. Metadata\n key-values for a filter are merged as connection and request handling occurs,\n with later values for the same key overriding earlier values.\n\n An example use of metadata is providing additional values to\n http_connection_manager in the envoy.http_connection_manager.access_log\n namespace.\n\n Another example use of metadata is to per service config info in cluster metadata, which may get\n consumed by multiple filters.\n\n For load balancing, Metadata provides a means to subset cluster endpoints.\n Endpoints have a Metadata object associated and routes contain a Metadata\n object to match against. There are some well defined metadata used today for\n this purpose:\n\n * ``{\"envoy.lb\": {\"canary\": <bool> }}`` This indicates the canary status of an\n   endpoint and is also used during header processing\n   (x-envoy-upstream-canary) and for stats purposes.\n [#next-major-version: move to type/metadata/v2]", "id": "envoy.api.v2.core.Metadata"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "cluster": {
+            "type": "string",
+            "description": "Indicates a single upstream cluster to which the request should be routed\n to."
+        },
+        "weighted_clusters": {
+            "properties": {
+                "clusters": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the upstream cluster."
+                            },
+                            "weight": {
+                                "additionalProperties": true,
+                                "type": "integer",
+                                "description": "When a request matches the route, the choice of an upstream cluster is determined by its\n weight. The sum of weights across all entries in the clusters array determines the total\n weight."
+                            },
+                            "metadata_match": {
+                                "$ref": "envoy.api.v2.core.Metadata",
+                                "additionalProperties": true,
+                                "description": "Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints in\n the upstream cluster with metadata matching what is set in this field, combined with what's\n provided in :ref:`RouteAction's metadata_match\n \u003cenvoy_api_field_config.filter.network.thrift_proxy.v2alpha1.RouteAction.metadata_match\u003e`,\n will be considered. Values here will take precedence. Keys and values should be provided\n under the \"envoy.lb\" metadata key."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "array",
+                    "description": "Specifies one or more upstream clusters associated with the route."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Multiple upstream clusters can be specified for a given route. The\n request is routed to one of the upstream clusters based on weights\n assigned to each cluster."
+        },
+        "cluster_header": {
+            "type": "string",
+            "description": "Envoy will determine the cluster to route to by reading the value of the\n Thrift header named by cluster_header from the request headers. If the\n header is not found or the referenced cluster does not exist Envoy will\n respond with an unknown method exception or an internal error exception,\n respectively."
+        },
+        "metadata_match": {
+            "$ref": "envoy.api.v2.core.Metadata",
+            "additionalProperties": true,
+            "description": "Optional endpoint metadata match criteria used by the subset load balancer. Only endpoints in\n the upstream cluster with metadata matching what is set in this field will be considered.\n Note that this will be merged with what's provided in :ref:`WeightedCluster.metadata_match\n \u003cenvoy_api_field_config.filter.network.thrift_proxy.v2alpha1.WeightedCluster.ClusterWeight.metadata_match\u003e`,\n with values there taking precedence. Keys and values should be provided under the \"envoy.lb\"\n metadata key."
+        },
+        "rate_limits": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "stage": {
+                        "additionalProperties": true,
+                        "type": "integer",
+                        "description": "Refers to the stage set in the filter. The rate limit configuration only\n applies to filters with the same stage number. The default stage number is\n 0.\n\n .. note::\n\n   The filter supports a range of 0 - 10 inclusively for stage numbers."
+                    },
+                    "disable_key": {
+                        "type": "string",
+                        "description": "The key to be set in runtime to disable this rate limit configuration."
+                    },
+                    "actions": {
+                        "items": {
+                            "$schema": "http://json-schema.org/draft-04/schema#",
+                            "properties": {
+                                "source_cluster": {
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Rate limit on source cluster."
+                                },
+                                "destination_cluster": {
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Rate limit on destination cluster."
+                                },
+                                "request_headers": {
+                                    "properties": {
+                                        "header_name": {
+                                            "type": "string",
+                                            "description": "The header name to be queried from the request headers. The header’s\n value is used to populate the value of the descriptor entry for the\n descriptor_key."
+                                        },
+                                        "descriptor_key": {
+                                            "type": "string",
+                                            "description": "The key to use in the descriptor entry."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Rate limit on request headers."
+                                },
+                                "remote_address": {
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Rate limit on remote address."
+                                },
+                                "generic_key": {
+                                    "properties": {
+                                        "descriptor_value": {
+                                            "type": "string",
+                                            "description": "The value to use in the descriptor entry."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Rate limit on a generic key."
+                                },
+                                "header_value_match": {
+                                    "properties": {
+                                        "descriptor_value": {
+                                            "type": "string",
+                                            "description": "The value to use in the descriptor entry."
+                                        },
+                                        "expect_match": {
+                                            "additionalProperties": true,
+                                            "type": "boolean",
+                                            "description": "If set to true, the action will append a descriptor entry when the\n request matches the headers. If set to false, the action will append a\n descriptor entry when the request does not match the headers. The\n default value is true."
+                                        },
+                                        "headers": {
+                                            "items": {
+                                                "$schema": "http://json-schema.org/draft-04/schema#",
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "description": "Specifies the name of the header in the request."
+                                                    },
+                                                    "exact_match": {
+                                                        "type": "string",
+                                                        "description": "If specified, header match will be performed based on the value of the header."
+                                                    },
+                                                    "regex_match": {
+                                                        "type": "string",
+                                                        "description": "If specified, this regex string is a regular expression rule which implies the entire request\n header value must match the regex. The rule will not match if only a subsequence of the\n request header value matches the regex. The regex grammar used in the value field is defined\n `here \u003chttps://en.cppreference.com/w/cpp/regex/ecmascript\u003e`_.\n\n Examples:\n\n * The regex ``\\d{3}`` matches the value *123*\n * The regex ``\\d{3}`` does not match the value *1234*\n * The regex ``\\d{3}`` does not match the value *123.456*\n\n .. attention::\n   This field has been deprecated in favor of `safe_regex_match` as it is not safe for use\n   with untrusted input in all cases."
+                                                    },
+                                                    "safe_regex_match": {
+                                                        "properties": {
+                                                            "google_re2": {
+                                                                "properties": {
+                                                                    "max_program_size": {
+                                                                        "additionalProperties": true,
+                                                                        "type": "integer",
+                                                                        "description": "This field controls the RE2 \"program size\" which is a rough estimate of how complex a\n compiled regex is to evaluate. A regex that has a program size greater than the configured\n value will fail to compile. In this case, the configured max program size can be increased\n or the regex can be simplified. If not specified, the default is 100.\n\n This field is deprecated; regexp validation should be performed on the management server\n instead of being done by each individual client."
+                                                                    }
+                                                                },
+                                                                "additionalProperties": true,
+                                                                "type": "object",
+                                                                "description": "Google's RE2 regex engine."
+                                                            },
+                                                            "regex": {
+                                                                "type": "string",
+                                                                "description": "The regex match string. The string must be supported by the configured engine."
+                                                            }
+                                                        },
+                                                        "additionalProperties": true,
+                                                        "type": "object",
+                                                        "description": "If specified, this regex string is a regular expression rule which implies the entire request\n header value must match the regex. The rule will not match if only a subsequence of the\n request header value matches the regex."
+                                                    },
+                                                    "range_match": {
+                                                        "properties": {
+                                                            "start": {
+                                                                "type": "string",
+                                                                "description": "start of the range (inclusive)"
+                                                            },
+                                                            "end": {
+                                                                "type": "string",
+                                                                "description": "end of the range (exclusive)"
+                                                            }
+                                                        },
+                                                        "additionalProperties": true,
+                                                        "type": "object",
+                                                        "description": "If specified, header match will be performed based on range.\n The rule will match if the request header value is within this range.\n The entire request header value must represent an integer in base 10 notation: consisting of\n an optional plus or minus sign followed by a sequence of digits. The rule will not match if\n the header value does not represent an integer. Match will fail for empty values, floating\n point numbers or if only a subsequence of the header value is an integer.\n\n Examples:\n\n * For range [-10,0), route will match for header value -1, but not for 0, \"somestring\", 10.9,\n   \"-1somestring\""
+                                                    },
+                                                    "present_match": {
+                                                        "type": "boolean",
+                                                        "description": "If specified, header match will be performed based on whether the header is in the\n request."
+                                                    },
+                                                    "prefix_match": {
+                                                        "type": "string",
+                                                        "description": "If specified, header match will be performed based on the prefix of the header value.\n Note: empty prefix is not allowed, please use present_match instead.\n\n Examples:\n\n * The prefix *abcd* matches the value *abcdxyz*, but not for *abcxyz*."
+                                                    },
+                                                    "suffix_match": {
+                                                        "type": "string",
+                                                        "description": "If specified, header match will be performed based on the suffix of the header value.\n Note: empty suffix is not allowed, please use present_match instead.\n\n Examples:\n\n * The suffix *abcd* matches the value *xyzabcd*, but not for *xyzbcd*."
+                                                    },
+                                                    "invert_match": {
+                                                        "type": "boolean",
+                                                        "description": "If specified, the match result will be inverted before checking. Defaults to false.\n\n Examples:\n\n * The regex ``\\d{3}`` does not match the value *1234*, so it will match when inverted.\n * The range [-10,0) will match the value -1, so it will not match when inverted."
+                                                    }
+                                                },
+                                                "additionalProperties": true,
+                                                "type": "object",
+                                                "description": ".. attention::\n\n   Internally, Envoy always uses the HTTP/2 *:authority* header to represent the HTTP/1 *Host*\n   header. Thus, if attempting to match on *Host*, match on *:authority* instead.\n\n .. attention::\n\n   To route on HTTP method, use the special HTTP/2 *:method* header. This works for both\n   HTTP/1 and HTTP/2 as Envoy normalizes headers. E.g.,\n\n   .. code-block:: json\n\n     {\n       \"name\": \":method\",\n       \"exact_match\": \"POST\"\n     }\n\n .. attention::\n   In the absence of any header match specifier, match will default to :ref:`present_match\n   \u003cenvoy_api_field_route.HeaderMatcher.present_match\u003e`. i.e, a request that has the :ref:`name\n   \u003cenvoy_api_field_route.HeaderMatcher.name\u003e` header will match, regardless of the header's\n   value.\n\n  [#next-major-version: HeaderMatcher should be refactored to use StringMatcher.]\n [#next-free-field: 12]"
+                                            },
+                                            "type": "array",
+                                            "description": "Specifies a set of headers that the rate limit action should match\n on. The action will check the request’s headers against all the\n specified headers in the config. A match will happen if all the\n headers in the config are present in the request with the same values\n (or based on presence if the value field is not in the config)."
+                                        }
+                                    },
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "description": "Rate limit on the existence of request headers."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "[#next-free-field: 7]"
+                        },
+                        "type": "array",
+                        "description": "A list of actions that are to be applied for this rate limit configuration.\n Order matters as the actions are processed sequentially and the descriptor\n is composed by appending descriptor entries in that sequence. If an action\n cannot append a descriptor entry, no descriptor is generated for the\n configuration. See :ref:`composing actions\n \u003cconfig_http_filters_rate_limit_composing_actions\u003e` for additional documentation."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "Global rate limiting :ref:`architecture overview \u003carch_overview_global_rate_limit\u003e`."
+            },
+            "type": "array",
+            "description": "Specifies a set of rate limit configurations that could be applied to the route.\n N.B. Thrift service or method name matching can be achieved by specifying a RequestHeaders\n action with the header name \":method-name\"."
+        },
+        "strip_service_name": {
+            "type": "boolean",
+            "description": "Strip the service prefix from the method name, if there's a prefix. For\n example, the method call Service:method would end up being just method."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#next-free-field: 7]",
+    "definitions": {
+        "envoy.api.v2.core.Metadata": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "filter_metadata": {
+                    "additionalProperties": {
+                        "properties": {
+                            "fields": {
+                                "additionalProperties": {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                "type": "object",
+                                "description": "Unordered map of dynamically typed values."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Metadata provides additional inputs to filters based on matched listeners,\n filter chains, routes and endpoints. It is structured as a map, usually from\n filter name (in reverse DNS format) to metadata specific to the filter. Metadata\n key-values for a filter are merged as connection and request handling occurs,\n with later values for the same key overriding earlier values.\n\n An example use of metadata is providing additional values to\n http_connection_manager in the envoy.http_connection_manager.access_log\n namespace.\n\n Another example use of metadata is to per service config info in cluster metadata, which may get\n consumed by multiple filters.\n\n For load balancing, Metadata provides a means to subset cluster endpoints.\n Endpoints have a Metadata object associated and routes contain a Metadata\n object to match against. There are some well defined metadata used today for\n this purpose:\n\n * ``{\"envoy.lb\": {\"canary\": \u003cbool\u003e }}`` This indicates the canary status of an\n   endpoint and is also used during header processing\n   (x-envoy-upstream-canary) and for stats purposes.\n [#next-major-version: move to type/metadata/v2]",
+            "id": "envoy.api.v2.core.Metadata"
+        }
+    }
+}

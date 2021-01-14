@@ -1,1 +1,66 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing//ListenerFilterChainMatchPredicate.jsonschema", "definitions": {"ListenerFilterChainMatchPredicate": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"or_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.listener.v3.ListenerFilterChainMatchPredicate/MatchSet.jsonschema", "additionalProperties": true, "description": "A set that describes a logical OR. If any member of the set matches, the match configuration\n matches."}, "and_match": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.listener.v3.ListenerFilterChainMatchPredicate/MatchSet.jsonschema", "additionalProperties": true, "description": "A set that describes a logical AND. If all members of the set match, the match configuration\n matches."}, "not_match": {"$ref": "https://phlax.github.io/typed-config-testing//ListenerFilterChainMatchPredicate.jsonschema", "additionalProperties": true, "description": "A negation match. The match configuration will match if the negated match condition matches."}, "any_match": {"type": "boolean", "description": "The match configuration will always match."}, "destination_port_range": {"properties": {"start": {"type": "integer", "description": "start of the range (inclusive)"}, "end": {"type": "integer", "description": "end of the range (exclusive)"}}, "additionalProperties": true, "type": "object", "description": "Match destination port. Particularly, the match evaluation must use the recovered local port if\n the owning listener filter is after :ref:`an original_dst listener filter <config_listener_filters_original_dst>`."}}, "additionalProperties": true, "type": "object", "description": "Listener filter chain match configuration. This is a recursive structure which allows complex\n nested match configurations to be built using various logical operators.\n\n Examples:\n\n * Matches if the destination port is 3306.\n\n .. code-block:: yaml\n\n  destination_port_range:\n   start: 3306\n   end: 3307\n\n * Matches if the destination port is 3306 or 15000.\n\n .. code-block:: yaml\n\n  or_match:\n    rules:\n      - destination_port_range:\n          start: 3306\n          end: 3306\n      - destination_port_range:\n          start: 15000\n          end: 15001\n\n [#next-free-field: 6]", "id": "ListenerFilterChainMatchPredicate"}, "envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSet": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"rules": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing//ListenerFilterChainMatchPredicate.jsonschema"}, "type": "array", "description": "The list of rules that make up the set."}}, "additionalProperties": true, "type": "object", "description": "A set of match configurations used for logical operations.", "id": "envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSet"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "ListenerFilterChainMatchPredicate",
+    "definitions": {
+        "ListenerFilterChainMatchPredicate": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "or_match": {
+                    "$ref": "envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSet",
+                    "additionalProperties": true,
+                    "description": "A set that describes a logical OR. If any member of the set matches, the match configuration\n matches."
+                },
+                "and_match": {
+                    "$ref": "envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSet",
+                    "additionalProperties": true,
+                    "description": "A set that describes a logical AND. If all members of the set match, the match configuration\n matches."
+                },
+                "not_match": {
+                    "$ref": "ListenerFilterChainMatchPredicate",
+                    "additionalProperties": true,
+                    "description": "A negation match. The match configuration will match if the negated match condition matches."
+                },
+                "any_match": {
+                    "type": "boolean",
+                    "description": "The match configuration will always match."
+                },
+                "destination_port_range": {
+                    "properties": {
+                        "start": {
+                            "type": "integer",
+                            "description": "start of the range (inclusive)"
+                        },
+                        "end": {
+                            "type": "integer",
+                            "description": "end of the range (exclusive)"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Match destination port. Particularly, the match evaluation must use the recovered local port if\n the owning listener filter is after :ref:`an original_dst listener filter \u003cconfig_listener_filters_original_dst\u003e`."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Listener filter chain match configuration. This is a recursive structure which allows complex\n nested match configurations to be built using various logical operators.\n\n Examples:\n\n * Matches if the destination port is 3306.\n\n .. code-block:: yaml\n\n  destination_port_range:\n   start: 3306\n   end: 3307\n\n * Matches if the destination port is 3306 or 15000.\n\n .. code-block:: yaml\n\n  or_match:\n    rules:\n      - destination_port_range:\n          start: 3306\n          end: 3306\n      - destination_port_range:\n          start: 15000\n          end: 15001\n\n [#next-free-field: 6]",
+            "id": "ListenerFilterChainMatchPredicate"
+        },
+        "envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSet": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "rules": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "ListenerFilterChainMatchPredicate"
+                    },
+                    "type": "array",
+                    "description": "The list of rules that make up the set."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A set of match configurations used for logical operations.",
+            "id": "envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSet"
+        }
+    }
+}

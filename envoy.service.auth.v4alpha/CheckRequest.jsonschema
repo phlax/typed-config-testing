@@ -1,1 +1,229 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"attributes": {"properties": {"source": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.auth.v4alpha.AttributeContext/Peer.jsonschema", "additionalProperties": true, "description": "The source of a network activity, such as starting a TCP connection.\n In a multi hop network activity, the source represents the sender of the\n last hop."}, "destination": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.service.auth.v4alpha.AttributeContext/Peer.jsonschema", "additionalProperties": true, "description": "The destination of a network activity, such as accepting a TCP connection.\n In a multi hop network activity, the destination represents the receiver of\n the last hop."}, "request": {"properties": {"time": {"type": "string", "description": "The timestamp when the proxy receives the first byte of the request.", "format": "date-time"}, "http": {"properties": {"id": {"type": "string", "description": "The unique ID for a request, which can be propagated to downstream\n systems. The ID should have low probability of collision\n within a single day for a specific service.\n For HTTP requests, it should be X-Request-ID or equivalent."}, "method": {"type": "string", "description": "The HTTP request method, such as `GET`, `POST`."}, "headers": {"additionalProperties": {"type": "string"}, "type": "object", "description": "The HTTP request headers. If multiple headers share the same key, they\n must be merged according to the HTTP spec. All header keys must be\n lower-cased, because HTTP header keys are case-insensitive."}, "path": {"type": "string", "description": "The request target, as it appears in the first line of the HTTP request. This includes\n the URL path and query-string. No decoding is performed."}, "host": {"type": "string", "description": "The HTTP request `Host` or 'Authority` header value."}, "scheme": {"type": "string", "description": "The HTTP URL scheme, such as `http` and `https`."}, "query": {"type": "string", "description": "This field is always empty, and exists for compatibility reasons. The HTTP URL query is\n included in `path` field."}, "fragment": {"type": "string", "description": "This field is always empty, and exists for compatibility reasons. The URL fragment is\n not submitted as part of HTTP requests; it is unknowable."}, "size": {"type": "string", "description": "The HTTP request size in bytes. If unknown, it must be -1."}, "protocol": {"type": "string", "description": "The network protocol used with the request, such as \"HTTP/1.0\", \"HTTP/1.1\", or \"HTTP/2\".\n\n See :repo:`headers.h:ProtocolStrings <source/common/http/headers.h>` for a list of all\n possible values."}, "body": {"type": "string", "description": "The HTTP request body."}, "raw_body": {"type": "string", "description": "The HTTP request body in bytes. This is used instead of\n :ref:`body <envoy_v3_api_field_service.auth.v3.AttributeContext.HttpRequest.body>` when\n :ref:`pack_as_bytes <envoy_api_field_extensions.filters.http.ext_authz.v4alpha.BufferSettings.pack_as_bytes>`\n is set to true."}}, "additionalProperties": true, "type": "object", "description": "Represents an HTTP request or an HTTP-like request."}}, "additionalProperties": true, "type": "object", "description": "Represents a network request, such as an HTTP request."}, "context_extensions": {"additionalProperties": {"type": "string"}, "type": "object", "description": "This is analogous to http_request.headers, however these contents will not be sent to the\n upstream server. Context_extensions provide an extension mechanism for sending additional\n information to the auth server without modifying the proto definition. It maps to the\n internal opaque context in the filter chain."}, "metadata_context": {"properties": {"filter_metadata": {"additionalProperties": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object"}, "type": "object", "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."}}, "additionalProperties": true, "type": "object", "description": "Dynamic metadata associated with the request."}}, "additionalProperties": true, "type": "object", "description": "The request attributes."}}, "additionalProperties": true, "type": "object", "definitions": {"envoy.service.auth.v4alpha.AttributeContext.Peer": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"address": {"properties": {"socket_address": {"properties": {"protocol": {"enum": ["TCP", 0, "UDP", 1], "oneOf": [{"type": "string"}, {"type": "integer"}]}, "address": {"type": "string", "description": "The address for this socket. :ref:`Listeners <config_listeners>` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch <envoy_api_msg_config.listener.v4alpha.FilterChainMatch>`.] When used\n within an upstream :ref:`BindConfig <envoy_api_msg_config.core.v4alpha.BindConfig>`, the address\n controls the source address of outbound connections. For :ref:`clusters\n <envoy_api_msg_config.cluster.v4alpha.Cluster>`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name <envoy_api_field_config.core.v4alpha.SocketAddress.resolver_name>`."}, "port_value": {"type": "integer"}, "named_port": {"type": "string", "description": "This is only valid if :ref:`resolver_name\n <envoy_api_field_config.core.v4alpha.SocketAddress.resolver_name>` is specified below and the\n named resolver is capable of named port resolution."}, "resolver_name": {"type": "string", "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."}, "ipv4_compat": {"type": "boolean", "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n <https://tools.ietf.org/html/rfc3493#page-11>`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:<IPv4-address>``."}}, "additionalProperties": true, "type": "object"}, "pipe": {"properties": {"path": {"type": "string", "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."}, "mode": {"type": "integer", "description": "The mode for the Pipe. Not applicable for abstract sockets."}}, "additionalProperties": true, "type": "object"}, "envoy_internal_address": {"properties": {"server_listener_name": {"type": "string", "description": "[#not-implemented-hide:] The :ref:`listener name <envoy_api_field_config.listener.v4alpha.Listener.name>` of the destination internal listener."}}, "additionalProperties": true, "type": "object", "description": "[#not-implemented-hide:]"}}, "additionalProperties": true, "type": "object", "description": "The address of the peer, this is typically the IP address.\n It can also be UDS path, or others."}, "service": {"type": "string", "description": "The canonical service name of the peer.\n It should be set to :ref:`the HTTP x-envoy-downstream-service-cluster\n <config_http_conn_man_headers_downstream-service-cluster>`\n If a more trusted source of the service name is available through mTLS/secure naming, it\n should be used."}, "labels": {"additionalProperties": {"type": "string"}, "type": "object", "description": "The labels associated with the peer.\n These could be pod labels for Kubernetes or tags for VMs.\n The source of the labels could be an X.509 certificate or other configuration."}, "principal": {"type": "string", "description": "The authenticated identity of this peer.\n For example, the identity associated with the workload such as a service account.\n If an X.509 certificate is used to assert the identity this field should be sourced from\n `URI Subject Alternative Names`, `DNS Subject Alternate Names` or `Subject` in that order.\n The primary identity should be the principal. The principal format is issuer specific.\n\n Example:\n *    SPIFFE format is `spiffe://trust-domain/path`\n *    Google account format is `https://accounts.google.com/{userid}`"}, "certificate": {"type": "string", "description": "The X.509 certificate used to authenticate the identify of this peer.\n When present, the certificate contents are encoded in URL and PEM format."}}, "additionalProperties": true, "type": "object", "description": "This message defines attributes for a node that handles a network request.\n The node can be either a service or an application that sends, forwards,\n or receives the request. Service peers should fill in the `service`,\n `principal`, and `labels` as appropriate.\n [#next-free-field: 6]", "id": "envoy.service.auth.v4alpha.AttributeContext.Peer"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "attributes": {
+            "properties": {
+                "source": {
+                    "$ref": "envoy.service.auth.v4alpha.AttributeContext.Peer",
+                    "additionalProperties": true,
+                    "description": "The source of a network activity, such as starting a TCP connection.\n In a multi hop network activity, the source represents the sender of the\n last hop."
+                },
+                "destination": {
+                    "$ref": "envoy.service.auth.v4alpha.AttributeContext.Peer",
+                    "additionalProperties": true,
+                    "description": "The destination of a network activity, such as accepting a TCP connection.\n In a multi hop network activity, the destination represents the receiver of\n the last hop."
+                },
+                "request": {
+                    "properties": {
+                        "time": {
+                            "type": "string",
+                            "description": "The timestamp when the proxy receives the first byte of the request.",
+                            "format": "date-time"
+                        },
+                        "http": {
+                            "properties": {
+                                "id": {
+                                    "type": "string",
+                                    "description": "The unique ID for a request, which can be propagated to downstream\n systems. The ID should have low probability of collision\n within a single day for a specific service.\n For HTTP requests, it should be X-Request-ID or equivalent."
+                                },
+                                "method": {
+                                    "type": "string",
+                                    "description": "The HTTP request method, such as `GET`, `POST`."
+                                },
+                                "headers": {
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    },
+                                    "type": "object",
+                                    "description": "The HTTP request headers. If multiple headers share the same key, they\n must be merged according to the HTTP spec. All header keys must be\n lower-cased, because HTTP header keys are case-insensitive."
+                                },
+                                "path": {
+                                    "type": "string",
+                                    "description": "The request target, as it appears in the first line of the HTTP request. This includes\n the URL path and query-string. No decoding is performed."
+                                },
+                                "host": {
+                                    "type": "string",
+                                    "description": "The HTTP request `Host` or 'Authority` header value."
+                                },
+                                "scheme": {
+                                    "type": "string",
+                                    "description": "The HTTP URL scheme, such as `http` and `https`."
+                                },
+                                "query": {
+                                    "type": "string",
+                                    "description": "This field is always empty, and exists for compatibility reasons. The HTTP URL query is\n included in `path` field."
+                                },
+                                "fragment": {
+                                    "type": "string",
+                                    "description": "This field is always empty, and exists for compatibility reasons. The URL fragment is\n not submitted as part of HTTP requests; it is unknowable."
+                                },
+                                "size": {
+                                    "type": "string",
+                                    "description": "The HTTP request size in bytes. If unknown, it must be -1."
+                                },
+                                "protocol": {
+                                    "type": "string",
+                                    "description": "The network protocol used with the request, such as \"HTTP/1.0\", \"HTTP/1.1\", or \"HTTP/2\".\n\n See :repo:`headers.h:ProtocolStrings \u003csource/common/http/headers.h\u003e` for a list of all\n possible values."
+                                },
+                                "body": {
+                                    "type": "string",
+                                    "description": "The HTTP request body."
+                                },
+                                "raw_body": {
+                                    "type": "string",
+                                    "description": "The HTTP request body in bytes. This is used instead of\n :ref:`body \u003cenvoy_v3_api_field_service.auth.v3.AttributeContext.HttpRequest.body\u003e` when\n :ref:`pack_as_bytes \u003cenvoy_api_field_extensions.filters.http.ext_authz.v4alpha.BufferSettings.pack_as_bytes\u003e`\n is set to true."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "Represents an HTTP request or an HTTP-like request."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Represents a network request, such as an HTTP request."
+                },
+                "context_extensions": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "This is analogous to http_request.headers, however these contents will not be sent to the\n upstream server. Context_extensions provide an extension mechanism for sending additional\n information to the auth server without modifying the proto definition. It maps to the\n internal opaque context in the filter chain."
+                },
+                "metadata_context": {
+                    "properties": {
+                        "filter_metadata": {
+                            "additionalProperties": {
+                                "properties": {
+                                    "fields": {
+                                        "additionalProperties": {
+                                            "additionalProperties": true,
+                                            "type": "object"
+                                        },
+                                        "type": "object",
+                                        "description": "Unordered map of dynamically typed values."
+                                    }
+                                },
+                                "additionalProperties": true,
+                                "type": "object"
+                            },
+                            "type": "object",
+                            "description": "Key is the reverse DNS filter name, e.g. com.acme.widget. The envoy.*\n namespace is reserved for Envoy's built-in filters."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Dynamic metadata associated with the request."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The request attributes."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "definitions": {
+        "envoy.service.auth.v4alpha.AttributeContext.Peer": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "address": {
+                    "properties": {
+                        "socket_address": {
+                            "properties": {
+                                "protocol": {
+                                    "enum": [
+                                        "TCP",
+                                        0,
+                                        "UDP",
+                                        1
+                                    ],
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "integer"
+                                        }
+                                    ]
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "description": "The address for this socket. :ref:`Listeners \u003cconfig_listeners\u003e` will bind\n to the address. An empty address is not allowed. Specify ``0.0.0.0`` or ``::``\n to bind to any address. [#comment:TODO(zuercher) reinstate when implemented:\n It is possible to distinguish a Listener address via the prefix/suffix matching\n in :ref:`FilterChainMatch \u003cenvoy_api_msg_config.listener.v4alpha.FilterChainMatch\u003e`.] When used\n within an upstream :ref:`BindConfig \u003cenvoy_api_msg_config.core.v4alpha.BindConfig\u003e`, the address\n controls the source address of outbound connections. For :ref:`clusters\n \u003cenvoy_api_msg_config.cluster.v4alpha.Cluster\u003e`, the cluster type determines whether the\n address must be an IP (*STATIC* or *EDS* clusters) or a hostname resolved by DNS\n (*STRICT_DNS* or *LOGICAL_DNS* clusters). Address resolution can be customized\n via :ref:`resolver_name \u003cenvoy_api_field_config.core.v4alpha.SocketAddress.resolver_name\u003e`."
+                                },
+                                "port_value": {
+                                    "type": "integer"
+                                },
+                                "named_port": {
+                                    "type": "string",
+                                    "description": "This is only valid if :ref:`resolver_name\n \u003cenvoy_api_field_config.core.v4alpha.SocketAddress.resolver_name\u003e` is specified below and the\n named resolver is capable of named port resolution."
+                                },
+                                "resolver_name": {
+                                    "type": "string",
+                                    "description": "The name of the custom resolver. This must have been registered with Envoy. If\n this is empty, a context dependent default applies. If the address is a concrete\n IP address, no resolution will occur. If address is a hostname this\n should be set for resolution other than DNS. Specifying a custom resolver with\n *STRICT_DNS* or *LOGICAL_DNS* will generate an error at runtime."
+                                },
+                                "ipv4_compat": {
+                                    "type": "boolean",
+                                    "description": "When binding to an IPv6 address above, this enables `IPv4 compatibility\n \u003chttps://tools.ietf.org/html/rfc3493#page-11\u003e`_. Binding to ``::`` will\n allow both IPv4 and IPv6 connections, with peer IPv4 addresses mapped into\n IPv6 space as ``::FFFF:\u003cIPv4-address\u003e``."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "pipe": {
+                            "properties": {
+                                "path": {
+                                    "type": "string",
+                                    "description": "Unix Domain Socket path. On Linux, paths starting with '@' will use the\n abstract namespace. The starting '@' is replaced by a null byte by Envoy.\n Paths starting with '@' will result in an error in environments other than\n Linux."
+                                },
+                                "mode": {
+                                    "type": "integer",
+                                    "description": "The mode for the Pipe. Not applicable for abstract sockets."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object"
+                        },
+                        "envoy_internal_address": {
+                            "properties": {
+                                "server_listener_name": {
+                                    "type": "string",
+                                    "description": "[#not-implemented-hide:] The :ref:`listener name \u003cenvoy_api_field_config.listener.v4alpha.Listener.name\u003e` of the destination internal listener."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "[#not-implemented-hide:]"
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "The address of the peer, this is typically the IP address.\n It can also be UDS path, or others."
+                },
+                "service": {
+                    "type": "string",
+                    "description": "The canonical service name of the peer.\n It should be set to :ref:`the HTTP x-envoy-downstream-service-cluster\n \u003cconfig_http_conn_man_headers_downstream-service-cluster\u003e`\n If a more trusted source of the service name is available through mTLS/secure naming, it\n should be used."
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "type": "object",
+                    "description": "The labels associated with the peer.\n These could be pod labels for Kubernetes or tags for VMs.\n The source of the labels could be an X.509 certificate or other configuration."
+                },
+                "principal": {
+                    "type": "string",
+                    "description": "The authenticated identity of this peer.\n For example, the identity associated with the workload such as a service account.\n If an X.509 certificate is used to assert the identity this field should be sourced from\n `URI Subject Alternative Names`, `DNS Subject Alternate Names` or `Subject` in that order.\n The primary identity should be the principal. The principal format is issuer specific.\n\n Example:\n *    SPIFFE format is `spiffe://trust-domain/path`\n *    Google account format is `https://accounts.google.com/{userid}`"
+                },
+                "certificate": {
+                    "type": "string",
+                    "description": "The X.509 certificate used to authenticate the identify of this peer.\n When present, the certificate contents are encoded in URL and PEM format."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "This message defines attributes for a node that handles a network request.\n The node can be either a service or an application that sends, forwards,\n or receives the request. Service peers should fill in the `service`,\n `principal`, and `labels` as appropriate.\n [#next-free-field: 6]",
+            "id": "envoy.service.auth.v4alpha.AttributeContext.Peer"
+        }
+    }
+}

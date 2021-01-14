@@ -1,1 +1,16 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"received_bytes": {"type": "string", "description": "Number of bytes received from downstream."}, "sent_bytes": {"type": "string", "description": "Number of bytes sent to downstream."}}, "additionalProperties": true, "type": "object", "description": "Defines fields for a connection"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "received_bytes": {
+            "type": "string",
+            "description": "Number of bytes received from downstream."
+        },
+        "sent_bytes": {
+            "type": "string",
+            "description": "Number of bytes sent to downstream."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "Defines fields for a connection"
+}

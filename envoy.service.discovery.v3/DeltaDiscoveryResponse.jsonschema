@@ -1,1 +1,95 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"system_version_info": {"type": "string", "description": "The version of the response data (used for debugging)."}, "resources": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"name": {"type": "string", "description": "The resource's name, to distinguish it from others of the same type of resource."}, "aliases": {"items": {"type": "string"}, "type": "array", "description": "The aliases are a list of other names that this resource can go by."}, "version": {"type": "string", "description": "The resource level version. It allows xDS to track the state of individual\n resources."}, "resource": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object", "description": "The resource being tracked."}, "ttl": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Time-to-live value for the resource. For each resource, a timer is started. The timer is\n reset each time the resource is received with a new TTL. If the resource is received with\n no TTL set, the timer is removed for the resource. Upon expiration of the timer, the\n configuration for the resource will be removed.\n\n The TTL can be refreshed or changed by sending a response that doesn't change the resource\n version. In this case the resource field does not need to be populated, which allows for\n light-weight \"heartbeat\" updates to keep a resource with a TTL alive.\n\n The TTL feature is meant to support configurations that should be removed in the event of\n a management server failure. For example, the feature may be used for fault injection\n testing where the fault injection should be terminated in the event that Envoy loses contact\n with the management server."}, "cache_control": {"properties": {"do_not_cache": {"type": "boolean", "description": "If true, xDS proxies may not cache this resource.\n Note that this does not apply to clients other than xDS proxies, which must cache resources\n for their own use, regardless of the value of this field."}}, "additionalProperties": true, "type": "object", "description": "Cache control properties for the resource.\n [#not-implemented-hide:]"}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 8]"}, "type": "array", "description": "The response resources. These are typed resources, whose types must match\n the type_url field."}, "type_url": {"type": "string", "description": "field id 3 IS available!\n\nType URL for resources. Identifies the xDS API when muxing over ADS.\n Must be consistent with the type_url in the Any within 'resources' if 'resources' is non-empty."}, "removed_resources": {"items": {"type": "string"}, "type": "array", "description": "Resources names of resources that have be deleted and to be removed from the xDS Client.\n Removed resources for missing resources can be ignored."}, "nonce": {"type": "string", "description": "The nonce provides a way for DeltaDiscoveryRequests to uniquely\n reference a DeltaDiscoveryResponse when (N)ACKing. The nonce is required."}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 7]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "system_version_info": {
+            "type": "string",
+            "description": "The version of the response data (used for debugging)."
+        },
+        "resources": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The resource's name, to distinguish it from others of the same type of resource."
+                    },
+                    "aliases": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "The aliases are a list of other names that this resource can go by."
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "The resource level version. It allows xDS to track the state of individual\n resources."
+                    },
+                    "resource": {
+                        "properties": {
+                            "type_url": {
+                                "type": "string",
+                                "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Must be a valid serialized protocol buffer of the above specified type."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "The resource being tracked."
+                    },
+                    "ttl": {
+                        "properties": {
+                            "seconds": {
+                                "type": "string",
+                                "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                            },
+                            "nanos": {
+                                "type": "integer",
+                                "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Time-to-live value for the resource. For each resource, a timer is started. The timer is\n reset each time the resource is received with a new TTL. If the resource is received with\n no TTL set, the timer is removed for the resource. Upon expiration of the timer, the\n configuration for the resource will be removed.\n\n The TTL can be refreshed or changed by sending a response that doesn't change the resource\n version. In this case the resource field does not need to be populated, which allows for\n light-weight \"heartbeat\" updates to keep a resource with a TTL alive.\n\n The TTL feature is meant to support configurations that should be removed in the event of\n a management server failure. For example, the feature may be used for fault injection\n testing where the fault injection should be terminated in the event that Envoy loses contact\n with the management server."
+                    },
+                    "cache_control": {
+                        "properties": {
+                            "do_not_cache": {
+                                "type": "boolean",
+                                "description": "If true, xDS proxies may not cache this resource.\n Note that this does not apply to clients other than xDS proxies, which must cache resources\n for their own use, regardless of the value of this field."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Cache control properties for the resource.\n [#not-implemented-hide:]"
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "[#next-free-field: 8]"
+            },
+            "type": "array",
+            "description": "The response resources. These are typed resources, whose types must match\n the type_url field."
+        },
+        "type_url": {
+            "type": "string",
+            "description": "field id 3 IS available!\n\nType URL for resources. Identifies the xDS API when muxing over ADS.\n Must be consistent with the type_url in the Any within 'resources' if 'resources' is non-empty."
+        },
+        "removed_resources": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array",
+            "description": "Resources names of resources that have be deleted and to be removed from the xDS Client.\n Removed resources for missing resources can be ignored."
+        },
+        "nonce": {
+            "type": "string",
+            "description": "The nonce provides a way for DeltaDiscoveryRequests to uniquely\n reference a DeltaDiscoveryResponse when (N)ACKing. The nonce is required."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#next-free-field: 7]"
+}

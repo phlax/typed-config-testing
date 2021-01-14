@@ -1,1 +1,91 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"http_uri": {"properties": {"uri": {"type": "string", "description": "The HTTP server URI. It should be a full FQDN with protocol, host and path.\n\n Example:\n\n .. code-block:: yaml\n\n    uri: https://www.googleapis.com/oauth2/v1/certs"}, "cluster": {"type": "string", "description": "A cluster is created in the Envoy \"cluster_manager\" config\n section. This field specifies the cluster name.\n\n Example:\n\n .. code-block:: yaml\n\n    cluster: jwks_cluster"}, "timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Sets the maximum duration in milliseconds that a response can take to arrive upon request."}}, "additionalProperties": true, "type": "object", "description": "The HTTP URI to fetch the remote data."}, "sha256": {"type": "string", "description": "SHA256 string for verifying data."}, "retry_policy": {"properties": {"retry_back_off": {"properties": {"base_interval": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The base interval to be used for the next back off computation. It should\n be greater than zero and less than or equal to :ref:`max_interval\n <envoy_api_field_config.core.v4alpha.BackoffStrategy.max_interval>`."}, "max_interval": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Specifies the maximum interval between retries. This parameter is optional,\n but must be greater than or equal to the :ref:`base_interval\n <envoy_api_field_config.core.v4alpha.BackoffStrategy.base_interval>` if set. The default\n is 10 times the :ref:`base_interval\n <envoy_api_field_config.core.v4alpha.BackoffStrategy.base_interval>`."}}, "additionalProperties": true, "type": "object", "description": "Specifies parameters that control :ref:`retry backoff strategy <envoy_api_msg_config.core.v4alpha.BackoffStrategy>`.\n This parameter is optional, in which case the default base interval is 1000 milliseconds. The\n default maximum interval is 10 times the base interval."}, "max_retries": {"additionalProperties": true, "type": "integer", "description": "Specifies the allowed number of retries. This parameter is optional and\n defaults to 1."}}, "additionalProperties": true, "type": "object", "description": "Retry policy for fetching remote data."}}, "additionalProperties": true, "type": "object", "description": "The message specifies how to fetch data from remote and how to verify it."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "http_uri": {
+            "properties": {
+                "uri": {
+                    "type": "string",
+                    "description": "The HTTP server URI. It should be a full FQDN with protocol, host and path.\n\n Example:\n\n .. code-block:: yaml\n\n    uri: https://www.googleapis.com/oauth2/v1/certs"
+                },
+                "cluster": {
+                    "type": "string",
+                    "description": "A cluster is created in the Envoy \"cluster_manager\" config\n section. This field specifies the cluster name.\n\n Example:\n\n .. code-block:: yaml\n\n    cluster: jwks_cluster"
+                },
+                "timeout": {
+                    "properties": {
+                        "seconds": {
+                            "type": "string",
+                            "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                        },
+                        "nanos": {
+                            "type": "integer",
+                            "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Sets the maximum duration in milliseconds that a response can take to arrive upon request."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The HTTP URI to fetch the remote data."
+        },
+        "sha256": {
+            "type": "string",
+            "description": "SHA256 string for verifying data."
+        },
+        "retry_policy": {
+            "properties": {
+                "retry_back_off": {
+                    "properties": {
+                        "base_interval": {
+                            "properties": {
+                                "seconds": {
+                                    "type": "string",
+                                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                },
+                                "nanos": {
+                                    "type": "integer",
+                                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "The base interval to be used for the next back off computation. It should\n be greater than zero and less than or equal to :ref:`max_interval\n \u003cenvoy_api_field_config.core.v4alpha.BackoffStrategy.max_interval\u003e`."
+                        },
+                        "max_interval": {
+                            "properties": {
+                                "seconds": {
+                                    "type": "string",
+                                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                                },
+                                "nanos": {
+                                    "type": "integer",
+                                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                                }
+                            },
+                            "additionalProperties": true,
+                            "type": "object",
+                            "description": "Specifies the maximum interval between retries. This parameter is optional,\n but must be greater than or equal to the :ref:`base_interval\n \u003cenvoy_api_field_config.core.v4alpha.BackoffStrategy.base_interval\u003e` if set. The default\n is 10 times the :ref:`base_interval\n \u003cenvoy_api_field_config.core.v4alpha.BackoffStrategy.base_interval\u003e`."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Specifies parameters that control :ref:`retry backoff strategy \u003cenvoy_api_msg_config.core.v4alpha.BackoffStrategy\u003e`.\n This parameter is optional, in which case the default base interval is 1000 milliseconds. The\n default maximum interval is 10 times the base interval."
+                },
+                "max_retries": {
+                    "additionalProperties": true,
+                    "type": "integer",
+                    "description": "Specifies the allowed number of retries. This parameter is optional and\n defaults to 1."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Retry policy for fetching remote data."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "The message specifies how to fetch data from remote and how to verify it."
+}

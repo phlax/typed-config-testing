@@ -1,1 +1,298 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"stat_prefix": {"type": "string", "description": "The prefix to use when emitting :ref:`statistics <config_network_filters_redis_proxy_stats>`."}, "settings": {"properties": {"op_timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Per-operation timeout in milliseconds. The timer starts when the first\n command of a pipeline is written to the backend connection. Each response received from Redis\n resets the timer since it signifies that the next command is being processed by the backend.\n The only exception to this behavior is when a connection to a backend is not yet established.\n In that case, the connect timeout on the cluster will govern the timeout until the connection\n is ready."}, "enable_hashtagging": {"type": "boolean", "description": "Use hash tagging on every redis key to guarantee that keys with the same hash tag will be\n forwarded to the same upstream. The hash key used for determining the upstream in a\n consistent hash ring configuration will be computed from the hash tagged key instead of the\n whole key. The algorithm used to compute the hash tag is identical to the `redis-cluster\n implementation <https://redis.io/topics/cluster-spec#keys-hash-tags>`_.\n\n Examples:\n\n * '{user1000}.following' and '{user1000}.followers' **will** be sent to the same upstream\n * '{user1000}.following' and '{user1001}.following' **might** be sent to the same upstream"}, "enable_redirection": {"type": "boolean", "description": "Accept `moved and ask redirection\n <https://redis.io/topics/cluster-spec#redirection-and-resharding>`_ errors from upstream\n redis servers, and retry commands to the specified target server. The target server does not\n need to be known to the cluster manager. If the command cannot be redirected, then the\n original error is passed downstream unchanged. By default, this support is not enabled."}, "max_buffer_size_before_flush": {"type": "integer", "description": "Maximum size of encoded request buffer before flush is triggered and encoded requests\n are sent upstream. If this is unset, the buffer flushes whenever it receives data\n and performs no batching.\n This feature makes it possible for multiple clients to send requests to Envoy and have\n them batched- for example if one is running several worker processes, each with its own\n Redis connection. There is no benefit to using this with a single downstream process.\n Recommended size (if enabled) is 1024 bytes."}, "buffer_flush_timeout": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "The encoded request buffer is flushed N milliseconds after the first request has been\n encoded, unless the buffer size has already exceeded `max_buffer_size_before_flush`.\n If `max_buffer_size_before_flush` is not set, this flush timer is not used. Otherwise,\n the timer should be set according to the number of clients, overall request rate and\n desired maximum latency for a single command. For example, if there are many requests\n being batched together at a high rate, the buffer will likely be filled before the timer\n fires. Alternatively, if the request rate is lower the buffer will not be filled as often\n before the timer fires.\n If `max_buffer_size_before_flush` is set, but `buffer_flush_timeout` is not, the latter\n defaults to 3ms."}, "max_upstream_unknown_connections": {"additionalProperties": true, "type": "integer", "description": "`max_upstream_unknown_connections` controls how many upstream connections to unknown hosts\n can be created at any given time by any given worker thread (see `enable_redirection` for\n more details). If the host is unknown and a connection cannot be created due to enforcing\n this limit, then redirection will fail and the original redirection error will be passed\n downstream unchanged. This limit defaults to 100."}, "enable_command_stats": {"type": "boolean", "description": "Enable per-command statistics per upstream cluster, in addition to the filter level aggregate\n count. These commands are measured in microseconds."}, "read_policy": {"enum": ["MASTER", 0, "PREFER_MASTER", 1, "REPLICA", 2, "PREFER_REPLICA", 3, "ANY", 4], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Read policy. The default is to read from the primary."}}, "additionalProperties": true, "type": "object", "description": "Network settings for the connection pool to the upstream clusters."}, "latency_in_micros": {"type": "boolean", "description": "Indicates that latency stat should be computed in microseconds. By default it is computed in\n milliseconds. This does not apply to upstream command stats currently."}, "prefix_routes": {"properties": {"routes": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes/Route.jsonschema"}, "type": "array", "description": "List of prefix routes."}, "case_insensitive": {"type": "boolean", "description": "Indicates that prefix matching should be case insensitive."}, "catch_all_route": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes/Route.jsonschema", "additionalProperties": true, "description": "Optional catch-all route to forward commands that doesn't match any of the routes. The\n catch-all route becomes required when no routes are specified."}}, "additionalProperties": true, "type": "object", "description": "List of **unique** prefixes used to separate keys from different workloads to different\n clusters. Envoy will always favor the longest match first in case of overlap. A catch-all\n cluster can be used to forward commands when there is no match. Time complexity of the\n lookups are in O(min(longest key prefix, key length)).\n\n Example:\n\n .. code-block:: yaml\n\n    prefix_routes:\n      routes:\n        - prefix: \"ab\"\n          cluster: \"cluster_a\"\n        - prefix: \"abc\"\n          cluster: \"cluster_b\"\n\n When using the above routes, the following prefixes would be sent to:\n\n * ``get abc:users`` would retrieve the key 'abc:users' from cluster_b.\n * ``get ab:users`` would retrieve the key 'ab:users' from cluster_a.\n * ``get z:users`` would return a NoUpstreamHost error. A :ref:`catch-all\n   route<envoy_api_field_extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.catch_all_route>`\n   would have retrieved the key from that cluster instead.\n\n See the :ref:`configuration section\n <arch_overview_redis_configuration>` of the architecture overview for recommendations on\n configuring the backing clusters."}, "downstream_auth_password": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/DataSource.jsonschema", "additionalProperties": true, "description": "Authenticate Redis client connections locally by forcing downstream clients to issue a `Redis\n AUTH command <https://redis.io/commands/auth>`_ with this password before enabling any other\n command. If an AUTH command's password matches this password, an \"OK\" response will be returned\n to the client. If the AUTH command password does not match this password, then an \"ERR invalid\n password\" error will be returned. If any other command is received before AUTH when this\n password is set, then a \"NOAUTH Authentication required.\" error response will be sent to the\n client. If an AUTH command is received when the password is not set, then an \"ERR Client sent\n AUTH, but no password is set\" error will be returned."}, "faults": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"fault_type": {"enum": ["DELAY", 0, "ERROR", 1], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Fault type."}, "fault_enabled": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/RuntimeFractionalPercent.jsonschema", "additionalProperties": true, "description": "Percentage of requests fault applies to."}, "delay": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Delay for all faults. If not set, defaults to zero"}, "commands": {"items": {"type": "string"}, "type": "array", "description": "Commands fault is restricted to, if any. If not set, fault applies to all commands\n other than auth and ping (due to special handling of those commands in Envoy)."}}, "additionalProperties": true, "type": "object", "description": "RedisFault defines faults used for fault injection."}, "type": "array", "description": "List of faults to inject. Faults currently come in two flavors:\n - Delay, which delays a request.\n - Error, which responds to a request with an error. Errors can also have delays attached.\n\n Example:\n\n .. code-block:: yaml\n\n    faults:\n    - fault_type: ERROR\n      fault_enabled:\n        default_value:\n          numerator: 10\n          denominator: HUNDRED\n        runtime_key: \"bogus_key\"\n        commands:\n        - GET\n      - fault_type: DELAY\n        fault_enabled:\n          default_value:\n            numerator: 10\n            denominator: HUNDRED\n          runtime_key: \"bogus_key\"\n        delay: 2s\n\n See the :ref:`fault injection section\n <config_network_filters_redis_proxy_fault_injection>` for more information on how to configure this."}, "downstream_auth_username": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/DataSource.jsonschema", "additionalProperties": true, "description": "If a username is provided an ACL style AUTH command will be required with a username and password.\n Authenticate Redis client connections locally by forcing downstream clients to issue a `Redis\n AUTH command <https://redis.io/commands/auth>`_ with this username and the *downstream_auth_password*\n before enabling any other command. If an AUTH command's username and password matches this username\n and the *downstream_auth_password* , an \"OK\" response will be returned to the client. If the AUTH\n command username or password does not match this username or the *downstream_auth_password*, then an\n \"WRONGPASS invalid username-password pair\" error will be returned. If any other command is received before AUTH when this\n password is set, then a \"NOAUTH Authentication required.\" error response will be sent to the\n client. If an AUTH command is received when the password is not set, then an \"ERR Client sent\n AUTH, but no ACL is set\" error will be returned."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Redis Proxy]\n Redis Proxy :ref:`configuration overview <config_network_filters_redis_proxy>`.\n [#extension: envoy.filters.network.redis_proxy]\n\n[#next-free-field: 9]", "definitions": {"envoy.config.core.v3.DataSource": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"filename": {"type": "string", "description": "Local filesystem data source."}, "inline_bytes": {"type": "string", "description": "Bytes inlined in the configuration."}, "inline_string": {"type": "string", "description": "String inlined in the configuration."}}, "additionalProperties": true, "type": "object", "description": "Data source consisting of either a file or an inline value.", "id": "envoy.config.core.v3.DataSource"}, "envoy.config.core.v3.RuntimeFractionalPercent": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"default_value": {"properties": {"numerator": {"type": "integer", "description": "Specifies the numerator. Defaults to 0."}, "denominator": {"enum": ["HUNDRED", 0, "TEN_THOUSAND", 1, "MILLION", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."}}, "additionalProperties": true, "type": "object", "description": "Default value if the runtime value's for the numerator/denominator keys are not available."}, "runtime_key": {"type": "string", "description": "Runtime key for a YAML representation of a FractionalPercent."}}, "additionalProperties": true, "type": "object", "description": "Runtime derived FractionalPercent with defaults for when the numerator or denominator is not\n specified via a runtime key.\n\n .. note::\n\n   Parsing of the runtime key's data is implemented such that it may be represented as a\n   :ref:`FractionalPercent <envoy_api_msg_type.v3.FractionalPercent>` proto represented as JSON/YAML\n   and may also be represented as an integer with the assumption that the value is an integral\n   percentage out of 100. For instance, a runtime key lookup returning the value \"42\" would parse\n   as a `FractionalPercent` whose numerator is 42 and denominator is HUNDRED.", "id": "envoy.config.core.v3.RuntimeFractionalPercent"}, "envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.Route": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"prefix": {"type": "string", "description": "String prefix that must match the beginning of the keys. Envoy will always favor the\n longest match."}, "remove_prefix": {"type": "boolean", "description": "Indicates if the prefix needs to be removed from the key when forwarded."}, "cluster": {"type": "string", "description": "Upstream cluster to forward the command to."}, "request_mirror_policy": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"cluster": {"type": "string", "description": "Specifies the cluster that requests will be mirrored to. The cluster must\n exist in the cluster manager configuration."}, "runtime_fraction": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/RuntimeFractionalPercent.jsonschema", "additionalProperties": true, "description": "If not specified or the runtime key is not present, all requests to the target cluster\n will be mirrored.\n\n If specified, Envoy will lookup the runtime key to get the percentage of requests to the\n mirror."}, "exclude_read_commands": {"type": "boolean", "description": "Set this to TRUE to only mirror write commands, this is effectively replicating the\n writes in a \"fire and forget\" manner."}}, "additionalProperties": true, "type": "object", "description": "The router is capable of shadowing traffic from one cluster to another. The current\n implementation is \"fire and forget,\" meaning Envoy will not wait for the shadow cluster to\n respond before returning the response from the primary cluster. All normal statistics are\n collected for the shadow cluster making this feature useful for testing."}, "type": "array", "description": "Indicates that the route has a request mirroring policy."}}, "additionalProperties": true, "type": "object", "id": "envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.Route"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "stat_prefix": {
+            "type": "string",
+            "description": "The prefix to use when emitting :ref:`statistics \u003cconfig_network_filters_redis_proxy_stats\u003e`."
+        },
+        "settings": {
+            "properties": {
+                "op_timeout": {
+                    "properties": {
+                        "seconds": {
+                            "type": "string",
+                            "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                        },
+                        "nanos": {
+                            "type": "integer",
+                            "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Per-operation timeout in milliseconds. The timer starts when the first\n command of a pipeline is written to the backend connection. Each response received from Redis\n resets the timer since it signifies that the next command is being processed by the backend.\n The only exception to this behavior is when a connection to a backend is not yet established.\n In that case, the connect timeout on the cluster will govern the timeout until the connection\n is ready."
+                },
+                "enable_hashtagging": {
+                    "type": "boolean",
+                    "description": "Use hash tagging on every redis key to guarantee that keys with the same hash tag will be\n forwarded to the same upstream. The hash key used for determining the upstream in a\n consistent hash ring configuration will be computed from the hash tagged key instead of the\n whole key. The algorithm used to compute the hash tag is identical to the `redis-cluster\n implementation \u003chttps://redis.io/topics/cluster-spec#keys-hash-tags\u003e`_.\n\n Examples:\n\n * '{user1000}.following' and '{user1000}.followers' **will** be sent to the same upstream\n * '{user1000}.following' and '{user1001}.following' **might** be sent to the same upstream"
+                },
+                "enable_redirection": {
+                    "type": "boolean",
+                    "description": "Accept `moved and ask redirection\n \u003chttps://redis.io/topics/cluster-spec#redirection-and-resharding\u003e`_ errors from upstream\n redis servers, and retry commands to the specified target server. The target server does not\n need to be known to the cluster manager. If the command cannot be redirected, then the\n original error is passed downstream unchanged. By default, this support is not enabled."
+                },
+                "max_buffer_size_before_flush": {
+                    "type": "integer",
+                    "description": "Maximum size of encoded request buffer before flush is triggered and encoded requests\n are sent upstream. If this is unset, the buffer flushes whenever it receives data\n and performs no batching.\n This feature makes it possible for multiple clients to send requests to Envoy and have\n them batched- for example if one is running several worker processes, each with its own\n Redis connection. There is no benefit to using this with a single downstream process.\n Recommended size (if enabled) is 1024 bytes."
+                },
+                "buffer_flush_timeout": {
+                    "properties": {
+                        "seconds": {
+                            "type": "string",
+                            "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                        },
+                        "nanos": {
+                            "type": "integer",
+                            "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "The encoded request buffer is flushed N milliseconds after the first request has been\n encoded, unless the buffer size has already exceeded `max_buffer_size_before_flush`.\n If `max_buffer_size_before_flush` is not set, this flush timer is not used. Otherwise,\n the timer should be set according to the number of clients, overall request rate and\n desired maximum latency for a single command. For example, if there are many requests\n being batched together at a high rate, the buffer will likely be filled before the timer\n fires. Alternatively, if the request rate is lower the buffer will not be filled as often\n before the timer fires.\n If `max_buffer_size_before_flush` is set, but `buffer_flush_timeout` is not, the latter\n defaults to 3ms."
+                },
+                "max_upstream_unknown_connections": {
+                    "additionalProperties": true,
+                    "type": "integer",
+                    "description": "`max_upstream_unknown_connections` controls how many upstream connections to unknown hosts\n can be created at any given time by any given worker thread (see `enable_redirection` for\n more details). If the host is unknown and a connection cannot be created due to enforcing\n this limit, then redirection will fail and the original redirection error will be passed\n downstream unchanged. This limit defaults to 100."
+                },
+                "enable_command_stats": {
+                    "type": "boolean",
+                    "description": "Enable per-command statistics per upstream cluster, in addition to the filter level aggregate\n count. These commands are measured in microseconds."
+                },
+                "read_policy": {
+                    "enum": [
+                        "MASTER",
+                        0,
+                        "PREFER_MASTER",
+                        1,
+                        "REPLICA",
+                        2,
+                        "PREFER_REPLICA",
+                        3,
+                        "ANY",
+                        4
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Read policy. The default is to read from the primary."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Network settings for the connection pool to the upstream clusters."
+        },
+        "latency_in_micros": {
+            "type": "boolean",
+            "description": "Indicates that latency stat should be computed in microseconds. By default it is computed in\n milliseconds. This does not apply to upstream command stats currently."
+        },
+        "prefix_routes": {
+            "properties": {
+                "routes": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "$ref": "envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.Route"
+                    },
+                    "type": "array",
+                    "description": "List of prefix routes."
+                },
+                "case_insensitive": {
+                    "type": "boolean",
+                    "description": "Indicates that prefix matching should be case insensitive."
+                },
+                "catch_all_route": {
+                    "$ref": "envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.Route",
+                    "additionalProperties": true,
+                    "description": "Optional catch-all route to forward commands that doesn't match any of the routes. The\n catch-all route becomes required when no routes are specified."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "List of **unique** prefixes used to separate keys from different workloads to different\n clusters. Envoy will always favor the longest match first in case of overlap. A catch-all\n cluster can be used to forward commands when there is no match. Time complexity of the\n lookups are in O(min(longest key prefix, key length)).\n\n Example:\n\n .. code-block:: yaml\n\n    prefix_routes:\n      routes:\n        - prefix: \"ab\"\n          cluster: \"cluster_a\"\n        - prefix: \"abc\"\n          cluster: \"cluster_b\"\n\n When using the above routes, the following prefixes would be sent to:\n\n * ``get abc:users`` would retrieve the key 'abc:users' from cluster_b.\n * ``get ab:users`` would retrieve the key 'ab:users' from cluster_a.\n * ``get z:users`` would return a NoUpstreamHost error. A :ref:`catch-all\n   route\u003cenvoy_api_field_extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.catch_all_route\u003e`\n   would have retrieved the key from that cluster instead.\n\n See the :ref:`configuration section\n \u003carch_overview_redis_configuration\u003e` of the architecture overview for recommendations on\n configuring the backing clusters."
+        },
+        "downstream_auth_password": {
+            "$ref": "envoy.config.core.v3.DataSource",
+            "additionalProperties": true,
+            "description": "Authenticate Redis client connections locally by forcing downstream clients to issue a `Redis\n AUTH command \u003chttps://redis.io/commands/auth\u003e`_ with this password before enabling any other\n command. If an AUTH command's password matches this password, an \"OK\" response will be returned\n to the client. If the AUTH command password does not match this password, then an \"ERR invalid\n password\" error will be returned. If any other command is received before AUTH when this\n password is set, then a \"NOAUTH Authentication required.\" error response will be sent to the\n client. If an AUTH command is received when the password is not set, then an \"ERR Client sent\n AUTH, but no password is set\" error will be returned."
+        },
+        "faults": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "properties": {
+                    "fault_type": {
+                        "enum": [
+                            "DELAY",
+                            0,
+                            "ERROR",
+                            1
+                        ],
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "description": "Fault type."
+                    },
+                    "fault_enabled": {
+                        "$ref": "envoy.config.core.v3.RuntimeFractionalPercent",
+                        "additionalProperties": true,
+                        "description": "Percentage of requests fault applies to."
+                    },
+                    "delay": {
+                        "properties": {
+                            "seconds": {
+                                "type": "string",
+                                "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                            },
+                            "nanos": {
+                                "type": "integer",
+                                "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "Delay for all faults. If not set, defaults to zero"
+                    },
+                    "commands": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "description": "Commands fault is restricted to, if any. If not set, fault applies to all commands\n other than auth and ping (due to special handling of those commands in Envoy)."
+                    }
+                },
+                "additionalProperties": true,
+                "type": "object",
+                "description": "RedisFault defines faults used for fault injection."
+            },
+            "type": "array",
+            "description": "List of faults to inject. Faults currently come in two flavors:\n - Delay, which delays a request.\n - Error, which responds to a request with an error. Errors can also have delays attached.\n\n Example:\n\n .. code-block:: yaml\n\n    faults:\n    - fault_type: ERROR\n      fault_enabled:\n        default_value:\n          numerator: 10\n          denominator: HUNDRED\n        runtime_key: \"bogus_key\"\n        commands:\n        - GET\n      - fault_type: DELAY\n        fault_enabled:\n          default_value:\n            numerator: 10\n            denominator: HUNDRED\n          runtime_key: \"bogus_key\"\n        delay: 2s\n\n See the :ref:`fault injection section\n \u003cconfig_network_filters_redis_proxy_fault_injection\u003e` for more information on how to configure this."
+        },
+        "downstream_auth_username": {
+            "$ref": "envoy.config.core.v3.DataSource",
+            "additionalProperties": true,
+            "description": "If a username is provided an ACL style AUTH command will be required with a username and password.\n Authenticate Redis client connections locally by forcing downstream clients to issue a `Redis\n AUTH command \u003chttps://redis.io/commands/auth\u003e`_ with this username and the *downstream_auth_password*\n before enabling any other command. If an AUTH command's username and password matches this username\n and the *downstream_auth_password* , an \"OK\" response will be returned to the client. If the AUTH\n command username or password does not match this username or the *downstream_auth_password*, then an\n \"WRONGPASS invalid username-password pair\" error will be returned. If any other command is received before AUTH when this\n password is set, then a \"NOAUTH Authentication required.\" error response will be sent to the\n client. If an AUTH command is received when the password is not set, then an \"ERR Client sent\n AUTH, but no ACL is set\" error will be returned."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Redis Proxy]\n Redis Proxy :ref:`configuration overview \u003cconfig_network_filters_redis_proxy\u003e`.\n [#extension: envoy.filters.network.redis_proxy]\n\n[#next-free-field: 9]",
+    "definitions": {
+        "envoy.config.core.v3.DataSource": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "filename": {
+                    "type": "string",
+                    "description": "Local filesystem data source."
+                },
+                "inline_bytes": {
+                    "type": "string",
+                    "description": "Bytes inlined in the configuration."
+                },
+                "inline_string": {
+                    "type": "string",
+                    "description": "String inlined in the configuration."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Data source consisting of either a file or an inline value.",
+            "id": "envoy.config.core.v3.DataSource"
+        },
+        "envoy.config.core.v3.RuntimeFractionalPercent": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "default_value": {
+                    "properties": {
+                        "numerator": {
+                            "type": "integer",
+                            "description": "Specifies the numerator. Defaults to 0."
+                        },
+                        "denominator": {
+                            "enum": [
+                                "HUNDRED",
+                                0,
+                                "TEN_THOUSAND",
+                                1,
+                                "MILLION",
+                                2
+                            ],
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ],
+                            "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Default value if the runtime value's for the numerator/denominator keys are not available."
+                },
+                "runtime_key": {
+                    "type": "string",
+                    "description": "Runtime key for a YAML representation of a FractionalPercent."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Runtime derived FractionalPercent with defaults for when the numerator or denominator is not\n specified via a runtime key.\n\n .. note::\n\n   Parsing of the runtime key's data is implemented such that it may be represented as a\n   :ref:`FractionalPercent \u003cenvoy_api_msg_type.v3.FractionalPercent\u003e` proto represented as JSON/YAML\n   and may also be represented as an integer with the assumption that the value is an integral\n   percentage out of 100. For instance, a runtime key lookup returning the value \"42\" would parse\n   as a `FractionalPercent` whose numerator is 42 and denominator is HUNDRED.",
+            "id": "envoy.config.core.v3.RuntimeFractionalPercent"
+        },
+        "envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.Route": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "prefix": {
+                    "type": "string",
+                    "description": "String prefix that must match the beginning of the keys. Envoy will always favor the\n longest match."
+                },
+                "remove_prefix": {
+                    "type": "boolean",
+                    "description": "Indicates if the prefix needs to be removed from the key when forwarded."
+                },
+                "cluster": {
+                    "type": "string",
+                    "description": "Upstream cluster to forward the command to."
+                },
+                "request_mirror_policy": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "cluster": {
+                                "type": "string",
+                                "description": "Specifies the cluster that requests will be mirrored to. The cluster must\n exist in the cluster manager configuration."
+                            },
+                            "runtime_fraction": {
+                                "$ref": "envoy.config.core.v3.RuntimeFractionalPercent",
+                                "additionalProperties": true,
+                                "description": "If not specified or the runtime key is not present, all requests to the target cluster\n will be mirrored.\n\n If specified, Envoy will lookup the runtime key to get the percentage of requests to the\n mirror."
+                            },
+                            "exclude_read_commands": {
+                                "type": "boolean",
+                                "description": "Set this to TRUE to only mirror write commands, this is effectively replicating the\n writes in a \"fire and forget\" manner."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "The router is capable of shadowing traffic from one cluster to another. The current\n implementation is \"fire and forget,\" meaning Envoy will not wait for the shadow cluster to\n respond before returning the response from the primary cluster. All normal statistics are\n collected for the shadow cluster making this feature useful for testing."
+                    },
+                    "type": "array",
+                    "description": "Indicates that the route has a request mirroring policy."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "id": "envoy.extensions.filters.network.redis_proxy.v3.RedisProxy.PrefixRoutes.Route"
+        }
+    }
+}

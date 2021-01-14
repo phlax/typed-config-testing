@@ -1,1 +1,88 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"decompressor_library": {"properties": {"name": {"type": "string", "description": "The name of an extension. This is not used to select the extension, instead\n it serves the role of an opaque identifier."}, "typed_config": {"properties": {"type_url": {"type": "string", "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."}, "value": {"type": "string", "description": "Must be a valid serialized protocol buffer of the above specified type."}}, "additionalProperties": true, "type": "object", "description": "The typed config for the extension. The type URL will be used to identify\n the extension. In the case that the type URL is *udpa.type.v1.TypedStruct*,\n the inner type URL of *TypedStruct* will be utilized. See the\n :ref:`extension configuration overview\n <config_overview_extension_configuration>` for further details."}}, "additionalProperties": true, "type": "object", "description": "A decompressor library to use for both request and response decompression. Currently only\n :ref:`envoy.compression.gzip.compressor<envoy_api_msg_extensions.compression.gzip.decompressor.v3.Gzip>`\n is included in Envoy."}, "request_direction_config": {"properties": {"common_config": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.extensions.filters.http.decompressor.v3.Decompressor/CommonDirectionConfig.jsonschema", "additionalProperties": true}, "advertise_accept_encoding": {"additionalProperties": true, "type": "boolean", "description": "If set to true, and response decompression is enabled, the filter modifies the Accept-Encoding\n request header by appending the decompressor_library's encoding. Defaults to true."}}, "additionalProperties": true, "type": "object", "description": "Configuration for request decompression. Decompression is enabled by default if left empty."}, "response_direction_config": {"properties": {"common_config": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.extensions.filters.http.decompressor.v3.Decompressor/CommonDirectionConfig.jsonschema", "additionalProperties": true}}, "additionalProperties": true, "type": "object", "description": "Configuration for response decompression. Decompression is enabled by default if left empty."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Decompressor]\n [#extension: envoy.filters.http.decompressor]", "definitions": {"envoy.extensions.filters.http.decompressor.v3.Decompressor.CommonDirectionConfig": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"enabled": {"properties": {"default_value": {"additionalProperties": true, "type": "boolean", "description": "Default value if runtime value is not available."}, "runtime_key": {"type": "string", "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding <https://developers.google.com/protocol-buffers/docs/proto3#json>`_."}}, "additionalProperties": true, "type": "object", "description": "Runtime flag that controls whether the filter is enabled for decompression or not. If set to false, the\n filter will operate as a pass-through filter. If the message is unspecified, the filter will be enabled."}}, "additionalProperties": true, "type": "object", "description": "Common configuration for filter behavior on both the request and response direction.", "id": "envoy.extensions.filters.http.decompressor.v3.Decompressor.CommonDirectionConfig"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "decompressor_library": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of an extension. This is not used to select the extension, instead\n it serves the role of an opaque identifier."
+                },
+                "typed_config": {
+                    "properties": {
+                        "type_url": {
+                            "type": "string",
+                            "description": "A URL/resource name that uniquely identifies the type of the serialized\n protocol buffer message. This string must contain at least\n one \"/\" character. The last segment of the URL's path must represent\n the fully qualified name of the type (as in\n `path/google.protobuf.Duration`). The name should be in a canonical form\n (e.g., leading \".\" is not accepted).\n\n In practice, teams usually precompile into the binary all types that they\n expect it to use in the context of Any. However, for URLs which use the\n scheme `http`, `https`, or no scheme, one can optionally set up a type\n server that maps type URLs to message definitions as follows:\n\n * If no scheme is provided, `https` is assumed.\n * An HTTP GET on the URL must yield a [google.protobuf.Type][]\n   value in binary format, or produce an error.\n * Applications are allowed to cache lookup results based on the\n   URL, or have them precompiled into a binary to avoid any\n   lookup. Therefore, binary compatibility needs to be preserved\n   on changes to types. (Use versioned type names to manage\n   breaking changes.)\n\n Note: this functionality is not currently available in the official\n protobuf release, and it is not used for type URLs beginning with\n type.googleapis.com.\n\n Schemes other than `http`, `https` (or the empty scheme) might be\n used with implementation specific semantics."
+                        },
+                        "value": {
+                            "type": "string",
+                            "description": "Must be a valid serialized protocol buffer of the above specified type."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "The typed config for the extension. The type URL will be used to identify\n the extension. In the case that the type URL is *udpa.type.v1.TypedStruct*,\n the inner type URL of *TypedStruct* will be utilized. See the\n :ref:`extension configuration overview\n \u003cconfig_overview_extension_configuration\u003e` for further details."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A decompressor library to use for both request and response decompression. Currently only\n :ref:`envoy.compression.gzip.compressor\u003cenvoy_api_msg_extensions.compression.gzip.decompressor.v3.Gzip\u003e`\n is included in Envoy."
+        },
+        "request_direction_config": {
+            "properties": {
+                "common_config": {
+                    "$ref": "envoy.extensions.filters.http.decompressor.v3.Decompressor.CommonDirectionConfig",
+                    "additionalProperties": true
+                },
+                "advertise_accept_encoding": {
+                    "additionalProperties": true,
+                    "type": "boolean",
+                    "description": "If set to true, and response decompression is enabled, the filter modifies the Accept-Encoding\n request header by appending the decompressor_library's encoding. Defaults to true."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Configuration for request decompression. Decompression is enabled by default if left empty."
+        },
+        "response_direction_config": {
+            "properties": {
+                "common_config": {
+                    "$ref": "envoy.extensions.filters.http.decompressor.v3.Decompressor.CommonDirectionConfig",
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Configuration for response decompression. Decompression is enabled by default if left empty."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Decompressor]\n [#extension: envoy.filters.http.decompressor]",
+    "definitions": {
+        "envoy.extensions.filters.http.decompressor.v3.Decompressor.CommonDirectionConfig": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "enabled": {
+                    "properties": {
+                        "default_value": {
+                            "additionalProperties": true,
+                            "type": "boolean",
+                            "description": "Default value if runtime value is not available."
+                        },
+                        "runtime_key": {
+                            "type": "string",
+                            "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding \u003chttps://developers.google.com/protocol-buffers/docs/proto3#json\u003e`_."
+                        }
+                    },
+                    "additionalProperties": true,
+                    "type": "object",
+                    "description": "Runtime flag that controls whether the filter is enabled for decompression or not. If set to false, the\n filter will operate as a pass-through filter. If the message is unspecified, the filter will be enabled."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Common configuration for filter behavior on both the request and response direction.",
+            "id": "envoy.extensions.filters.http.decompressor.v3.Decompressor.CommonDirectionConfig"
+        }
+    }
+}

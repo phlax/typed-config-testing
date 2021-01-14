@@ -1,1 +1,47 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"description": {"type": "string", "description": "An optional name to give this socket option for debugging, etc.\n Uniqueness is not required and no special meaning is assumed."}, "level": {"type": "string", "description": "Corresponding to the level value passed to setsockopt, such as IPPROTO_TCP"}, "name": {"type": "string", "description": "The numeric name as passed to setsockopt"}, "int_value": {"type": "string", "description": "Because many sockopts take an int value."}, "buf_value": {"type": "string", "description": "Otherwise it's a byte buffer."}, "state": {"enum": ["STATE_PREBIND", 0, "STATE_BOUND", 1, "STATE_LISTENING", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "The state in which the option will be applied. When used in BindConfig\n STATE_PREBIND is currently the only valid value."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Socket Option ]\n\nGeneric socket option message. This would be used to set socket options that\n might not exist in upstream kernels or precompiled Envoy binaries.\n [#next-free-field: 7]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "description": {
+            "type": "string",
+            "description": "An optional name to give this socket option for debugging, etc.\n Uniqueness is not required and no special meaning is assumed."
+        },
+        "level": {
+            "type": "string",
+            "description": "Corresponding to the level value passed to setsockopt, such as IPPROTO_TCP"
+        },
+        "name": {
+            "type": "string",
+            "description": "The numeric name as passed to setsockopt"
+        },
+        "int_value": {
+            "type": "string",
+            "description": "Because many sockopts take an int value."
+        },
+        "buf_value": {
+            "type": "string",
+            "description": "Otherwise it's a byte buffer."
+        },
+        "state": {
+            "enum": [
+                "STATE_PREBIND",
+                0,
+                "STATE_BOUND",
+                1,
+                "STATE_LISTENING",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "The state in which the option will be applied. When used in BindConfig\n STATE_PREBIND is currently the only valid value."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Socket Option ]\n\nGeneric socket option message. This would be used to set socket options that\n might not exist in upstream kernels or precompiled Envoy binaries.\n [#next-free-field: 7]"
+}

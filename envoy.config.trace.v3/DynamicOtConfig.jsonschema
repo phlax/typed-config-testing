@@ -1,1 +1,27 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"library": {"type": "string", "description": "Dynamic library implementing the `OpenTracing API\n <https://github.com/opentracing/opentracing-cpp>`_."}, "config": {"properties": {"fields": {"additionalProperties": {"additionalProperties": true, "type": "object"}, "type": "object", "description": "Unordered map of dynamically typed values."}}, "additionalProperties": true, "type": "object", "description": "The configuration to use when creating a tracer from the given dynamic\n library."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Dynamically loadable OpenTracing tracer]\n\nDynamicOtConfig is used to dynamically load a tracer from a shared library\n that implements the `OpenTracing dynamic loading API\n <https://github.com/opentracing/opentracing-cpp>`_.\n [#extension: envoy.tracers.dynamic_ot]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "library": {
+            "type": "string",
+            "description": "Dynamic library implementing the `OpenTracing API\n \u003chttps://github.com/opentracing/opentracing-cpp\u003e`_."
+        },
+        "config": {
+            "properties": {
+                "fields": {
+                    "additionalProperties": {
+                        "additionalProperties": true,
+                        "type": "object"
+                    },
+                    "type": "object",
+                    "description": "Unordered map of dynamically typed values."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The configuration to use when creating a tracer from the given dynamic\n library."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Dynamically loadable OpenTracing tracer]\n\nDynamicOtConfig is used to dynamically load a tracer from a shared library\n that implements the `OpenTracing dynamic loading API\n \u003chttps://github.com/opentracing/opentracing-cpp\u003e`_.\n [#extension: envoy.tracers.dynamic_ot]"
+}

@@ -1,1 +1,58 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"fixed_delay": {"properties": {"seconds": {"type": "string", "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"}, "nanos": {"type": "integer", "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."}}, "additionalProperties": true, "type": "object", "description": "Add a fixed delay before forwarding the operation upstream. See\n https://developers.google.com/protocol-buffers/docs/proto3#json for\n the JSON/YAML Duration mapping. For HTTP/Mongo/Redis, the specified\n delay will be injected before a new request/operation. For TCP\n connections, the proxying of the connection upstream will be delayed\n for the specified period. This is required if type is FIXED."}, "header_delay": {"additionalProperties": true, "type": "object", "description": "Fault delays are controlled via an HTTP header (if applicable)."}, "percentage": {"properties": {"numerator": {"type": "integer", "description": "Specifies the numerator. Defaults to 0."}, "denominator": {"enum": ["HUNDRED", 0, "TEN_THOUSAND", 1, "MILLION", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."}}, "additionalProperties": true, "type": "object", "description": "The percentage of operations/connections/requests on which the delay will be injected."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Common fault injection types]\n\nDelay specification is used to inject latency into the\n HTTP/gRPC/Mongo/Redis operation or delay proxying of TCP connections.\n [#next-free-field: 6]"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "fixed_delay": {
+            "properties": {
+                "seconds": {
+                    "type": "string",
+                    "description": "Signed seconds of the span of time. Must be from -315,576,000,000\n to +315,576,000,000 inclusive. Note: these bounds are computed from:\n 60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years"
+                },
+                "nanos": {
+                    "type": "integer",
+                    "description": "Signed fractions of a second at nanosecond resolution of the span\n of time. Durations less than one second are represented with a 0\n `seconds` field and a positive or negative `nanos` field. For durations\n of one second or more, a non-zero value for the `nanos` field must be\n of the same sign as the `seconds` field. Must be from -999,999,999\n to +999,999,999 inclusive."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Add a fixed delay before forwarding the operation upstream. See\n https://developers.google.com/protocol-buffers/docs/proto3#json for\n the JSON/YAML Duration mapping. For HTTP/Mongo/Redis, the specified\n delay will be injected before a new request/operation. For TCP\n connections, the proxying of the connection upstream will be delayed\n for the specified period. This is required if type is FIXED."
+        },
+        "header_delay": {
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Fault delays are controlled via an HTTP header (if applicable)."
+        },
+        "percentage": {
+            "properties": {
+                "numerator": {
+                    "type": "integer",
+                    "description": "Specifies the numerator. Defaults to 0."
+                },
+                "denominator": {
+                    "enum": [
+                        "HUNDRED",
+                        0,
+                        "TEN_THOUSAND",
+                        1,
+                        "MILLION",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "The percentage of operations/connections/requests on which the delay will be injected."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Common fault injection types]\n\nDelay specification is used to inject latency into the\n HTTP/gRPC/Mongo/Redis operation or delay proxying of TCP connections.\n [#next-free-field: 6]"
+}

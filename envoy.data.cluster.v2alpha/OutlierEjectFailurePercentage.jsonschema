@@ -1,1 +1,11 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"host_success_rate": {"type": "integer", "description": "Host's success rate at the time of the ejection event on a 0-100 range."}}, "additionalProperties": true, "type": "object"}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "host_success_rate": {
+            "type": "integer",
+            "description": "Host's success rate at the time of the ejection event on a 0-100 range."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object"
+}

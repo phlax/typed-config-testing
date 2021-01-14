@@ -1,1 +1,33 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"type": {"enum": ["COUNTER", 0, "GAUGE", 1], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Type of the metric represented."}, "value": {"type": "string", "description": "Current metric value."}, "name": {"type": "string", "description": "Name of the metric."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Metrics]\n\nProto representation of an Envoy Counter or Gauge value."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "type": {
+            "enum": [
+                "COUNTER",
+                0,
+                "GAUGE",
+                1
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "Type of the metric represented."
+        },
+        "value": {
+            "type": "string",
+            "description": "Current metric value."
+        },
+        "name": {
+            "type": "string",
+            "description": "Name of the metric."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Metrics]\n\nProto representation of an Envoy Counter or Gauge value."
+}

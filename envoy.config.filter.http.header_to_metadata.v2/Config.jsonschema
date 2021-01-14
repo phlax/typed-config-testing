@@ -1,1 +1,110 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"request_rules": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.filter.http.header_to_metadata.v2.Config/Rule.jsonschema"}, "type": "array", "description": "The list of rules to apply to requests."}, "response_rules": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.filter.http.header_to_metadata.v2.Config/Rule.jsonschema"}, "type": "array", "description": "The list of rules to apply to responses."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Header-To-Metadata Filter]\n\n The configuration for transforming headers into metadata. This is useful\n for matching load balancer subsets, logging, etc.\n\n Header to Metadata :ref:`configuration overview <config_http_filters_header_to_metadata>`.\n [#extension: envoy.filters.http.header_to_metadata]", "definitions": {"envoy.config.filter.http.header_to_metadata.v2.Config.KeyValuePair": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"metadata_namespace": {"type": "string", "description": "The namespace \u2014 if this is empty, the filter's namespace will be used."}, "key": {"type": "string", "description": "The key to use within the namespace."}, "value": {"type": "string", "description": "The value to pair with the given key.\n\n When used for a `on_header_present` case, if value is non-empty it'll be used\n instead of the header value. If both are empty, no metadata is added.\n\n When used for a `on_header_missing` case, a non-empty value must be provided\n otherwise no metadata is added."}, "type": {"enum": ["STRING", 0, "NUMBER", 1, "PROTOBUF_VALUE", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "The value's type \u2014 defaults to string."}, "encode": {"enum": ["NONE", 0, "BASE64", 1], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "How is the value encoded, default is NONE (not encoded).\n The value will be decoded accordingly before storing to metadata."}}, "additionalProperties": true, "type": "object", "description": "[#next-free-field: 6]", "id": "envoy.config.filter.http.header_to_metadata.v2.Config.KeyValuePair"}, "envoy.config.filter.http.header_to_metadata.v2.Config.Rule": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"header": {"type": "string", "description": "The header that triggers this rule \u2014 required."}, "on_header_present": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.filter.http.header_to_metadata.v2.Config/KeyValuePair.jsonschema", "additionalProperties": true, "description": "If the header is present, apply this metadata KeyValuePair.\n\n If the value in the KeyValuePair is non-empty, it'll be used instead\n of the header value."}, "on_header_missing": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.config.filter.http.header_to_metadata.v2.Config/KeyValuePair.jsonschema", "additionalProperties": true, "description": "If the header is not present, apply this metadata KeyValuePair.\n\n The value in the KeyValuePair must be set, since it'll be used in lieu\n of the missing header value."}, "remove": {"type": "boolean", "description": "Whether or not to remove the header after a rule is applied.\n\n This prevents headers from leaking."}}, "additionalProperties": true, "type": "object", "description": "A Rule defines what metadata to apply when a header is present or missing.", "id": "envoy.config.filter.http.header_to_metadata.v2.Config.Rule"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "request_rules": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "$ref": "envoy.config.filter.http.header_to_metadata.v2.Config.Rule"
+            },
+            "type": "array",
+            "description": "The list of rules to apply to requests."
+        },
+        "response_rules": {
+            "items": {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "$ref": "envoy.config.filter.http.header_to_metadata.v2.Config.Rule"
+            },
+            "type": "array",
+            "description": "The list of rules to apply to responses."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "[#protodoc-title: Header-To-Metadata Filter]\n\n The configuration for transforming headers into metadata. This is useful\n for matching load balancer subsets, logging, etc.\n\n Header to Metadata :ref:`configuration overview \u003cconfig_http_filters_header_to_metadata\u003e`.\n [#extension: envoy.filters.http.header_to_metadata]",
+    "definitions": {
+        "envoy.config.filter.http.header_to_metadata.v2.Config.KeyValuePair": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "metadata_namespace": {
+                    "type": "string",
+                    "description": "The namespace — if this is empty, the filter's namespace will be used."
+                },
+                "key": {
+                    "type": "string",
+                    "description": "The key to use within the namespace."
+                },
+                "value": {
+                    "type": "string",
+                    "description": "The value to pair with the given key.\n\n When used for a `on_header_present` case, if value is non-empty it'll be used\n instead of the header value. If both are empty, no metadata is added.\n\n When used for a `on_header_missing` case, a non-empty value must be provided\n otherwise no metadata is added."
+                },
+                "type": {
+                    "enum": [
+                        "STRING",
+                        0,
+                        "NUMBER",
+                        1,
+                        "PROTOBUF_VALUE",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "The value's type — defaults to string."
+                },
+                "encode": {
+                    "enum": [
+                        "NONE",
+                        0,
+                        "BASE64",
+                        1
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "description": "How is the value encoded, default is NONE (not encoded).\n The value will be decoded accordingly before storing to metadata."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "[#next-free-field: 6]",
+            "id": "envoy.config.filter.http.header_to_metadata.v2.Config.KeyValuePair"
+        },
+        "envoy.config.filter.http.header_to_metadata.v2.Config.Rule": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "header": {
+                    "type": "string",
+                    "description": "The header that triggers this rule — required."
+                },
+                "on_header_present": {
+                    "$ref": "envoy.config.filter.http.header_to_metadata.v2.Config.KeyValuePair",
+                    "additionalProperties": true,
+                    "description": "If the header is present, apply this metadata KeyValuePair.\n\n If the value in the KeyValuePair is non-empty, it'll be used instead\n of the header value."
+                },
+                "on_header_missing": {
+                    "$ref": "envoy.config.filter.http.header_to_metadata.v2.Config.KeyValuePair",
+                    "additionalProperties": true,
+                    "description": "If the header is not present, apply this metadata KeyValuePair.\n\n The value in the KeyValuePair must be set, since it'll be used in lieu\n of the missing header value."
+                },
+                "remove": {
+                    "type": "boolean",
+                    "description": "Whether or not to remove the header after a rule is applied.\n\n This prevents headers from leaking."
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "A Rule defines what metadata to apply when a header is present or missing.",
+            "id": "envoy.config.filter.http.header_to_metadata.v2.Config.Rule"
+        }
+    }
+}

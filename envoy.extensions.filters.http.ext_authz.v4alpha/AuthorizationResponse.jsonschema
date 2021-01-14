@@ -1,1 +1,80 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"allowed_upstream_headers": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type.matcher.v4alpha/ListStringMatcher.jsonschema", "additionalProperties": true, "description": "When this :ref:`list <envoy_api_msg_type.matcher.v4alpha.ListStringMatcher>` is set, authorization\n response headers that have a correspondent match will be added to the original client request.\n Note that coexistent headers will be overridden."}, "allowed_upstream_headers_to_append": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type.matcher.v4alpha/ListStringMatcher.jsonschema", "additionalProperties": true, "description": "When this :ref:`list <envoy_api_msg_type.matcher.v4alpha.ListStringMatcher>` is set, authorization\n response headers that have a correspondent match will be added to the client's response. Note\n that coexistent headers will be appended."}, "allowed_client_headers": {"$ref": "https://phlax.github.io/typed-config-testing/envoy.type.matcher.v4alpha/ListStringMatcher.jsonschema", "additionalProperties": true, "description": "When this :ref:`list <envoy_api_msg_type.matcher.v4alpha.ListStringMatcher>`. is set, authorization\n response headers that have a correspondent match will be added to the client's response. Note\n that when this list is *not* set, all the authorization response headers, except *Authority\n (Host)* will be in the response to the client. When a header is included in this list, *Path*,\n *Status*, *Content-Length*, *WWWAuthenticate* and *Location* are automatically added."}}, "additionalProperties": true, "type": "object", "definitions": {"envoy.type.matcher.v4alpha.ListStringMatcher": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"patterns": {"items": {"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"exact": {"type": "string", "description": "The input string must match exactly the string specified here.\n\n Examples:\n\n * *abc* only matches the value *abc*."}, "prefix": {"type": "string", "description": "The input string must have the prefix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *abc.xyz*"}, "suffix": {"type": "string", "description": "The input string must have the suffix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc*"}, "safe_regex": {"properties": {"google_re2": {"additionalProperties": true, "type": "object", "description": "Google's RE2 regex engine."}, "regex": {"type": "string", "description": "The regex match string. The string must be supported by the configured engine."}}, "additionalProperties": true, "type": "object", "description": "The input string must match the regular expression specified here."}, "contains": {"type": "string", "description": "The input string must have the substring specified here.\n Note: empty contains match is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc.def*"}, "ignore_case": {"type": "boolean", "description": "If true, indicates the exact/prefix/suffix matching should be case insensitive. This has no\n effect for the safe_regex match.\n For example, the matcher *data* will match both input string *Data* and *data* if set to true."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: String matcher]\n\nSpecifies the way to match a string.\n [#next-free-field: 8]"}, "type": "array"}}, "additionalProperties": true, "type": "object", "description": "Specifies a list of ways to match a string.", "id": "envoy.type.matcher.v4alpha.ListStringMatcher"}}}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "allowed_upstream_headers": {
+            "$ref": "envoy.type.matcher.v4alpha.ListStringMatcher",
+            "additionalProperties": true,
+            "description": "When this :ref:`list \u003cenvoy_api_msg_type.matcher.v4alpha.ListStringMatcher\u003e` is set, authorization\n response headers that have a correspondent match will be added to the original client request.\n Note that coexistent headers will be overridden."
+        },
+        "allowed_upstream_headers_to_append": {
+            "$ref": "envoy.type.matcher.v4alpha.ListStringMatcher",
+            "additionalProperties": true,
+            "description": "When this :ref:`list \u003cenvoy_api_msg_type.matcher.v4alpha.ListStringMatcher\u003e` is set, authorization\n response headers that have a correspondent match will be added to the client's response. Note\n that coexistent headers will be appended."
+        },
+        "allowed_client_headers": {
+            "$ref": "envoy.type.matcher.v4alpha.ListStringMatcher",
+            "additionalProperties": true,
+            "description": "When this :ref:`list \u003cenvoy_api_msg_type.matcher.v4alpha.ListStringMatcher\u003e`. is set, authorization\n response headers that have a correspondent match will be added to the client's response. Note\n that when this list is *not* set, all the authorization response headers, except *Authority\n (Host)* will be in the response to the client. When a header is included in this list, *Path*,\n *Status*, *Content-Length*, *WWWAuthenticate* and *Location* are automatically added."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "definitions": {
+        "envoy.type.matcher.v4alpha.ListStringMatcher": {
+            "$schema": "http://json-schema.org/draft-04/schema#",
+            "properties": {
+                "patterns": {
+                    "items": {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "properties": {
+                            "exact": {
+                                "type": "string",
+                                "description": "The input string must match exactly the string specified here.\n\n Examples:\n\n * *abc* only matches the value *abc*."
+                            },
+                            "prefix": {
+                                "type": "string",
+                                "description": "The input string must have the prefix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *abc.xyz*"
+                            },
+                            "suffix": {
+                                "type": "string",
+                                "description": "The input string must have the suffix specified here.\n Note: empty prefix is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc*"
+                            },
+                            "safe_regex": {
+                                "properties": {
+                                    "google_re2": {
+                                        "additionalProperties": true,
+                                        "type": "object",
+                                        "description": "Google's RE2 regex engine."
+                                    },
+                                    "regex": {
+                                        "type": "string",
+                                        "description": "The regex match string. The string must be supported by the configured engine."
+                                    }
+                                },
+                                "additionalProperties": true,
+                                "type": "object",
+                                "description": "The input string must match the regular expression specified here."
+                            },
+                            "contains": {
+                                "type": "string",
+                                "description": "The input string must have the substring specified here.\n Note: empty contains match is not allowed, please use regex instead.\n\n Examples:\n\n * *abc* matches the value *xyz.abc.def*"
+                            },
+                            "ignore_case": {
+                                "type": "boolean",
+                                "description": "If true, indicates the exact/prefix/suffix matching should be case insensitive. This has no\n effect for the safe_regex match.\n For example, the matcher *data* will match both input string *Data* and *data* if set to true."
+                            }
+                        },
+                        "additionalProperties": true,
+                        "type": "object",
+                        "description": "[#protodoc-title: String matcher]\n\nSpecifies the way to match a string.\n [#next-free-field: 8]"
+                    },
+                    "type": "array"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "description": "Specifies a list of ways to match a string.",
+            "id": "envoy.type.matcher.v4alpha.ListStringMatcher"
+        }
+    }
+}

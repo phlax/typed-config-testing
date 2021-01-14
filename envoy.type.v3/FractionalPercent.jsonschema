@@ -1,1 +1,31 @@
-{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"numerator": {"type": "integer", "description": "Specifies the numerator. Defaults to 0."}, "denominator": {"enum": ["HUNDRED", 0, "TEN_THOUSAND", 1, "MILLION", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."}}, "additionalProperties": true, "type": "object", "description": "A fractional percentage is used in cases in which for performance reasons performing floating\n point to integer conversions during randomness calculations is undesirable. The message includes\n both a numerator and denominator that together determine the final fractional value.\n\n * **Example**: 1/100 = 1%.\n * **Example**: 3/10000 = 0.03%."}
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "properties": {
+        "numerator": {
+            "type": "integer",
+            "description": "Specifies the numerator. Defaults to 0."
+        },
+        "denominator": {
+            "enum": [
+                "HUNDRED",
+                0,
+                "TEN_THOUSAND",
+                1,
+                "MILLION",
+                2
+            ],
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "integer"
+                }
+            ],
+            "description": "Specifies the denominator. If the denominator specified is less than the numerator, the final\n fractional percentage is capped at 1 (100%)."
+        }
+    },
+    "additionalProperties": true,
+    "type": "object",
+    "description": "A fractional percentage is used in cases in which for performance reasons performing floating\n point to integer conversions during randomness calculations is undesirable. The message includes\n both a numerator and denominator that together determine the final fractional value.\n\n * **Example**: 1/100 = 1%.\n * **Example**: 3/10000 = 0.03%."
+}
