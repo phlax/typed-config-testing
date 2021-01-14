@@ -370,7 +370,7 @@
                                 "description": "Configuration for :ref:`access logs \u003carch_overview_access_logs\u003e`\n emitted by this listener."
                             },
                             "udp_writer_config": {
-                                "$ref": "#envoy.config.core.v3.TypedExtensionConfig",
+                                "$ref": "#/definitions/envoy.config.core.v3.TypedExtensionConfig",
                                 "additionalProperties": true,
                                 "description": "If the protocol in the listener socket address in :ref:`protocol\n \u003cenvoy_api_field_config.core.v3.SocketAddress.protocol\u003e` is :ref:`UDP\n \u003cenvoy_api_enum_value_config.core.v3.SocketAddress.Protocol.UDP\u003e`, this field specifies the actual udp\n writer to create, i.e. :ref:`name \u003cenvoy_api_field_config.core.v3.TypedExtensionConfig.name\u003e`\n    = \"udp_default_writer\" for creating a udp writer with writing in passthrough mode,\n    = \"udp_gso_batch_writer\" for creating a udp writer with writing in batch mode.\n If not present, treat it as \"udp_default_writer\".\n [#not-implemented-hide:]"
                             },
@@ -2096,7 +2096,7 @@
                                 "description": "If track_timeout_budgets is true, the :ref:`timeout budget histograms\n \u003cconfig_cluster_manager_cluster_stats_timeout_budgets\u003e` will be published for each\n request. These show what percentage of a request's per try and global timeout was used. A value\n of 0 would indicate that none of the timeout was used or that the timeout was infinite. A value\n of 100 would indicate that the request took the entirety of the timeout given to it.\n\n .. attention::\n\n   This field has been deprecated in favor of `timeout_budgets`, part of\n   :ref:`track_cluster_stats \u003cenvoy_api_field_config.cluster.v3.Cluster.track_cluster_stats\u003e`."
                             },
                             "upstream_config": {
-                                "$ref": "#envoy.config.core.v3.TypedExtensionConfig",
+                                "$ref": "#/definitions/envoy.config.core.v3.TypedExtensionConfig",
                                 "additionalProperties": true,
                                 "description": "Optional customization and configuration of upstream connection pool, and upstream type.\n\n Currently this field only applies for HTTP traffic but is designed for eventual use for custom\n TCP upstreams.\n\n For HTTP traffic, Envoy will generally take downstream HTTP and send it upstream as upstream\n HTTP, using the http connection pool and the codec from `http2_protocol_options`\n\n For routes where CONNECT termination is configured, Envoy will take downstream CONNECT\n requests and forward the CONNECT payload upstream over raw TCP using the tcp connection pool.\n\n The default pool used is the generic connection pool which creates the HTTP upstream for most\n HTTP requests, and the TCP upstream if CONNECT termination is configured.\n\n If users desire custom connection pool or upstream behavior, for example terminating\n CONNECT only if a custom filter indicates it is appropriate, the custom factories\n can be registered and configured here."
                             },
@@ -2827,7 +2827,7 @@
         "bootstrap_extensions": {
             "items": {
                 "$schema": "http://json-schema.org/draft-04/schema#",
-                "$ref": "#envoy.config.core.v3.TypedExtensionConfig"
+                "$ref": "#/definitions/envoy.config.core.v3.TypedExtensionConfig"
             },
             "type": "array",
             "description": "Specifies optional bootstrap extensions to be instantiated at startup time.\n Each item contains extension specific configuration."
@@ -2837,7 +2837,7 @@
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "properties": {
                     "config": {
-                        "$ref": "#envoy.config.core.v3.TypedExtensionConfig",
+                        "$ref": "#/definitions/envoy.config.core.v3.TypedExtensionConfig",
                         "additionalProperties": true,
                         "description": "Extension specific configuration for the action. It's expected to conform\n to the ``Envoy::Server::Configuration::FatalAction`` interface."
                     }
@@ -2868,7 +2868,7 @@
         },
         "certificate_provider_instances": {
             "additionalProperties": {
-                "$ref": "#envoy.config.core.v3.TypedExtensionConfig",
+                "$ref": "#/definitions/envoy.config.core.v3.TypedExtensionConfig",
                 "additionalProperties": true
             },
             "type": "object",
@@ -3209,7 +3209,7 @@
                         "$schema": "http://json-schema.org/draft-04/schema#",
                         "properties": {
                             "config": {
-                                "$ref": "#envoy.config.core.v3.TypedExtensionConfig",
+                                "$ref": "#/definitions/envoy.config.core.v3.TypedExtensionConfig",
                                 "additionalProperties": true,
                                 "description": "Extension specific configuration for the action."
                             },
