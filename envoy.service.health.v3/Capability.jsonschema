@@ -1,0 +1,1 @@
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"health_check_protocols": {"items": {"enum": ["HTTP", 0, "TCP", 1, "REDIS", 2]}, "type": "array"}}, "additionalProperties": true, "type": "object", "description": "Defines supported protocols etc, so the management server can assign proper\n endpoints to healthcheck."}

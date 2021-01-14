@@ -1,0 +1,1 @@
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"path": {"type": "string", "description": "Directory path to watch."}}, "additionalProperties": true, "type": "object", "description": "A directory that is watched for changes, e.g. by inotify on Linux. Move/rename\n events inside this directory trigger the watch."}

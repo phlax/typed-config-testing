@@ -1,0 +1,1 @@
+{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Original Dst Filter]\n Use the Original destination address on downstream connections.\n [#extension: envoy.filters.listener.original_dst]"}

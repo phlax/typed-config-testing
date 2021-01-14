@@ -1,0 +1,1 @@
+{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Common Match Actions]\n\nIndicates that the associated filter should be skipped."}

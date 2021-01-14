@@ -1,0 +1,1 @@
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"vh_rate_limits": {"enum": ["OVERRIDE", 0, "INCLUDE", 1, "IGNORE", 2], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "Specifies if the rate limit filter should include the virtual host rate limits."}}, "additionalProperties": true, "type": "object"}

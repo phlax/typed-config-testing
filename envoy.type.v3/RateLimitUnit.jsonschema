@@ -1,0 +1,1 @@
+{"$schema": "http://json-schema.org/draft-04/schema#", "enum": ["UNKNOWN", 0, "SECOND", 1, "MINUTE", 2, "HOUR", 3, "DAY", 4], "oneOf": [{"type": "string"}, {"type": "integer"}], "description": "[#protodoc-title: Ratelimit Time Unit]\n\nIdentifies the unit of of time for rate limit."}
