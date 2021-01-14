@@ -492,7 +492,7 @@
                             "eds_cluster_config": {
                                 "properties": {
                                     "eds_config": {
-                                        "$ref": "envoy.config.core.v3.ConfigSource",
+                                        "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/ConfigSource.jsonschema",
                                         "additionalProperties": true,
                                         "description": "Configuration for the source of EDS updates for this Cluster."
                                     },
@@ -2087,7 +2087,7 @@
                                 "description": "[#not-implemented-hide:] New mechanism for LB policy configuration. Used only if the\n :ref:`lb_policy\u003cenvoy_api_field_config.cluster.v3.Cluster.lb_policy\u003e` field has the value\n :ref:`LOAD_BALANCING_POLICY_CONFIG\u003cenvoy_api_enum_value_config.cluster.v3.Cluster.LbPolicy.LOAD_BALANCING_POLICY_CONFIG\u003e`."
                             },
                             "lrs_server": {
-                                "$ref": "envoy.config.core.v3.ConfigSource",
+                                "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/ConfigSource.jsonschema",
                                 "additionalProperties": true,
                                 "description": "[#not-implemented-hide:]\n If present, tells the client where to send load reports via LRS. If not present, the\n client will fall back to a client-side default, which may be either (a) don't send any\n load reports or (b) send load reports for all clusters to a single default server\n (which may be configured in the bootstrap file).\n\n Note that if multiple clusters point to the same LRS server, the client may choose to\n create a separate stream for each cluster or it may choose to coalesce the data for\n multiple clusters onto a single stream. Either way, the client must make sure to send\n the data for any given cluster on no more than one stream.\n\n [#next-major-version: In the v3 API, we should consider restructuring this somehow,\n maybe by allowing LRS to go on the ADS stream, or maybe by moving some of the negotiation\n from the LRS stream here.]"
                             },
@@ -2326,7 +2326,7 @@
         "dynamic_resources": {
             "properties": {
                 "lds_config": {
-                    "$ref": "envoy.config.core.v3.ConfigSource",
+                    "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/ConfigSource.jsonschema",
                     "additionalProperties": true,
                     "description": "All :ref:`Listeners \u003cenvoy_api_msg_config.listener.v3.Listener\u003e` are provided by a single\n :ref:`LDS \u003carch_overview_dynamic_config_lds\u003e` configuration source."
                 },
@@ -2335,7 +2335,7 @@
                     "description": "xdstp:// resource locator for listener collection.\n [#not-implemented-hide:]"
                 },
                 "cds_config": {
-                    "$ref": "envoy.config.core.v3.ConfigSource",
+                    "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/ConfigSource.jsonschema",
                     "additionalProperties": true,
                     "description": "All post-bootstrap :ref:`Cluster \u003cenvoy_api_msg_config.cluster.v3.Cluster\u003e` definitions are\n provided by a single :ref:`CDS \u003carch_overview_dynamic_config_cds\u003e`\n configuration source."
                 },
@@ -2637,7 +2637,7 @@
                                         "description": "Resource to subscribe to at *rtds_config* for the RTDS layer."
                                     },
                                     "rtds_config": {
-                                        "$ref": "envoy.config.core.v3.ConfigSource",
+                                        "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/ConfigSource.jsonschema",
                                         "additionalProperties": true,
                                         "description": "RTDS configuration source."
                                     }
@@ -2858,7 +2858,7 @@
             "description": "Configuration sources that will participate in\n xdstp:// URL authority resolution. The algorithm is as\n follows:\n 1. The authority field is taken from the xdstp:// URL, call\n    this *resource_authority*.\n 2. *resource_authority* is compared against the authorities in any peer\n    *ConfigSource*. The peer *ConfigSource* is the configuration source\n    message which would have been used unconditionally for resolution\n    with opaque resource names. If there is a match with an authority, the\n    peer *ConfigSource* message is used.\n 3. *resource_authority* is compared sequentially with the authorities in\n    each configuration source in *config_sources*. The first *ConfigSource*\n    to match wins.\n 4. As a fallback, if no configuration source matches, then\n    *default_config_source* is used.\n 5. If *default_config_source* is not specified, resolution fails.\n [#not-implemented-hide:]"
         },
         "default_config_source": {
-            "$ref": "envoy.config.core.v3.ConfigSource",
+            "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/ConfigSource.jsonschema",
             "additionalProperties": true,
             "description": "Default configuration source for xdstp:// URLs if all\n other resolution fails.\n [#not-implemented-hide:]"
         },
@@ -4350,7 +4350,7 @@
                             "config_discovery": {
                                 "properties": {
                                     "config_source": {
-                                        "$ref": "envoy.config.core.v3.ConfigSource",
+                                        "$ref": "https://phlax.github.io/typed-config-testing/envoy.config.core.v3/ConfigSource.jsonschema",
                                         "additionalProperties": true
                                     },
                                     "default_config": {
