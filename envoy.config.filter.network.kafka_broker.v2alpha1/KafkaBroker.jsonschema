@@ -1,12 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "stat_prefix": {
-            "type": "string",
-            "description": "The prefix to use when emitting :ref:`statistics \u003cconfig_network_filters_kafka_broker_stats\u003e`."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: Kafka Broker]\n Kafka Broker :ref:`configuration overview \u003cconfig_network_filters_kafka_broker\u003e`.\n [#extension: envoy.filters.network.kafka_broker]"
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"stat_prefix": {"type": "string", "description": "The prefix to use when emitting :ref:`statistics <config_network_filters_kafka_broker_stats>`."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Kafka Broker]\n Kafka Broker :ref:`configuration overview <config_network_filters_kafka_broker>`.\n [#extension: envoy.filters.network.kafka_broker]"}

@@ -1,6 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: gRPC Web]\n gRPC Web :ref:`configuration overview \u003cconfig_http_filters_grpc_web\u003e`.\n [#extension: envoy.filters.http.grpc_web]\n\ngRPC Web filter config."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "[#protodoc-title: gRPC Web]\n gRPC Web :ref:`configuration overview <config_http_filters_grpc_web>`.\n [#extension: envoy.filters.http.grpc_web]\n\ngRPC Web filter config."}

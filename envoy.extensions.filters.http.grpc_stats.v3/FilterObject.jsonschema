@@ -1,16 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "request_message_count": {
-            "type": "string",
-            "description": "Count of request messages in the request stream."
-        },
-        "response_message_count": {
-            "type": "string",
-            "description": "Count of response messages in the response stream."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "gRPC statistics filter state object in protobuf form."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"request_message_count": {"type": "string", "description": "Count of request messages in the request stream."}, "response_message_count": {"type": "string", "description": "Count of response messages in the response stream."}}, "additionalProperties": true, "type": "object", "description": "gRPC statistics filter state object in protobuf form."}

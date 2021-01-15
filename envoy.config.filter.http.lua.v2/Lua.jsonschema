@@ -1,12 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "inline_code": {
-            "type": "string",
-            "description": "The Lua code that Envoy will execute. This can be a very small script that\n further loads code from disk if desired. Note that if JSON configuration is used, the code must\n be properly escaped. YAML configuration may be easier to read since YAML supports multi-line\n strings so complex scripts can be easily expressed inline in the configuration."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: Lua]\n Lua :ref:`configuration overview \u003cconfig_http_filters_lua\u003e`.\n [#extension: envoy.filters.http.lua]"
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"inline_code": {"type": "string", "description": "The Lua code that Envoy will execute. This can be a very small script that\n further loads code from disk if desired. Note that if JSON configuration is used, the code must\n be properly escaped. YAML configuration may be easier to read since YAML supports multi-line\n strings so complex scripts can be easily expressed inline in the configuration."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Lua]\n Lua :ref:`configuration overview <config_http_filters_lua>`.\n [#extension: envoy.filters.http.lua]"}

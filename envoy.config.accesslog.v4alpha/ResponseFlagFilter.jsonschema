@@ -1,15 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "flags": {
-            "items": {
-                "type": "string"
-            },
-            "type": "array",
-            "description": "Only responses with the any of the flags listed in this field will be\n logged. This field is optional. If it is not specified, then any response\n flag will pass the filter check."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "Filters requests that received responses with an Envoy response flag set.\n A list of the response flags can be found\n in the access log formatter\n :ref:`documentation\u003cconfig_access_log_format_response_flags\u003e`."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"flags": {"items": {"type": "string"}, "type": "array", "description": "Only responses with the any of the flags listed in this field will be\n logged. This field is optional. If it is not specified, then any response\n flag will pass the filter check."}}, "additionalProperties": true, "type": "object", "description": "Filters requests that received responses with an Envoy response flag set.\n A list of the response flags can be found\n in the access log formatter\n :ref:`documentation<config_access_log_format_response_flags>`."}

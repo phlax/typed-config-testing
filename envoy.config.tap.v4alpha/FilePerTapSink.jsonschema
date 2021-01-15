@@ -1,12 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "path_prefix": {
-            "type": "string",
-            "description": "Path prefix. The output file will be of the form \u003cpath_prefix\u003e_\u003cid\u003e.pb, where \u003cid\u003e is an\n identifier distinguishing the recorded trace for stream instances (the Envoy\n connection ID, HTTP stream ID, etc.)."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "The file per tap sink outputs a discrete file for every tapped stream."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"path_prefix": {"type": "string", "description": "Path prefix. The output file will be of the form <path_prefix>_<id>.pb, where <id> is an\n identifier distinguishing the recorded trace for stream instances (the Envoy\n connection ID, HTTP stream ID, etc.)."}}, "additionalProperties": true, "type": "object", "description": "The file per tap sink outputs a discrete file for every tapped stream."}

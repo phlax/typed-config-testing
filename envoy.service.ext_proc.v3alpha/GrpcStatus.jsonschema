@@ -1,12 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "status": {
-            "type": "integer",
-            "description": "The actual gRPC status"
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "This message specifies a gRPC status for an ImmediateResponse message."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"status": {"type": "integer", "description": "The actual gRPC status"}}, "additionalProperties": true, "type": "object", "description": "This message specifies a gRPC status for an ImmediateResponse message."}

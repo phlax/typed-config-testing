@@ -1,16 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "cdn_id": {
-            "type": "string",
-            "description": "The CDN identifier to use for loop checks and to append to the\n CDN-Loop header.\n\n RFC 8586 calls this the cdn-id. The cdn-id can either be a\n pseudonym or hostname the CDN is in control of.\n\n cdn_id must not be empty."
-        },
-        "max_allowed_occurrences": {
-            "type": "integer",
-            "description": "The maximum allowed count of cdn_id in the downstream CDN-Loop\n request header.\n\n The default of 0 means a request can transit the CdnLoopFilter\n once. A value of 1 means that a request can transit the\n CdnLoopFilter twice and so on."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: HTTP CDN-Loop Filter]\n [#extension: envoy.filters.http.cdn_loop]\n\nCDN-Loop Header filter config. See the :ref:`configuration overview\n \u003cconfig_http_filters_cdn_loop\u003e` for more information."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"cdn_id": {"type": "string", "description": "The CDN identifier to use for loop checks and to append to the\n CDN-Loop header.\n\n RFC 8586 calls this the cdn-id. The cdn-id can either be a\n pseudonym or hostname the CDN is in control of.\n\n cdn_id must not be empty."}, "max_allowed_occurrences": {"type": "integer", "description": "The maximum allowed count of cdn_id in the downstream CDN-Loop\n request header.\n\n The default of 0 means a request can transit the CdnLoopFilter\n once. A value of 1 means that a request can transit the\n CdnLoopFilter twice and so on."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: HTTP CDN-Loop Filter]\n [#extension: envoy.filters.http.cdn_loop]\n\nCDN-Loop Header filter config. See the :ref:`configuration overview\n <config_http_filters_cdn_loop>` for more information."}

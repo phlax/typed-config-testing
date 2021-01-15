@@ -1,14 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "body": {
-            "type": "string"
-        },
-        "end_of_stream": {
-            "type": "boolean"
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "This message contains the message body that Envoy sends to the external server."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"body": {"type": "string"}, "end_of_stream": {"type": "boolean"}}, "additionalProperties": true, "type": "object", "description": "This message contains the message body that Envoy sends to the external server."}

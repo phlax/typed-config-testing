@@ -1,6 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#not-implemented-hide:] Not configuration. Workaround c++ protobuf issue with importing\n services: https://github.com/google/protobuf/issues/4221 and protoxform to upgrade the file."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "[#not-implemented-hide:] Not configuration. Workaround c++ protobuf issue with importing\n services: https://github.com/google/protobuf/issues/4221 and protoxform to upgrade the file."}

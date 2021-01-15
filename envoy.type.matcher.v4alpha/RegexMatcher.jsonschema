@@ -1,17 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "google_re2": {
-            "additionalProperties": true,
-            "type": "object",
-            "description": "Google's RE2 regex engine."
-        },
-        "regex": {
-            "type": "string",
-            "description": "The regex match string. The string must be supported by the configured engine."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: Regex matcher]\n\nA regex matcher designed for safety when used with untrusted input."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"google_re2": {"additionalProperties": true, "type": "object", "description": "Google's RE2 regex engine."}, "regex": {"type": "string", "description": "The regex match string. The string must be supported by the configured engine."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Regex matcher]\n\nA regex matcher designed for safety when used with untrusted input."}

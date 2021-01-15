@@ -1,12 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "server_listener_name": {
-            "type": "string",
-            "description": "[#not-implemented-hide:] The :ref:`listener name \u003cenvoy_api_field_config.listener.v3.Listener.name\u003e` of the destination internal listener."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#not-implemented-hide:] The address represents an envoy internal listener.\n TODO(lambdai): Make this address available for listener and endpoint.\n TODO(asraa): When address available, remove workaround from test/server/server_fuzz_test.cc:30."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"server_listener_name": {"type": "string", "description": "[#not-implemented-hide:] The :ref:`listener name <envoy_api_field_config.listener.v3.Listener.name>` of the destination internal listener."}}, "additionalProperties": true, "type": "object", "description": "[#not-implemented-hide:] The address represents an envoy internal listener.\n TODO(lambdai): Make this address available for listener and endpoint.\n TODO(asraa): When address available, remove workaround from test/server/server_fuzz_test.cc:30."}

@@ -1,5 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "additionalProperties": true,
-    "type": "object"
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object"}

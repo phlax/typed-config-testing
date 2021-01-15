@@ -1,12 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "config_id": {
-            "type": "string",
-            "description": "Opaque configuration ID. When requests are made to the admin handler, the passed opaque ID is\n matched to the configured filter opaque ID to determine which filter to configure."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "Configuration for the admin handler. See :ref:`here \u003cconfig_http_filters_tap_admin_handler\u003e` for\n more information."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"config_id": {"type": "string", "description": "Opaque configuration ID. When requests are made to the admin handler, the passed opaque ID is\n matched to the configured filter opaque ID to determine which filter to configure."}}, "additionalProperties": true, "type": "object", "description": "Configuration for the admin handler. See :ref:`here <config_http_filters_tap_admin_handler>` for\n more information."}

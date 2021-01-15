@@ -1,6 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: Proxy Protocol Filter]\n PROXY protocol listener filter.\n [#extension: envoy.filters.listener.proxy_protocol]"
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Proxy Protocol Filter]\n PROXY protocol listener filter.\n [#extension: envoy.filters.listener.proxy_protocol]"}

@@ -1,12 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "disabled": {
-            "type": "boolean",
-            "description": "If true, disables gRPC reverse bridge filter for this particular vhost or route.\n If disabled is specified in multiple per-filter-configs, the most specific one will be used."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "gRPC reverse bridge filter configuration per virtualhost/route/weighted-cluster level."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"disabled": {"type": "boolean", "description": "If true, disables gRPC reverse bridge filter for this particular vhost or route.\n If disabled is specified in multiple per-filter-configs, the most specific one will be used."}}, "additionalProperties": true, "type": "object", "description": "gRPC reverse bridge filter configuration per virtualhost/route/weighted-cluster level."}

@@ -1,15 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "auto_sni": {
-            "type": "boolean",
-            "description": "Set transport socket `SNI \u003chttps://en.wikipedia.org/wiki/Server_Name_Indication\u003e`_ for new\n upstream connections based on the downstream HTTP host/authority header, as seen by the\n :ref:`router filter \u003cconfig_http_filters_router\u003e`."
-        },
-        "auto_san_validation": {
-            "type": "boolean",
-            "description": "Automatic validate upstream presented certificate for new upstream connections based on the\n downstream HTTP host/authority header, as seen by the\n :ref:`router filter \u003cconfig_http_filters_router\u003e`.\n This field is intended to set with `auto_sni` field."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object"
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"auto_sni": {"type": "boolean", "description": "Set transport socket `SNI <https://en.wikipedia.org/wiki/Server_Name_Indication>`_ for new\n upstream connections based on the downstream HTTP host/authority header, as seen by the\n :ref:`router filter <config_http_filters_router>`."}, "auto_san_validation": {"type": "boolean", "description": "Automatic validate upstream presented certificate for new upstream connections based on the\n downstream HTTP host/authority header, as seen by the\n :ref:`router filter <config_http_filters_router>`.\n This field is intended to set with `auto_sni` field."}}, "additionalProperties": true, "type": "object"}

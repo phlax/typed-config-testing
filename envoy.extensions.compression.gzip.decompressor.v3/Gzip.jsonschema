@@ -1,18 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "window_bits": {
-            "additionalProperties": true,
-            "type": "integer",
-            "description": "Value from 9 to 15 that represents the base two logarithmic of the decompressor's window size.\n The decompression window size needs to be equal or larger than the compression window size.\n The default window size is 15.\n This is so that the decompressor can decompress a response compressed by a compressor with any compression window size.\n For more details about this parameter, please refer to `zlib manual \u003chttps://www.zlib.net/manual.html\u003e`_ \u003e inflateInit2."
-        },
-        "chunk_size": {
-            "additionalProperties": true,
-            "type": "integer",
-            "description": "Value for zlib's decompressor output buffer. If not set, defaults to 4096.\n See https://www.zlib.net/manual.html for more details."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: Gzip Decompressor]\n [#extension: envoy.compression.gzip.decompressor]"
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"window_bits": {"additionalProperties": true, "type": "integer", "description": "Value from 9 to 15 that represents the base two logarithmic of the decompressor's window size.\n The decompression window size needs to be equal or larger than the compression window size.\n The default window size is 15.\n This is so that the decompressor can decompress a response compressed by a compressor with any compression window size.\n For more details about this parameter, please refer to `zlib manual <https://www.zlib.net/manual.html>`_ > inflateInit2."}, "chunk_size": {"additionalProperties": true, "type": "integer", "description": "Value for zlib's decompressor output buffer. If not set, defaults to 4096.\n See https://www.zlib.net/manual.html for more details."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: Gzip Decompressor]\n [#extension: envoy.compression.gzip.decompressor]"}

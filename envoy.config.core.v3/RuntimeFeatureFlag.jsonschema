@@ -1,17 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "default_value": {
-            "additionalProperties": true,
-            "type": "boolean",
-            "description": "Default value if runtime value is not available."
-        },
-        "runtime_key": {
-            "type": "string",
-            "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding \u003chttps://developers.google.com/protocol-buffers/docs/proto3#json\u003e`_."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "Runtime derived bool with a default when not specified."
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"default_value": {"additionalProperties": true, "type": "boolean", "description": "Default value if runtime value is not available."}, "runtime_key": {"type": "string", "description": "Runtime key to get value for comparison. This value is used if defined. The boolean value must\n be represented via its\n `canonical JSON encoding <https://developers.google.com/protocol-buffers/docs/proto3#json>`_."}}, "additionalProperties": true, "type": "object", "description": "Runtime derived bool with a default when not specified."}

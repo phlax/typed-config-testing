@@ -1,16 +1,1 @@
-{
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "properties": {
-        "content_type": {
-            "type": "string",
-            "description": "The content-type to pass to the upstream when the gRPC bridge filter is applied.\n The filter will also validate that the upstream responds with the same content type."
-        },
-        "withhold_grpc_frames": {
-            "type": "boolean",
-            "description": "If true, Envoy will assume that the upstream doesn't understand gRPC frames and\n strip the gRPC frame from the request, and add it back in to the response. This will\n hide the gRPC semantics from the upstream, allowing it to receive and respond with a\n simple binary encoded protobuf."
-        }
-    },
-    "additionalProperties": true,
-    "type": "object",
-    "description": "[#protodoc-title: gRPC HTTP/1.1 Reverse Bridge]\n gRPC HTTP/1.1 Reverse Bridge :ref:`configuration overview\n \u003cconfig_http_filters_grpc_http1_reverse_bridge\u003e`.\n [#extension: envoy.filters.http.grpc_http1_reverse_bridge]\n\ngRPC reverse bridge filter configuration"
-}
+{"$schema": "http://json-schema.org/draft-04/schema#", "properties": {"content_type": {"type": "string", "description": "The content-type to pass to the upstream when the gRPC bridge filter is applied.\n The filter will also validate that the upstream responds with the same content type."}, "withhold_grpc_frames": {"type": "boolean", "description": "If true, Envoy will assume that the upstream doesn't understand gRPC frames and\n strip the gRPC frame from the request, and add it back in to the response. This will\n hide the gRPC semantics from the upstream, allowing it to receive and respond with a\n simple binary encoded protobuf."}}, "additionalProperties": true, "type": "object", "description": "[#protodoc-title: gRPC HTTP/1.1 Reverse Bridge]\n gRPC HTTP/1.1 Reverse Bridge :ref:`configuration overview\n <config_http_filters_grpc_http1_reverse_bridge>`.\n [#extension: envoy.filters.http.grpc_http1_reverse_bridge]\n\ngRPC reverse bridge filter configuration"}
