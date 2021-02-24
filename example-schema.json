@@ -13,19 +13,21 @@
 	    "type": "object",
 	    "description": "Extensible typed config.",
 	    "allOf": [
-		{"properties": {
-		    "@type": {
-			"type": "string",
-			"enum": [
-			    "some.typed_config.type1",
-			    "some.typed_config.type2"
-			]
-		    },
-		    "common_property": {
-			"type": "string",
-			"description": "A property common to all types of config."
+		{
+		    "properties": {
+			"@type": {
+			    "type": "string",
+			    "enum": [
+				"some.typed_config.type1",
+				"some.typed_config.type2"
+			    ]
+			},
+			"common_property": {
+			    "type": "string",
+			    "description": "A property common to all types of config."
+			}
 		    }
-		}},
+		},
 		{"oneOf": [
 		    {
 			"if": {
@@ -35,7 +37,8 @@
 			},
 			"then": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"
-			}
+			},
+			"else": {"properties": {"NOTVALID": {}}}
 		    },
 		    {
 			"if": {
@@ -46,8 +49,8 @@
 			"then": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json#/definitions/type2Properties"
 			}
-		    },
-		    {"$ref": "https://phlax.github.io/typed-config-testing/default-schema.json#/definitions/defaultProperties"}
+			"else": {"properties": {"NOTVALID": {}}}
+		    }
 		]}
 	    ]
 	}
