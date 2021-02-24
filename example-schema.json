@@ -22,7 +22,8 @@
 				"some.typed_config.type2"
 			    ]
 			}
-		},
+		    }
+		}
 		{"oneOf": [
 		    {
 			"if": {
