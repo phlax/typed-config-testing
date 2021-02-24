@@ -34,7 +34,9 @@
 			"then": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type1-schema.json#/definitions/type1Properties"
 			},
-			"else": {"properties": {"NOTVALID": {}}}
+			"else": {
+			    "required": "DOESNOTEXIST"
+			}
 		    },
 		    {
 			"if": {
@@ -45,7 +47,9 @@
 			"then": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json#/definitions/type2Properties"
 			},
-			"else": {"properties": {"NOTVALID": {}}}
+			"else": {
+			    "required": "DOESNOTEXIST"
+			}
 		    }
 		]}
 	    ]
