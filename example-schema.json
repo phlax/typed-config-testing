@@ -44,7 +44,7 @@
 			},
 			"then": {
 			    "$ref": "https://phlax.github.io/typed-config-testing/type2-schema.json#/definitions/type2Properties"
-			}
+			},
 			"else": {"properties": {"NOTVALID": {}}}
 		    }
 		]}
