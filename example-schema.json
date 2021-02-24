@@ -21,12 +21,7 @@
 				"some.typed_config.type1",
 				"some.typed_config.type2"
 			    ]
-			},
-			"common_property": {
-			    "type": "string",
-			    "description": "A property common to all types of config."
 			}
-		    }
 		},
 		{"oneOf": [
 		    {
