@@ -24,7 +24,7 @@
 		    "common_property": {
 			"type": "string",
 			"description": "A property common to all types of config."
-		    },
+		    }
 		}},
 		{"oneOf": [
 		    {
