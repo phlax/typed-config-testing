@@ -15,7 +15,7 @@
 	    "allOf": [
 		{
 		    "properties": {
-			"xtype": {
+			"@type": {
 			    "type": "string",
 			    "enum": [
 				"some.typed_config.type1",
@@ -28,7 +28,7 @@
 		    {
 			"if": {
 			    "properties": {
-				"xtype": { "const": "some.typed_config.type1"}
+				"@type": { "const": "some.typed_config.type1"}
 			    }
 			},
 			"then": {
@@ -41,7 +41,7 @@
 		    {
 			"if": {
 			    "properties": {
-				"xtype": { "const": "some.typed_config.type2"}
+				"@type": { "const": "some.typed_config.type2"}
 			    }
 			},
 			"then": {
